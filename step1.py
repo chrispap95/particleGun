@@ -55,7 +55,7 @@ if __name__ == '__main__':
                 file1.write('import config, getUsernameFromSiteDB\n')
                 file1.write('config = config()\n')
                 file1.write("config.General.requestName = ")
-                file1.write("'%s_%s_upgrade2023_%s_step1'\n"%(outTag,,cmssw,geometr))
+                file1.write("'%s_%s_upgrade2023_%s_step1'\n"%(outTag,cmssw,geometr))
                 file1.write("config.General.workArea = 'crab_projects'\n")
                 file1.write("config.General.transferOutputs = True\n")
                 file1.write("config.General.transferLogs = False\n\n")
