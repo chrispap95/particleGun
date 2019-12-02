@@ -56,7 +56,7 @@ if __name__ == '__main__':
                 '--beamspot HLLHC --geometry Extended2023D41 --fileout file:step1.root'%outTag)
 
                 # Create CRAB configuration file
-                file1 = open('crabConfig_%s.py'%outTag,'w')
+                file1 = open('crabConfig_%s_step1.py'%outTag,'w')
                 file1.write('# Script automatically generated using generator.py\n\n')
                 file1.write('from CRABClient.UserUtilities ')
                 file1.write('import config, getUsernameFromSiteDB\n')
@@ -83,4 +83,4 @@ if __name__ == '__main__':
                 file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
                 file1.close()
 
-		os.system('crab submit -c crabConfig_%s.py'%outTag)
+		os.system('crab submit -c crabConfig_%s_step1.py'%outTag)
