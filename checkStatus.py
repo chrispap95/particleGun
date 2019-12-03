@@ -21,6 +21,6 @@ if __name__ == '__main__':
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
                 print('Checking status for K0L at E=%d Eta=%s.'%(E,etaTag))
-		os.system('crab status -d myGeneration/%s/crab_projects/crab_%s_%s_upgrade2023_%s_step3 > log.txt'%(outTag,outTag,cmssw,geometry))
+		os.system('crab status -d myGeneration/%s/crab_projects/crab_%s_%s_upgrade2023_%s_ntuple > log.txt'%(outTag,outTag,cmssw,geometry))
 		os.system('tail -n +9 log.txt | head -n -8')
 		os.system('rm log.txt')
