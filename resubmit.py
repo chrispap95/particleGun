@@ -2,8 +2,9 @@ import os, sys
 
 sys.path.append(os.path.abspath(os.path.curdir))
 
-from Tools import standardParser
+from Tools import standardParser, particleNumbers
 options = standardParser()
+particleDict = particleNumbers()
 
 if __name__ == '__main__':
     energies = [1,3,5,10,15,20,25,30] # List of energies of generated particles

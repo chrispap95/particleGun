@@ -2,16 +2,29 @@ import os, sys
 
 sys.path.append(os.path.abspath(os.path.curdir))
 
-from Tools import standardParser
+from Tools import standardParser, particleNumbers
 options = standardParser()
+particleTags = particleNumbers()
 
 if __name__ == '__main__':
-    energies = [1,3,5,10,15,20,25,30] # List of energies of generated particles
-    etaTags = ['1p7']                 # List of etas to shoot particles
+    # List of energies to shoot
+    energies = options.energies
+    if energies is None or len(energies) == 0:
+	print('Energies not specified. Using default values that might not work in your case.')
+        energies = [1,3,5,10,15,20,25,30] 
+
+    # List of etas to shoot particles
+    etaTags = ['1p7']
     etas = {}
     etas['1p7'] = 1.7
-    particles = [130]                 # List of particles to generate in pdg codes
-    geometry = 'D41'                  # Geometry tag. Use >=D41
+
+    # List of particles to generate in pdg codes
+    particles = options.particles
+    if particles is None or len(particles) == 0:
+	print('Particles not specified. Using Gamma as default. This might not be compatible with your configuration.')
+        particles = [22]
+
+    # Getting environment info
     cmssw = os.environ['CMSSW_VERSION']
     cmsswBase = os.environ['CMSSW_BASE']
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
@@ -20,10 +33,11 @@ if __name__ == '__main__':
     for p in particles:
         for E in energies:
             for etaTag in etaTags:
-                outTag = 'SingleK0L'
+		particleTag = particleTags[p]
+                outTag = 'Single%s'%particleTag
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
                 print('Checking status for K0L at E=%d Eta=%s.'%(E,etaTag))
-		os.system('crab status -d myGeneration/%s/crab_projects/crab_%s_%s_upgrade2023_%s_%s > log.txt'%(outTag,outTag,cmssw,geometry,options.step))
+		os.system('crab status -d myGeneration/%s/crab_projects/crab_%s_%s_upgrade2023_%s_%s > log.txt'%(outTag,outTag,cmssw,options.geometry,options.step))
 		os.system('tail -n +9 log.txt | head -n -8')
 		os.system('rm log.txt')
