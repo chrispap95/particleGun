@@ -4,30 +4,44 @@ sys.path.append(os.path.abspath(os.path.curdir))
 
 from Tools import mainParserStep1
 options = mainParserStep1()
+particleTags = particleNumbers()
 
 if __name__ == '__main__':
-    energies = [1,3,5,10,15,20,25,30] # List of energies of generated particles
-    etaTags = ['1p7']                 # List of etas to shoot particles
+    # List of energies to shoot
+    energies = options.energies
+    if energies is None or len(energies) == 0:
+	print('Energies not specified. '
+    'Using default values that might not work in your case.')
+        energies = [1,3,5,10,15,20,25,30]
+
+    # List of etas to shoot particles
+    etaTags = ['1p7']
     etas = {}
     etas['1p7'] = 1.7
-    particles = [130]                 # List of particles to generate in pdg codes
-    #geometry = 'D41'                  # Geometry tag. Use >=D41
+
+    # List of particles to generate in pdg codes
+    particles = options.particles
+    if particles is None or len(particles) == 0:
+	print('Particles not specified. Using Gamma as default. '
+    'This might not be compatible with your configuration.')
+        particles = [22]
+
+    # Getting environment info
     cmssw = os.environ['CMSSW_VERSION']
     cmsswBase = os.environ['CMSSW_BASE']
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-    #unitsPerJob = 50
-    #njobs = 50
     cwd = os.getcwd()
 
     for p in particles:
         for E in energies:
             for etaTag in etaTags:
-		outTag = 'SingleK0L'
+                particleTag = particleTags[p]
+		outTag = 'Single%'%particleTag
 		outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
 		os.chdir(cwd)
                 os.system('mkdir -p myGeneration/%s'%outTag)
-                print('Creating configuration for K0L at E=%d Eta=%s.'%(E,etaTag))
+                print('Creating configuration for % at E=%d Eta=%s.'%(particleTag,E,etaTag))
 
                 # Create generator configurations
                 file0 = open('%s%s_pythia8_cfi.py'%(genDir,outTag),'w')
