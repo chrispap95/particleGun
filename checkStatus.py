@@ -39,7 +39,7 @@ if __name__ == '__main__':
                 outTag = 'Single%s'%particleTag
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
-                print('Checking status for K0L at E=%d Eta=%s.'%(E,etaTag))
+                print('Checking status for %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
 		os.system('crab status -d myGeneration/%s/crab_projects/crab_%s_%s_'
         'upgrade2023_%s_%s > log.txt'%(outTag,outTag,cmssw,options.geometry,options.step))
 		os.system('tail -n +9 log.txt | head -n -8')

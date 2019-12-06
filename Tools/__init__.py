@@ -12,7 +12,7 @@ def standardParser():
     parser.add_argument('-g','--geometry', help='Detector geometry for tagging.',default='D41')
     parser.add_argument('-E','--energies',type=int, help='List of energies to shoot.',nargs='*')
     parser.add_argument('-e','--eta', help='List of eta to shoot.',nargs='*')
-    parser.add_argument('-p','--particles', help='List of particles to shoot',nargs='*')
+    parser.add_argument('-p','--particles',type=int, help='List of particles to shoot',nargs='*')
  
     options = parser.parse_args()
 
@@ -21,11 +21,11 @@ def standardParser():
 def mainParserStep1():
     parser = argparse.ArgumentParser(description='Scripts configuration.',usage='%(prog)s [options]')
     parser.add_argument('-g','--geometry', help='Detector geometry for tagging.',default='D41')
-    parser.add_argument('-n','--njobs', help='Number of jobs to run.',required=True)
-    parser.add_argument('-u','--unitsPerJob', help='Events per job.',required=True)
+    parser.add_argument('-n','--njobs',type=int, help='Number of jobs to run.',required=True)
+    parser.add_argument('-u','--unitsPerJob',type=int, help='Events per job.',required=True)
     parser.add_argument('-E','--energies',type=int, help='List of energies to shoot.',nargs='*')
     parser.add_argument('-e','--eta', help='List of eta to shoot.',nargs='*')
-    parser.add_argument('-p','--particles', help='List of particles to shoot',nargs='*')
+    parser.add_argument('-p','--particles',type=int, help='List of particles to shoot',nargs='*')
 
     options = parser.parse_args()
 
@@ -34,11 +34,11 @@ def mainParserStep1():
 def mainParserStepN():
     parser = argparse.ArgumentParser(description='Scripts configuration',usage='%(prog)s [options]')
     parser.add_argument('-g','--geometry', help='Detector geometry for tagging.',default='D41')
-    parser.add_argument('-n','--njobs', help='Number of jobs to run.',required=True)
-    parser.add_argument('-u','--unitsPerJob', help='Number of files to use per job.',required=True)
+    parser.add_argument('-n','--njobs',type=int, help='Number of jobs to run.',required=True)
+    parser.add_argument('-u','--unitsPerJob',type=int, help='Number of files to use per job.',required=True)
     parser.add_argument('-E','--energies',type=int,help='List of energies to shoot.',nargs='*')
     parser.add_argument('-e','--eta', help='List of eta to shoot.',nargs='*')
-    parser.add_argument('-p','--particles', help='List of particles to shoot',nargs='*')
+    parser.add_argument('-p','--particles',type=int, help='List of particles to shoot',nargs='*')
 
     options = parser.parse_args()
 

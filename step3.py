@@ -24,7 +24,7 @@ if __name__ == '__main__':
     os.system('cmsDriver.py step3 --conditions auto:phase2_realistic -n 100 '
     '--era Phase2C8_timing_layer_bar --eventcontent FEVTDEBUGHLT --runUnscheduled --no_exec '
     '-s RAW2DIGI,L1Reco,RECO,RECOSIM,PAT,VALIDATION:@phase2Validation+@miniAODValidation,DQM:@phase2+@miniAODDQM '
-    '--datatier GEN-SIM-RECO --geometry Extended2023D%s --filein  file:step2.root '
+    '--datatier GEN-SIM-RECO --geometry Extended2023%s --filein  file:step2.root '
     '--fileout file:step3.root'%options.geometry)
 
     os.system('sh createList.sh step2')
