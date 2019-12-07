@@ -35,7 +35,7 @@ if __name__ == '__main__':
     for p in particles:
         for E in energies:
             for etaTag in etaTags:
-		particleTag = particleTags[p]
+		        particleTag = particleTags[p]
                 outTag = 'Single%s'%particleTag
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
@@ -44,6 +44,9 @@ if __name__ == '__main__':
                 os.chdir('myGeneration/%s/crab_projects/'%outTag)
                 os.system('ls | grep %s | grep %s > submissions.txt'%(options.step,options.geometry))
                 fSubmissions = open('submissions.txt','r')
-		os.system('crab status -d %s > log.txt'%((fSubmissions.readline())[:-1]))
-		os.system('tail -n +9 log.txt | head -n -8')
-		os.system('rm log.txt')
+                #submission = (fSubmissions.readline())[:-1]
+                for submission in fSubmissions:
+                    os.system('crab status -d %s > log.txt'%(submission))
+		            os.system('tail -n +9 log.txt | head -n -8')
+		            os.system('rm log.txt')
+                os.system('rm submissions.txt')

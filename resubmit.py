@@ -39,6 +39,9 @@ if __name__ == '__main__':
                 outTag = 'Single%s'%particleTag
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
-                print('Resubmitting failed jobs for K0L at E=%d Eta=%s.'%(E,etaTag))
-		os.system('crab resubmit -d myGeneration/%s/crab_projects/crab_%s_%s'
-		'_upgrade2023_%s_%s'%(outTag,outTag,cmssw,options.geometry,options.step))
+                os.chdir(cwd)
+                os.chdir('myGeneration/%s/crab_projects/'%outTag)
+                os.system('ls | grep %s | grep %s > submissions.txt'%(options.step,options.geometry))
+                fSubmissions = open('submissions.txt','r')
+		os.system('crab resubmit -d %s'%((fSubmissions.readline())[:-1]))
+        os.system('rm submissions.txt')
