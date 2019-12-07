@@ -10,7 +10,7 @@ if __name__ == '__main__':
     # List of energies to shoot
     energies = options.energies
     if energies is None or len(energies) == 0:
-	print('Energies not specified. '
+        print('Energies not specified. '
         'Using default values that might not work in your case.')
         energies = [1,3,5,10,15,20,25,30]
 
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     # List of particles to generate in pdg codes
     particles = options.particles
     if particles is None or len(particles) == 0:
-	print('Particles not specified. Using Gamma as default. '
+        print('Particles not specified. Using Gamma as default. '
         'This might not be compatible with your configuration.')
         particles = [22]
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     for p in particles:
         for E in energies:
             for etaTag in etaTags:
-		        particleTag = particleTags[p]
+                particleTag = particleTags[p]
                 outTag = 'Single%s'%particleTag
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
@@ -47,6 +47,6 @@ if __name__ == '__main__':
                 #submission = (fSubmissions.readline())[:-1]
                 for submission in fSubmissions:
                     os.system('crab status -d %s > log.txt'%(submission))
-		            os.system('tail -n +9 log.txt | head -n -8')
-		            os.system('rm log.txt')
+                    os.system('tail -n +9 log.txt | head -n -8')
+                    os.system('rm log.txt')
                 os.system('rm submissions.txt')
