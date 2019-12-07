@@ -44,7 +44,6 @@ if __name__ == '__main__':
                 os.chdir('myGeneration/%s/crab_projects/'%outTag)
                 os.system('ls | grep %s | grep %s > submissions.txt'%(options.step,options.geometry))
                 fSubmissions = open('submissions.txt','r')
-                #submission = (fSubmissions.readline())[:-1]
                 for submission in fSubmissions:
                     os.system('crab status -d %s > log.txt'%(submission))
                     os.system('tail -n +9 log.txt | head -n -8')

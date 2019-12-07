@@ -10,8 +10,8 @@ if __name__ == '__main__':
     # List of energies to shoot
     energies = options.energies
     if energies is None or len(energies) == 0:
-	print('Energies not specified. '
-    'Using default values that might not work in your case.')
+        print('Energies not specified. '
+        'Using default values that might not work in your case.')
         energies = [1,3,5,10,15,20,25,30]
 
     # List of etas to shoot particles
@@ -22,8 +22,8 @@ if __name__ == '__main__':
     # List of particles to generate in pdg codes
     particles = options.particles
     if particles is None or len(particles) == 0:
-	print('Particles not specified. Using Gamma as default. '
-    'This might not be compatible with your configuration.')
+        print('Particles not specified. Using Gamma as default. '
+        'This might not be compatible with your configuration.')
         particles = [22]
 
     # Getting environment info
@@ -39,9 +39,11 @@ if __name__ == '__main__':
                 outTag = 'Single%s'%particleTag
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
+                print('Resubmitting %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
                 os.chdir(cwd)
                 os.chdir('myGeneration/%s/crab_projects/'%outTag)
                 os.system('ls | grep %s | grep %s > submissions.txt'%(options.step,options.geometry))
                 fSubmissions = open('submissions.txt','r')
-		os.system('crab resubmit -d %s'%((fSubmissions.readline())[:-1]))
-        os.system('rm submissions.txt')
+                for submission in fSubmissions:
+                    os.system('crab resubmit -d %s'%(submission))
+                os.system('rm submissions.txt')
