@@ -10,8 +10,8 @@ if __name__ == '__main__':
     # List of energies to shoot
     energies = options.energies
     if energies is None or len(energies) == 0:
-	print('Energies not specified. '
-    'Using default values that might not work in your case.')
+        print('Energies not specified. '
+        'Using default values that might not work in your case.')
         energies = [1,3,5,10,15,20,25,30]
 
     # List of etas to shoot particles
@@ -22,8 +22,8 @@ if __name__ == '__main__':
     # List of particles to generate in pdg codes
     particles = options.particles
     if particles is None or len(particles) == 0:
-	print('Particles not specified. Using Gamma as default. '
-    'This might not be compatible with your configuration.')
+        print('Particles not specified. Using Gamma as default. '
+        'This might not be compatible with your configuration.')
         particles = [22]
 
     # Getting environment info
@@ -50,12 +50,13 @@ if __name__ == '__main__':
     for p in particles:
         for E in energies:
             for etaTag in etaTags:
-                outTag = 'SingleK0L'
+                particleTag = particleTags[p]
+                outTag = 'Single%s'%particleTag
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
                 os.chdir(cwd)
-		os.system('cp step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py myGeneration/%s/'%outTag)
-		os.chdir('myGeneration/%s'%outTag)
+                os.system('cp step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py myGeneration/%s/'%outTag)
+                os.chdir('myGeneration/%s'%outTag)
 
                 # Create CRAB configuration file
                 file1 = open('crabConfig_%s_step2.py'%outTag,'w')
@@ -73,7 +74,7 @@ if __name__ == '__main__':
                 file1.write("'step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py'\n\n")
                 file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
                 file1.write("config.Data.inputDBS = 'phys03'\n")
-		file1.write("config.Data.splitting = 'FileBased'\n")
+                file1.write("config.Data.splitting = 'FileBased'\n")
                 file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
                 file1.write("config.Data.totalUnits = %d\n"%options.njobs)
                 file1.write("config.Data.outLFNDirBase = '/store/user/%s/' ")
