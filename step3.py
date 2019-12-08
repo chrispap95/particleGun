@@ -64,6 +64,7 @@ if __name__ == '__main__':
                 # Create CRAB configuration file
                 file1 = open('crabConfig_%s_step3.py'%outTag,'w')
                 file1.write('# Script automatically generated using generator.py\n\n')
+
                 file1.write('from CRABClient.UserUtilities ')
                 file1.write('import config, getUsernameFromSiteDB\n')
                 file1.write('config = config()\n')
@@ -72,10 +73,13 @@ if __name__ == '__main__':
                 file1.write("config.General.workArea = 'crab_projects'\n")
                 file1.write("config.General.transferOutputs = True\n")
                 file1.write("config.General.transferLogs = True\n\n")
+
                 file1.write("config.JobType.pluginName = 'Analysis'\n")
                 file1.write("config.JobType.maxMemoryMB = 3500\n")
                 file1.write("config.JobType.psetName = ")
-                file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PAT_VALIDATION_DQM.py'\n\n")
+                file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PAT_VALIDATION_DQM.py'\n")
+                file1.write("config.JobType.maxJobRuntimeMin = 600\n\n")
+
                 file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
                 file1.write("config.Data.inputDBS = 'phys03'\n")
                 file1.write("config.Data.splitting = 'FileBased'\n")
@@ -86,7 +90,9 @@ if __name__ == '__main__':
                 file1.write("config.Data.publication = True\n")
                 file1.write("config.Data.outputDatasetTag = ")
                 file1.write("'%s_%s_upgrade2023_%s_step3'\n\n"%(outTag,cmssw,options.geometry))
+
                 file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
+                file1.write("config.Site.blacklist = ['T2_US_CALTECH']\n")
                 file1.close()
 
                 os.system('crab submit -c crabConfig_%s_step3.py'%outTag)
