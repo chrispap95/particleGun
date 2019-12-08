@@ -39,7 +39,7 @@ if __name__ == '__main__':
                 outTag = 'Single%s'%particleTag
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
-                print('Resubmitting %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
+                print('Killing jobs for %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
                 os.chdir(cwd)
                 os.chdir('myGeneration/%s/crab_projects/'%outTag)
                 os.system('ls | grep %s | grep %s > submissions.txt'%(options.step,options.geometry))
