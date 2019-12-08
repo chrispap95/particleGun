@@ -23,7 +23,7 @@ if __name__ == '__main__':
     particles = options.particles
     if particles is None or len(particles) == 0:
         print('Particles not specified. Using Gamma as default. '
-        'This might not be compatible with your configuration.')
+        'This might not be compatible with your configuration.\n')
         particles = [22]
 
     # Getting environment info
@@ -68,7 +68,10 @@ if __name__ == '__main__':
                 file1.write('import config, getUsernameFromSiteDB\n')
                 file1.write('config = config()\n')
                 file1.write("config.General.requestName = ")
-                file1.write("'%s_%s_upgrade2023_%s_step2'\n"%(outTag,cmssw,options.geometry))
+                if options.tag is None or options.tag == None:
+                    file1.write("'%s_%s_upgrade2023_%s_step2'\n"%(outTag,cmssw,options.geometry))
+                else:
+                    file1.write("'%s_%s_upgrade2023_%s_%s_step2'\n"%(outTag,cmssw,options.geometry,options.tag)) 
                 file1.write("config.General.workArea = 'crab_projects'\n")
                 file1.write("config.General.transferOutputs = True\n")
                 file1.write("config.General.transferLogs = True\n\n")
