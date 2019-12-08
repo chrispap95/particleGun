@@ -106,7 +106,7 @@ if __name__ == '__main__':
                 file1.write("config.Data.outputDatasetTag = ")
                 file1.write("'%s_%s_upgrade2023_%s_step1'\n\n"%(outTag,cmssw,options.geometry))
 
-                file1.write("config.Site.blacklist = ['T2_US_CALTECH']\n")
+                file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
                 file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
                 file1.close()
 

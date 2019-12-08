@@ -45,5 +45,5 @@ if __name__ == '__main__':
                 os.system('ls | grep %s | grep %s > submissions.txt'%(options.step,options.geometry))
                 fSubmissions = open('submissions.txt','r')
                 for submission in fSubmissions:
-                    os.system('crab resubmit -d %s --siteblacklist=T2_US_CALTECH'%(submission))
+                    os.system('crab resubmit -d %s --siteblacklist=T2_US_Caltech'%(submission))
                 os.system('rm submissions.txt')
