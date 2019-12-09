@@ -42,7 +42,12 @@ if __name__ == '__main__':
                 print('Resubmitting %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
                 os.chdir(cwd)
                 os.chdir('myGeneration/%s/crab_projects/'%outTag)
-                os.system('ls | grep %s | grep %s > submissions.txt'%(options.step,options.geometry))
+                if options.tag is None or options.tag == None:
+                    os.system('ls | grep %s | grep %s '
+                    '> submissions.txt'%(options.step,options.geometry))
+                else:
+                    os.system('ls | grep %s | grep %s | grep %s '
+                    '> submissions.txt'%(options.step,options.geometry,options.tag))
                 fSubmissions = open('submissions.txt','r')
                 for submission in fSubmissions:
                     os.system('crab resubmit -d %s --siteblacklist=T2_US_Caltech'%(submission))
