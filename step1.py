@@ -69,9 +69,10 @@ if __name__ == '__main__':
                 # Run cmsdriver.py to create workflows
                 os.chdir('%s/myGeneration/%s'%(cwd,outTag))
                 os.system('cmsDriver.py Configuration/GenProduction/python/%s_pythia8_cfi.py '
-                '--conditions auto:phase2_realistic -n 100 --era Phase2C8_timing_layer_bar '
-                '--eventcontent FEVTDEBUG --relval 9000,50 -s GEN,SIM --datatier GEN-SIM --no_exec '
-                '--beamspot HLLHC --geometry Extended2023%s --fileout file:step1.root'%(outTag,options.geometry))
+                '--conditions auto:phase2_realistic_T15 -n 100 --era Phase2C9 '
+                '--eventcontent FEVTDEBUG --relval 9000,50 -s GEN,SIM --datatier GEN-SIM '
+                '--no_exec --beamspot HLLHC --geometry Extended2026%s '
+                '--fileout file:step1.root'%(outTag,options.geometry))
 
                 # Create CRAB configuration file
                 file1 = open('crabConfig_%s_step1.py'%outTag,'w')
