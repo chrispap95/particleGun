@@ -50,7 +50,7 @@ if __name__ == '__main__':
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
                 os.chdir(cwd)
-                os.system('cp run_HGCalTupleMaker_2023.py myGeneration/%s/'%outTag)
+                os.system('cp run_HGCalTupleMaker_2026.py myGeneration/%s/'%outTag)
                 os.chdir('myGeneration/%s'%outTag)
 
                 # Create CRAB configuration file
@@ -62,16 +62,16 @@ if __name__ == '__main__':
                 file1.write('config = config()\n')
                 file1.write("config.General.requestName = ")
                 if options.tag is None or options.tag == None:
-                    file1.write("'%s_%s_upgrade2023_%s_ntuples'\n"%(outTag,cmssw,options.geometry))
+                    file1.write("'%s_%s_upgrade2026_%s_ntuples'\n"%(outTag,cmssw,options.geometry))
                 else:
-                    file1.write("'%s_%s_upgrade2023_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.tag))
+                    file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.tag))
                 file1.write("config.General.workArea = 'crab_projects'\n")
                 file1.write("config.General.transferOutputs = True\n")
                 file1.write("config.General.transferLogs = True\n\n")
 
                 file1.write("config.JobType.pluginName = 'Analysis'\n")
                 file1.write("config.JobType.psetName = ")
-                file1.write("'run_HGCalTupleMaker_2023.py'\n")
+                file1.write("'run_HGCalTupleMaker_2026.py'\n")
                 file1.write("config.JobType.maxJobRuntimeMin = 600\n\n")
 
                 file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
@@ -83,7 +83,7 @@ if __name__ == '__main__':
                 file1.write("% (getUsernameFromSiteDB())\n")
                 file1.write("config.Data.publication = False\n")
                 file1.write("config.Data.outputDatasetTag = ")
-                file1.write("'%s_%s_upgrade2023_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry))
+                file1.write("'%s_%s_upgrade2026_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry))
 
                 file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
                 file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
