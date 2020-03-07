@@ -39,7 +39,7 @@ if __name__ == '__main__':
     pTag = ''
     for p in particles:
         pTag = '%s %d'%(pTag,p)
-    os.system("sh createList.sh step3 '%s' '%s'"%(eTag,pTag))
+    os.system("sh createList.sh step3 '%s' '%s' '%s'"%(eTag,pTag,options.geometry))
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
