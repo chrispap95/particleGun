@@ -83,9 +83,9 @@ if __name__ == '__main__':
                 file1.write('config = config()\n')
                 file1.write("config.General.requestName = ")
                 if options.tag is None or options.tag == None:
-                    file1.write("'%s_%s_upgrade2023_%s_step1'\n"%(outTag,cmssw,options.geometry))
+                    file1.write("'%s_%s_upgrade2026_%s_step1'\n"%(outTag,cmssw,options.geometry))
                 else:
-                    file1.write("'%s_%s_upgrade2023_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
+                    file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
                 file1.write("config.General.workArea = 'crab_projects'\n")
                 file1.write("config.General.transferOutputs = True\n")
                 file1.write("config.General.transferLogs = False\n\n")
@@ -105,7 +105,7 @@ if __name__ == '__main__':
                 file1.write("% (getUsernameFromSiteDB())\n")
                 file1.write("config.Data.publication = True\n")
                 file1.write("config.Data.outputDatasetTag = ")
-                file1.write("'%s_%s_upgrade2023_%s_step1'\n\n"%(outTag,cmssw,options.geometry))
+                file1.write("'%s_%s_upgrade2026_%s_step1'\n\n"%(outTag,cmssw,options.geometry))
 
                 file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
                 file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")

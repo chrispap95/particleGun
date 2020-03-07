@@ -34,11 +34,11 @@ if __name__ == '__main__':
 
     # Run cmsdriver.py to create workflows
     print('Creating step2 configuration.')
-    os.system('cmsDriver.py step2 --conditions auto:phase2_realistic '
+    os.system('cmsDriver.py step2 --conditions auto:phase2_realistic_T15 '
     '-s DIGI:pdigi_valid,L1,L1TrackTrigger,DIGI2RAW,HLT:@fake2 '
-    '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2023%s '
-    '--era Phase2C8_timing_layer_bar --eventcontent FEVTDEBUGHLT '
-    '--no_exec --filein file:step1.root --fileout file:step2.root'%options.geometry)
+    '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s '
+    '--era Phase2C9 --eventcontent FEVTDEBUGHLT --no_exec '
+    '--filein file:step1.root --fileout file:step2.root'%options.geometry)
 
     # Get filenames from previous step
     eTag = ''
@@ -70,9 +70,9 @@ if __name__ == '__main__':
                 file1.write('config = config()\n')
                 file1.write("config.General.requestName = ")
                 if options.tag is None or options.tag == None:
-                    file1.write("'%s_%s_upgrade2023_%s_step2'\n"%(outTag,cmssw,options.geometry))
+                    file1.write("'%s_%s_upgrade2026_%s_step2'\n"%(outTag,cmssw,options.geometry))
                 else:
-                    file1.write("'%s_%s_upgrade2023_%s_%s_step2'\n"%(outTag,cmssw,options.geometry,options.tag))
+                    file1.write("'%s_%s_upgrade2026_%s_%s_step2'\n"%(outTag,cmssw,options.geometry,options.tag))
                 file1.write("config.General.workArea = 'crab_projects'\n")
                 file1.write("config.General.transferOutputs = True\n")
                 file1.write("config.General.transferLogs = True\n\n")
@@ -91,7 +91,7 @@ if __name__ == '__main__':
                 file1.write("% (getUsernameFromSiteDB())\n")
                 file1.write("config.Data.publication = True\n")
                 file1.write("config.Data.outputDatasetTag = ")
-                file1.write("'%s_%s_upgrade2023_%s_step2'\n\n"%(outTag,cmssw,options.geometry))
+                file1.write("'%s_%s_upgrade2026_%s_step2'\n\n"%(outTag,cmssw,options.geometry))
 
                 file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
                 file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
