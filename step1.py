@@ -30,6 +30,7 @@ if __name__ == '__main__':
     cmssw = os.environ['CMSSW_VERSION']
     cmsswBase = os.environ['CMSSW_BASE']
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
+    user = os.environ['USER']
     cwd = os.getcwd()
 
     for p in particles:
