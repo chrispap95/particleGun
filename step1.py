@@ -15,7 +15,7 @@ if __name__ == '__main__':
         energies = [1,3,5,10,15,20,25,30]
 
     # List of etas to shoot particles
-    etaTags = options.etaTags
+    etaTags = options.eta
     if etaTags is None or len(etaTags) == 0:
         print('Etas not specified. '
         'Using default values that might not work in your case.')
