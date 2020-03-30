@@ -29,6 +29,7 @@ if __name__ == '__main__':
     # Getting environment info
     cmssw = os.environ['CMSSW_VERSION']
     cmsswBase = os.environ['CMSSW_BASE']
+    user = os.environ['USER']
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
 
@@ -87,8 +88,7 @@ if __name__ == '__main__':
                 file1.write("config.Data.splitting = 'FileBased'\n")
                 file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
                 file1.write("config.Data.totalUnits = %d\n"%options.njobs)
-                file1.write("config.Data.outLFNDirBase = '/store/user/%s/' ")
-                file1.write("% (getUsernameFromSiteDB())\n")
+                file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
                 file1.write("config.Data.publication = True\n")
                 file1.write("config.Data.outputDatasetTag = ")
                 file1.write("'%s_%s_upgrade2026_%s_step2'\n\n"%(outTag,cmssw,options.geometry))
