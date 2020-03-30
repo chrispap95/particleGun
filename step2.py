@@ -15,9 +15,14 @@ if __name__ == '__main__':
         energies = [1,3,5,10,15,20,25,30]
 
     # List of etas to shoot particles
-    etaTags = ['1p7']
+    etaTags = options.eta
+    if etaTags is None or len(etaTags) == 0:
+        print('Etas not specified. '
+        'Using default values that might not work in your case.')
+        etaTags = ['1p7']
     etas = {}
-    etas['1p7'] = 1.7
+    for etaTag in etaTags:
+        etas[etaTag] = float(etaTag.replace("p","."))
 
     # List of particles to generate in pdg codes
     particles = options.particles
