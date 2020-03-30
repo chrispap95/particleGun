@@ -21,7 +21,7 @@ if __name__ == '__main__':
         'Using default values that might not work in your case.')
         etaTags = ['1p7']
     etas = {}
-    for etaTag in etaTags
+    for etaTag in etaTags:
         etas[etaTag] = float(etaTag.replace("p","."))
 
     # List of particles to generate in pdg codes
