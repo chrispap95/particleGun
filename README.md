@@ -2,6 +2,10 @@
 Scripts for easy and multiple MC samples generation.
 
 ## Instructions
+First, create the generator fragment destination in ```src```
+```bash
+mkdir -p Configuration/GenProduction/python
+```
 To make a new MC generation, create a new directory in ```src```. Eg.
 ```bash
 mkdir singleGammaMC
