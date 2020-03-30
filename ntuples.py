@@ -29,6 +29,7 @@ if __name__ == '__main__':
     # Getting environment info
     cmssw = os.environ['CMSSW_VERSION']
     cmsswBase = os.environ['CMSSW_BASE']
+    user = os.environ['USER']
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
 
@@ -58,7 +59,7 @@ if __name__ == '__main__':
                 file1.write('# Script automatically generated using ntuples.py\n\n')
 
                 file1.write('from CRABClient.UserUtilities ')
-                file1.write('import config, getUsernameFromSiteDB\n')
+                file1.write('import config\n')
                 file1.write('config = config()\n')
                 file1.write("config.General.requestName = ")
                 if options.tag is None or options.tag == None:
@@ -79,8 +80,7 @@ if __name__ == '__main__':
                 file1.write("config.Data.splitting = 'FileBased'\n")
                 file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
                 file1.write("config.Data.totalUnits = %d\n"%options.njobs)
-                file1.write("config.Data.outLFNDirBase = '/store/user/%s/' ")
-                file1.write("% (getUsernameFromSiteDB())\n")
+                file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
                 file1.write("config.Data.publication = False\n")
                 file1.write("config.Data.outputDatasetTag = ")
                 file1.write("'%s_%s_upgrade2023_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry))
