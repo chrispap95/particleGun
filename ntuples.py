@@ -15,9 +15,14 @@ if __name__ == '__main__':
         energies = [1,3,5,10,15,20,25,30]
 
     # List of etas to shoot particles
-    etaTags = ['1p7']
+    etaTags = options.eta
+    if etaTags is None or len(etaTags) == 0:
+        print('Etas not specified. '
+        'Using default values that might not work in your case.')
+        etaTags = ['1p7']
     etas = {}
-    etas['1p7'] = 1.7
+    for etaTag in etaTags:
+        etas[etaTag] = float(etaTag.replace("p","."))
 
     # List of particles to generate in pdg codes
     particles = options.particles
@@ -40,7 +45,7 @@ if __name__ == '__main__':
     pTag = ''
     for p in particles:
         pTag = '%s %d'%(pTag,p)
-    os.system("sh createList.sh step3 '%s' '%s'"%(eTag,pTag))
+    os.system("sh createList.sh step3 '%s' '%s' '%s'"%(eTag,pTag,options.geometry))
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
@@ -51,7 +56,7 @@ if __name__ == '__main__':
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
                 os.chdir(cwd)
-                os.system('cp run_HGCalTupleMaker_2023.py myGeneration/%s/'%outTag)
+                os.system('cp run_HGCalTupleMaker_2026.py myGeneration/%s/'%outTag)
                 os.chdir('myGeneration/%s'%outTag)
 
                 # Create CRAB configuration file
@@ -63,16 +68,16 @@ if __name__ == '__main__':
                 file1.write('config = config()\n')
                 file1.write("config.General.requestName = ")
                 if options.tag is None or options.tag == None:
-                    file1.write("'%s_%s_upgrade2023_%s_ntuples'\n"%(outTag,cmssw,options.geometry))
+                    file1.write("'%s_%s_upgrade2026_%s_ntuples'\n"%(outTag,cmssw,options.geometry))
                 else:
-                    file1.write("'%s_%s_upgrade2023_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.tag))
+                    file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.tag))
                 file1.write("config.General.workArea = 'crab_projects'\n")
                 file1.write("config.General.transferOutputs = True\n")
                 file1.write("config.General.transferLogs = True\n\n")
 
                 file1.write("config.JobType.pluginName = 'Analysis'\n")
                 file1.write("config.JobType.psetName = ")
-                file1.write("'run_HGCalTupleMaker_2023.py'\n")
+                file1.write("'run_HGCalTupleMaker_2026.py'\n")
                 file1.write("config.JobType.maxJobRuntimeMin = 600\n\n")
 
                 file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
@@ -83,7 +88,7 @@ if __name__ == '__main__':
                 file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
                 file1.write("config.Data.publication = False\n")
                 file1.write("config.Data.outputDatasetTag = ")
-                file1.write("'%s_%s_upgrade2023_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry))
+                file1.write("'%s_%s_upgrade2026_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry))
 
                 file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
                 file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
