@@ -10,14 +10,14 @@ if __name__ == '__main__':
     # List of energies to shoot
     energies = options.energies
     if energies is None or len(energies) == 0:
-        print('Energies not specified. '
+        print(col.magenta+'Warning:'+col.endc+'Energies not specified. '
         'Using default values that might not work in your case.')
         energies = [1,3,5,10,15,20,25,30]
 
     # List of etas to shoot particles
     etaTags = options.eta
     if etaTags is None or len(etaTags) == 0:
-        print('Etas not specified. '
+        print(col.magenta+'Warning:'+col.endc+'Etas not specified. '
         'Using default values that might not work in your case.')
         etaTags = ['1p7']
     etas = {}
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # List of particles to generate in pdg codes
     particles = options.particles
     if particles is None or len(particles) == 0:
-        print('Particles not specified. Using Gamma as default. '
+        print(col.magenta+'Warning:'+col.endc+'Particles not specified. Using Gamma as default. '
         'This might not be compatible with your configuration.')
         particles = [22]
 
