@@ -56,7 +56,7 @@ if __name__ == '__main__':
                 outTag = '%s_E%d'%(outTag,E)
                 outTag = '%sEta%s'%(outTag,etaTag)
                 os.chdir(cwd)
-                os.system('cp run_HGCalTupleMaker_2026.py myGeneration/%s/'%outTag)
+                os.system('cp ntuplesConfig.py myGeneration/%s/'%outTag)
                 os.chdir('myGeneration/%s'%outTag)
 
                 # Create CRAB configuration file
@@ -77,8 +77,9 @@ if __name__ == '__main__':
 
                 file1.write("config.JobType.pluginName = 'Analysis'\n")
                 file1.write("config.JobType.psetName = ")
-                file1.write("'run_HGCalTupleMaker_2026.py'\n")
-                file1.write("config.JobType.maxJobRuntimeMin = 600\n\n")
+                file1.write("'ntuplesConfig.py'\n")
+                file1.write("config.JobType.maxJobRuntimeMin = 200\n")
+                file1.write("config.jobType.maxMemoryMB = 4000\n\n")
 
                 file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
                 file1.write("config.Data.inputDBS = 'phys03'\n")
