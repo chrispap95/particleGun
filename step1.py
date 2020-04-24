@@ -10,14 +10,14 @@ if __name__ == '__main__':
     # List of energies to shoot
     energies = options.energies
     if energies is None or len(energies) == 0:
-        print(col.magenta+'Warning:'+col.endc+'Energies not specified. '
+        print(col.magenta+'Warning: '+col.endc+'Energies not specified. '
         'Using default values that might not work in your case.')
         energies = [1,3,5,10,15,20,25,30]
 
     # List of etas to shoot particles
     etaTags = options.eta
     if etaTags is None or len(etaTags) == 0:
-        print(col.magenta+'Warning:'+col.endc+'Etas not specified. '
+        print(col.magenta+'Warning: '+col.endc+'Etas not specified. '
         'Using default values that might not work in your case.')
         etaTags = ['1p7']
     etas = {}
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # List of phi to shoot particles
     phiTags = options.phi
     if phiTags is None or len(phiTags) == 0:
-        print(col.magenta+'Warning:'+col.endc+'Phi not specified. '
+        print(col.magenta+'Warning: '+col.endc+'Phi not specified. '
         'The script is not going to specify a Phi.')
         phiTags = ['notSet']
     phis = {}
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     # List of particles to generate in pdg codes
     particles = options.particles
     if particles is None or len(particles) == 0:
-        print(col.magenta+'Warning:'+col.endc+'Particles not specified. '
+        print(col.magenta+'Warning: '+col.endc+'Particles not specified. '
         'Using Gamma as default. This might not be compatible with your configuration.')
         particles = [22]
 
@@ -47,7 +47,6 @@ if __name__ == '__main__':
     cmsswBase = os.environ['CMSSW_BASE']
     user = os.environ['USER']
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-    user = os.environ['USER']
     cwd = os.getcwd()
 
     for p in particles:
@@ -63,9 +62,9 @@ if __name__ == '__main__':
                     os.chdir(cwd)
                     os.system('mkdir -p myGeneration/%s'%outTag)
                     if phiTag != 'notSet':
-                        print('Creating configuration for %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
-                    else:
                         print('Creating configuration for %s at E=%d Eta=%s Phi=%s.'%(particleTag,E,etaTag,phiTag))
+                    else:
+                        print('Creating configuration for %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
 
                     # Create generator configurations
                     file0 = open('%s%s_pythia8_cfi.py'%(genDir,outTag),'w')
@@ -114,9 +113,9 @@ if __name__ == '__main__':
                         file1.write("'%s_%s_upgrade2026_%s_step1'\n"%(outTag,cmssw,options.geometry))
                     else:
                         file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
-                        file1.write("config.General.workArea = 'crab_projects'\n")
-                        file1.write("config.General.transferOutputs = True\n")
-                        file1.write("config.General.transferLogs = False\n\n")
+                    file1.write("config.General.workArea = 'crab_projects'\n")
+                    file1.write("config.General.transferOutputs = True\n")
+                    file1.write("config.General.transferLogs = False\n\n")
 
                     file1.write("config.JobType.pluginName = 'PrivateMC'\n")
                     file1.write("config.JobType.psetName = ")
