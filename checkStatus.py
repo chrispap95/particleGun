@@ -17,7 +17,7 @@ if __name__ == '__main__':
     # List of etas to shoot particles
     etaTags = options.eta
     if etaTags is None or len(etaTags) == 0:
-        print(col.magenta+'Warning:'+col.endc+'Etas not specified. '
+        print(col.magenta+'Warning: '+col.endc+'Etas not specified. '
         'Using default values that might not work in your case.')
         etaTags = ['1p7']
     etas = {}
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # List of phi to shoot particles
     phiTags = options.phi
     if phiTags is None or len(phiTags) == 0:
-        print(col.magenta+'Warning:'+col.endc+'Phi not specified. '
+        print(col.magenta+'Warning: '+col.endc+'Phi not specified. '
         'The script is not going to specify a Phi.')
         phiTags = ['notSet']
     phis = {}
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     # List of particles to generate in pdg codes
     particles = options.particles
     if particles is None or len(particles) == 0:
-        print(col.magenta+'Warning:'+col.endc+'Particles not specified. '
+        print(col.magenta+'Warning: '+col.endc+'Particles not specified. '
         'Using Gamma as default. This might not be compatible with your configuration.')
         particles = [22]
 
