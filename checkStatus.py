@@ -10,7 +10,7 @@ if __name__ == '__main__':
     # List of energies to shoot
     energies = options.energies
     if energies is None or len(energies) == 0:
-        print('Energies not specified. '
+        print(col.magenta+'Warning:'+col.endc+'Energies not specified. '
         'Using default values that might not work in your case.')
         energies = [1,3,5,10,15,20,25,30]
 
@@ -38,8 +38,8 @@ if __name__ == '__main__':
     # List of particles to generate in pdg codes
     particles = options.particles
     if particles is None or len(particles) == 0:
-        print('Particles not specified. Using Gamma as default. '
-        'This might not be compatible with your configuration.')
+        print(col.magenta+'Warning:'+col.endc+'Particles not specified. '
+        'Using Gamma as default. This might not be compatible with your configuration.')
         particles = [22]
 
     # Getting environment info
@@ -58,7 +58,6 @@ if __name__ == '__main__':
                     outTag = '%sEta%s'%(outTag,etaTag)
                     if phiTag != 'notSet':
                         outTag = '%sPhi%s'%(outTag,phiTag)
-
                     if phiTag != 'notSet':
                         print('Checking status for %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
                     else:
