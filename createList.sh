@@ -8,7 +8,10 @@
 #         $5: eta
 #         $6: phi
 
-echo "\033[93mFetching\033[0m data from previous step. Hold tight!"
+tput setaf 3
+echo -n "Fetching"
+tput sgr0
+echo " data from previous step. Hold tight! "
 
 if [ -z $5 ]
 then
@@ -29,7 +32,11 @@ else
   awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
 fi
 
-echo "Data fetched \033[92msuccessfully\033[0m!"
+echo -n "Data fetched "
+tput setaf 2
+echo -n "successfully"
+tput sgr0
+echo "!"
 echo "Going to use the following datasets:"
 cat myGeneration/list.txt
 sleep 2
