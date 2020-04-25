@@ -20,7 +20,7 @@ then
     python checkStatus.py -s $1 -E $2 -p $3 -g $4 -P $6 | grep "Output dataset:" | \
     awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
   fi
-elif [ -z $6]
+elif [ -z $6 ]
 then
   python checkStatus.py -s $1 -E $2 -p $3 -g $4 -e $5 | grep "Output dataset:" | \
   awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
