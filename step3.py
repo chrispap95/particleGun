@@ -71,7 +71,7 @@ if __name__ == '__main__':
     for phiTag in phiTags:
         if phiTag != 'notSet':
             phiList = '%s %s'%(phiList,phiTag)
-    os.system("sh createList.sh step1 '%s' '%s' '%s' '%s' '%s'"%(eTag,pTag,options.geometry,etaList,phiList))
+    os.system("sh createList.sh step2 '%s' '%s' '%s' '%s' '%s'"%(eTag,pTag,options.geometry,etaList,phiList))
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
@@ -105,7 +105,7 @@ if __name__ == '__main__':
                     file1.write("config.General.transferLogs = True\n\n")
 
                     file1.write("config.JobType.pluginName = 'Analysis'\n")
-                    file1.write("config.JobType.maxMemoryMB = 3500\n")
+                    file1.write("config.JobType.maxMemoryMB = 5000\n")
                     file1.write("config.JobType.psetName = ")
                     file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PAT_VALIDATION_DQM.py'\n")
                     file1.write("config.JobType.maxJobRuntimeMin = 50\n\n")
