@@ -32,7 +32,7 @@ else
   awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
 fi
 
-if [ -s myGeneration/list.txt ] || [ ! -f myGeneration/list.txt ]
+if [ -s myGeneration/list.txt ]
 then
   tput setaf 1
   echo -n "Error: "
