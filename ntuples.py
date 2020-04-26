@@ -100,7 +100,7 @@ if __name__ == '__main__':
                     file1.write("config.JobType.psetName = ")
                     file1.write("'ntuplesConfig.py'\n")
                     file1.write("config.JobType.maxJobRuntimeMin = 50\n")
-                    file1.write("config.jobType.maxMemoryMB = 5000\n\n")
+                    file1.write("config.JobType.maxMemoryMB = 5000\n\n")
 
                     file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
                     file1.write("config.Data.inputDBS = 'phys03'\n")
