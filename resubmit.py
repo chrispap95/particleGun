@@ -59,9 +59,9 @@ if __name__ == '__main__':
                     if phiTag != 'notSet':
                         outTag = '%sPhi%s'%(outTag,phiTag)
                     if phiTag != 'notSet':
-                        print('Checking status for %s at E=%d Eta=%s Phi=%s.'%(particleTag,E,etaTag,phiTag))
+                        print('Resubmitting %s at E=%d Eta=%s Phi=%s.'%(particleTag,E,etaTag,phiTag))
                     else:
-                        print('Checking status for %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
+                        print('Resubmitting %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
                     os.chdir(cwd)
                     os.chdir('myGeneration/%s/crab_projects/'%outTag)
                     if options.tag is None or options.tag == None:
