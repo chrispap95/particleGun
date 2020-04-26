@@ -2,7 +2,7 @@ import os, sys
 
 sys.path.append(os.path.abspath(os.path.curdir))
 
-from Tools import standardParser, particleNumbers
+from Tools import standardParser, particleNumbers, col
 options = standardParser()
 particleTags = particleNumbers()
 
