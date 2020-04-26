@@ -59,9 +59,9 @@ if __name__ == '__main__':
                     if phiTag != 'notSet':
                         outTag = '%sPhi%s'%(outTag,phiTag)
                     if phiTag != 'notSet':
-                        print('Killing jobs for %s at E=%d Eta=%s Phi=%s.'%(particleTag,E,etaTag,phiTag))
+                        print('%sKilling%s jobs for %s at E=%d Eta=%s Phi=%s.'%(col.yellow,col.endc,particleTag,E,etaTag,phiTag))
                     else:
-                        print('Killing jobs for %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
+                        print('%sKilling%s jobs for %s at E=%d Eta=%s.'%(col.yellow,col.endc,particleTag,E,etaTag))
                     os.chdir(cwd)
                     os.chdir('myGeneration/%s/crab_projects/'%outTag)
                     os.system('ls | grep %s | grep %s > submissions.txt'%(options.step,options.geometry))
