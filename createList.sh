@@ -32,11 +32,20 @@ else
   awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
 fi
 
-echo -n "Data fetched "
-tput setaf 2
-echo -n "successfully"
-tput sgr0
-echo "!"
-echo "Going to use the following datasets:"
-cat myGeneration/list.txt
-sleep 2
+if [ -s myGeneration/list.txt ] || [ ! -f myGeneration/list.txt ]
+then
+  tput setaf 1
+  echo -n "Error: "
+  tput sgr0
+  echo "list file is empty or does not exist! Please check again the input values."
+  exit 1
+else
+  echo -n "Data fetched "
+  tput setaf 2
+  echo -n "successfully"
+  tput sgr0
+  echo "!"
+  echo "Going to use the following datasets:"
+  cat myGeneration/list.txt
+  sleep 2
+fi
