@@ -68,7 +68,7 @@ elif [[ -f "/etc/redhat-release" ]]; then
 	POSSIBLE_VERSIONS=( 6 7 )
 	if [[ "${POSSIBLE_VERSIONS[@]} " =~ " ${VERSION_TMP}" ]]; then
 		SLC_VERSION="slc${VERSION_TMP}"
-    if [[ $SLC_VERSION == "slc6"]]; then
+    if [[ $SLC_VERSION == "slc6" ]]; then
       $ECHO "Unsupported architecture $SLC_VERSION. Please switch to slc7."
       exit 1
     else

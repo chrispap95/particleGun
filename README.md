@@ -1,6 +1,15 @@
 # particleGun
 Scripts for easy and multiple MC samples generation.
 
+```bash
+wget https://raw.githubusercontent.com/chrispap95/particleGun/master/setup.sh
+chmod +x setup.sh
+./setup.sh -c CMSSW_11_1_0_pre6
+cd CMSSW_11_1_0_pre6/src
+cmsenv
+cd particleGun
+```
+
 ## Instructions
 First, create the generator fragment destination in ```src```
 ```bash
