@@ -137,4 +137,5 @@ if __name__ == '__main__':
                     file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
                     file1.close()
 
-                    os.system('crab submit -c crabConfig_%s_step1.py'%outTag)
+                    if !options.no_exec:
+                        os.system('crab submit -c crabConfig_%s_step1.py'%outTag)

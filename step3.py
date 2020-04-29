@@ -124,7 +124,8 @@ if __name__ == '__main__':
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
                     file1.close()
 
-                    os.system('crab submit -c crabConfig_%s_step3.py'%outTag)
+                    if !options.no_exec:
+                        os.system('crab submit -c crabConfig_%s_step3.py'%outTag)
 
 os.chdir(cwd)
 os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PAT_VALIDATION_DQM.py')

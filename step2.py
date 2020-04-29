@@ -124,7 +124,8 @@ if __name__ == '__main__':
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
                     file1.close()
 
-                    os.system('crab submit -c crabConfig_%s_step2.py'%outTag)
+                    if !options.no_exec:
+                        os.system('crab submit -c crabConfig_%s_step2.py'%outTag)
 
 os.chdir(cwd)
 os.system('rm step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py')
