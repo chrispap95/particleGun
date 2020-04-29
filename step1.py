@@ -79,11 +79,11 @@ if __name__ == '__main__':
                     file0.write("\t\tMaxEta = cms.double(%f),\n"%etas[etaTag])
                     file0.write("\t\tMinEta = cms.double(%f),\n"%etas[etaTag])
                     if phiTag != 'notSet':
+                        file0.write("\t\tMaxPhi = cms.double(%f),\n"%phis[phiTag])
+                        file0.write("\t\tMinPhi = cms.double(%f)\n"%phis[phiTag])
+                    else:
                         file0.write("\t\tMaxPhi = cms.double(3.14159265359),\n")
                         file0.write("\t\tMinPhi = cms.double(-3.14159265359) ## in radians\n")
-                    else:
-                        file0.write("\t\tMaxPhi = cms.double(%f),\n"%phis[phiTag])
-                        file0.write("\t\tMinPhi = cms.double(%f),\n"%phis[phiTag])
                     file0.write("\t),\n")
                     file0.write("\tVerbosity = cms.untracked.int32(0), ")
                     file0.write("## set to 1 (or greater)  for printouts\n")
