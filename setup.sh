@@ -114,14 +114,19 @@ if [ -n "$WHICH_CMSSW" ]; then
 	# reinitialize environment
 	eval `scramv1 runtime -sh`
 	cd src
-	git cms-init $ACCESS_CMSSW
+	#git cms-init $ACCESS_CMSSW
 
-	git clone ${ACCESS_GITHUB}chrispap95/particleGun particleGun
-  mkdir particleGun/myGeneration
-	if [[ $WHICH_CMSSW == *"CMSSW_11_"* ]]; then
+	if [[ "$WHICH_CMSSW" == *"CMSSW_11_"* ]]; then
     git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap
-  else
+    git clone ${ACCESS_GITHUB}chrispap95/particleGun
+    mkdir particleGun/myGeneration
+  elif [[ "$WHICH_CMSSW" == *"CMSSW_10_6"* ]]; then
     git clone ${ACCESS_GITHUB}${FORK}/HGCalAnalysis hgcalAnalysis -b rechitDetID
+    git clone ${ACCESS_GITHUB}chrispap95/particleGun -b CMSSW_10_6_3_patch1-2026D41
+    mkdir particleGun/myGeneration
+  else
+    $ECHO "Unknown CMSSW configuration: $WHICH_CMSSW"
+    $ECHO "Cannot find an appropriate ntuplizer. You need to set up ntuples step manually."
   fi
 
 	# use as little of genproductions as possible

@@ -70,8 +70,11 @@ if __name__ == '__main__':
         for E in energies:
             for etaTag in etaTags:
                 for phiTag in phiTags:
+                    outTag = ''
+                    if closeBy:
+                        outTag = 'CloseBy'
                     particleTag = particleTags[p]
-                    outTag = 'Single%s'%particleTag
+                    outTag = '%sSingle%s'%(outTag,particleTag)
                     outTag = '%s_E%d'%(outTag,E)
                     outTag = '%sEta%s'%(outTag,etaTag)
                     if phiTag != 'notSet':

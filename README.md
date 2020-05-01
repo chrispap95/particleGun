@@ -1,6 +1,8 @@
-# particleGun ![Python application](https://github.com/chrispap95/particleGun/workflows/Python%20application/badge.svg)
+# particleGun
 Scripts for easy and multiple MC samples generation.
 
+## Instructions
+To clone the code just do
 ```bash
 wget https://raw.githubusercontent.com/chrispap95/particleGun/master/setup.sh
 chmod +x setup.sh
@@ -10,25 +12,10 @@ cmsenv
 cd particleGun
 ```
 
-## Instructions
-First, create the generator fragment destination in ```src```
-```bash
-mkdir -p Configuration/GenProduction/python
-scram b
-```
-To make a new MC generation, create a new directory in ```src```. Eg.
-```bash
-mkdir singleGammaMC
-cd singleGammaMC
-```
+The setup.sh script is going to take care setting up a CMSSW release and cloning
+the necessary repositories. (CVMFS access is needed)
 
-Then clone the repository
-```bash
-git clone https://github.com/chrispap95/particleGun.git
-cd particleGun
-```
-
-Now, submit step1 (GEN-SIM) by issuing:
+Submit step1 (GEN-SIM) by issuing:
 ```bash
 python step1.py -E 5 10 15 -e 1p7 -p 22 -n 10 -u 50
 ```
