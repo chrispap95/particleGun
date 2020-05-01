@@ -71,7 +71,7 @@ if __name__ == '__main__':
             for etaTag in etaTags:
                 for phiTag in phiTags:
                     outTag = ''
-                    if closeBy:
+                    if options.closeBy:
                         outTag = 'CloseBy'
                     particleTag = particleTags[p]
                     outTag = '%sSingle%s'%(outTag,particleTag)
