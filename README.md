@@ -1,4 +1,4 @@
-# particleGun
+# particleGun ![Python application](https://github.com/chrispap95/particleGun/workflows/Python%20application/badge.svg)
 Scripts for easy and multiple MC samples generation.
 
 ## Instructions
