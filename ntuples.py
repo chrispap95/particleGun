@@ -119,7 +119,7 @@ if __name__ == '__main__':
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
                     file1.close()
 
-                    if ~options.no_exec:
+                    if options.no_exec:
                         os.system('crab submit -c crabConfig_%s_ntuples.py'%outTag)
 
 os.chdir(cwd)
