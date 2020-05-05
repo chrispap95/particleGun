@@ -72,7 +72,8 @@ if __name__ == '__main__':
     for phiTag in phiTags:
         if phiTag != 'notSet':
             phiList = '%s %s'%(phiList,phiTag)
-    os.system("sh createList.sh step1 '%s' '%s' '%s' '%s' '%s'"%(eTag,pTag,options.geometry,etaList,phiList))
+    os.system("sh createList.sh step1 '%s' '%s' '%s' '%s' '%s' '%s' "
+    "'%s'"%(eTag,pTag,options.geometry,etaList,phiList,options.tag,options.closeBy))
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
