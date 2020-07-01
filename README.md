@@ -6,8 +6,8 @@ To clone the code just do
 ```bash
 wget https://raw.githubusercontent.com/chrispap95/particleGun/master/setup.sh
 chmod +x setup.sh
-./setup.sh -c CMSSW_11_1_0_pre6
-cd CMSSW_11_1_0_pre6/src
+./setup.sh -c CMSSW_11_2_0_pre1
+cd CMSSW_11_2_0_pre1/src
 cmsenv
 cd particleGun
 ```
@@ -22,6 +22,29 @@ python step1.py -E 5 10 15 -e 1p7 -p 22 -n 10 -u 50
 That is going to submit single gamma (```-p 22```) at energies 5, 10, 15 GeV (```-E 5 10 15```) and eta 1.7 (```-e 1p7```). For each energy and eta, the script submits 10 jobs (```-n 10```) with 50 events each (```-u 50```). To see the options available:
 ```bash
 python step1.py --help
+usage: step1.py [options]
+
+Submit multiple step1 jobs with CRAB3.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -g GEOMETRY, --geometry GEOMETRY
+                        Detector geometry for tagging. (Default is D54)
+  -n NJOBS, --njobs NJOBS
+                        Number of jobs to run.
+  -u UNITSPERJOB, --unitsPerJob UNITSPERJOB
+                        Events per job.
+  -E [ENERGIES [ENERGIES ...]], --energies [ENERGIES [ENERGIES ...]]
+                        List of energies to shoot.
+  -e [ETA [ETA ...]], --eta [ETA [ETA ...]]
+                        List of eta to shoot.
+  -P [PHI [PHI ...]], --phi [PHI [PHI ...]]
+                        List of phi to shoot.
+  -p [PARTICLES [PARTICLES ...]], --particles [PARTICLES [PARTICLES ...]]
+                        List of particles to shoot.
+  -t TAG, --tag TAG     Unique tag to discern between different submissions.
+  --no_exec             Prepare scripts but do not submit.
+  --closeBy             Use CloseByParticleGunProducer instead of Pythia8EGun.
 ```
 
 To check the submitted jobs issue:
