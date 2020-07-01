@@ -20,7 +20,7 @@ Submit step1 (GEN-SIM) by issuing:
 python step1.py -E 5 10 15 -e 1p7 -p 22 -n 10 -u 50
 ```
 That is going to submit single gamma (```-p 22```) at energies 5, 10, 15 GeV (```-E 5 10 15```) and eta 1.7 (```-e 1p7```). For each energy and eta, the script submits 10 jobs (```-n 10```) with 50 events each (```-u 50```). To see the options available:
-```bash
+```
 [chpapage@cmslpc163 particleGun]$ python step1.py --help
 usage: step1.py [options]
 
