@@ -95,8 +95,10 @@ if __name__ == '__main__':
                         file0.write("\t\tMaxEta = cms.double(%f),\n"%(etas[etaTag]+0.01))
                         file0.write("\t\tMinEta = cms.double(%f),\n"%(etas[etaTag]-0.01))
                         if phiTag != 'notSet':
-                            file0.write("\t\tMaxPhi = cms.double(%f),\n"%(phis[phiTag]+0.01))
-                            file0.write("\t\tMinPhi = cms.double(%f)\n"%(phis[phiTag]-0.01))
+                            phimax = phis[phiTag]+0.01;
+                            phimin = phis[phiTag]-0.01;
+                            file0.write("\t\tMaxPhi = cms.double(%f),\n"%phimax)
+                            file0.write("\t\tMinPhi = cms.double(%f)\n"%())
                         else:
                             file0.write("\t\tMaxPhi = cms.double(%.11f),\n"%(math.pi))
                             file0.write("\t\tMinPhi = cms.double(-%.11f)\n"%(-math.pi))
