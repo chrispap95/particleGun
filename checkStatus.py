@@ -67,7 +67,7 @@ if __name__ == '__main__':
                         print('%sChecking%s status for %s at E=%d Eta=%s.'%(col.yellow,col.endc,particleTag,E,etaTag))
                     os.chdir(cwd)
                     os.chdir('myGeneration/%s/crab_projects/'%outTag)
-                    if options.tag is None or options.tag == None:
+                    if options.tag is None or options.tag == None or options.tag == 'None':
                         os.system('ls | grep %s | grep %s '
                         '> submissions.txt'%(options.step,options.geometry))
                     else:
