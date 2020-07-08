@@ -155,7 +155,7 @@ if __name__ == '__main__':
                     file1.write('import config\n')
                     file1.write('config = config()\n')
                     file1.write("config.General.requestName = ")
-                    if options.tag is None or options.tag == None:
+                    if options.tag is None or options.tag == None or options.tag == 'None':
                         file1.write("'%s_%s_upgrade2026_%s_step1'\n"%(outTag,cmssw,options.geometry))
                     else:
                         file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
