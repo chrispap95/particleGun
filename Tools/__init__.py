@@ -15,6 +15,7 @@ def standardParser():
     parser.add_argument('-P','--phi', help='List of phi to shoot.',nargs='*')
     parser.add_argument('-p','--particles',type=int, help='List of particles to shoot.',nargs='*')
     parser.add_argument('-t','--tag', help='Unique tag to discern between different submissions.',default=None)
+    parser.add_argument('-c','--campaign', help='Adds a tag to outputDatasetTag.',default=None)
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
 
@@ -32,6 +33,7 @@ def mainParserStep1():
     parser.add_argument('-P','--phi', help='List of phi to shoot.',nargs='*')
     parser.add_argument('-p','--particles',type=int, help='List of particles to shoot.',nargs='*')
     parser.add_argument('-t','--tag', help='Unique tag to discern between different submissions.',default=None)
+    parser.add_argument('-c','--campaign', help='Adds a tag to outputDatasetTag.',default=None)
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
 
@@ -49,6 +51,7 @@ def mainParserStepN():
     parser.add_argument('-P','--phi', help='List of phi to shoot.',nargs='*')
     parser.add_argument('-p','--particles',type=int, help='List of particles to shoot.',nargs='*')
     parser.add_argument('-t','--tag', help='Unique tag to discern between different submissions.',default=None)
+    parser.add_argument('-c','--campaign', help='Adds a tag to outputDatasetTag.',default=None)
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
 

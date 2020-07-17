@@ -122,7 +122,10 @@ if __name__ == '__main__':
                     file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
-                    file1.write("'%s_%s_upgrade2026_%s_step3'\n\n"%(outTag,cmssw,options.geometry))
+                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
+                        file1.write("'%s_%s_upgrade2026_%s_step3'\n\n"%(outTag,cmssw,options.geometry))
+                    else:
+                        file1.write("'%s_%s_upgrade2026_%s_%s_step3'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
 
                     file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
