@@ -162,9 +162,9 @@ if __name__ == '__main__':
                             file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
                     else:
                         if options.tag is None or options.tag == None or options.tag == 'None':
-                            file1.write("'%s_%s_upgrade2026_%s_step1'\n"%(outTag,cmssw,options.geometry))
+                            file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.campaign))
                         else:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
+                            file1.write("'%s_%s_upgrade2026_%s_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.campaign,options.tag))
                     file1.write("config.General.workArea = 'crab_projects'\n")
                     file1.write("config.General.transferOutputs = True\n")
                     file1.write("config.General.transferLogs = False\n\n")
