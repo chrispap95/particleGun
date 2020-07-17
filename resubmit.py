@@ -65,14 +65,23 @@ if __name__ == '__main__':
                         print('Resubmitting %s at E=%d Eta=%s Phi=%s.'%(particleTag,E,etaTag,phiTag))
                     else:
                         print('Resubmitting %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
+                    print('Campaing: %s\tTag: %s'%(options.campaign,options.tag))
                     os.chdir(cwd)
                     os.chdir('myGeneration/%s/crab_projects/'%outTag)
-                    if options.tag is None or options.tag == None:
-                        os.system('ls | grep %s | grep %s '
-                        '> submissions.txt'%(options.step,options.geometry))
+                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
+                        if options.tag is None or options.tag == None or options.tag == 'None':
+                            os.system('ls | grep %s | grep %s '
+                            '> submissions.txt'%(options.step,options.geometry))
+                        else:
+                            os.system('ls | grep %s | grep %s | grep %s '
+                            '> submissions.txt'%(options.step,options.geometry,options.tag))
                     else:
-                        os.system('ls | grep %s | grep %s | grep %s '
-                        '> submissions.txt'%(options.step,options.geometry,options.tag))
+                        if options.tag is None or options.tag == None or options.tag == 'None':
+                            os.system('ls | grep %s | grep %s | grep %s '
+                            '> submissions.txt'%(options.step,options.geometry,options.campaign))
+                        else:
+                            os.system('ls | grep %s | grep %s | grep %s | grep %s '
+                            '> submissions.txt'%(options.step,options.geometry,options.tag,options.campaign))
                     fSubmissions = open('submissions.txt','r')
                     for submission in fSubmissions:
                         os.system('crab resubmit --siteblacklist=T2_US_Caltech -d %s'%(submission))

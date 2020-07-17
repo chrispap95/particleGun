@@ -9,6 +9,7 @@
 #         $6: phi
 #         $7: tag
 #         $8: closeBy
+#         $9: campaign
 
 echo -n -e "\033[93mFetching\033[0m"
 echo " data from previous step. Hold tight! "
@@ -19,18 +20,18 @@ then
   then
     if [ -z $6 ]
     then
-      python checkStatus.py -s $1 -E $2 -p $3 -g $4 -t $7 --closeBy | grep "Output dataset:" | \
+      python checkStatus.py -s $1 -E $2 -p $3 -g $4 -t $7 -c $9 --closeBy | grep "Output dataset:" | \
       awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
     else
-      python checkStatus.py -s $1 -E $2 -p $3 -g $4 -P $6 -t $7 --closeBy | grep "Output dataset:" | \
+      python checkStatus.py -s $1 -E $2 -p $3 -g $4 -P $6 -t $7 -c $9 --closeBy | grep "Output dataset:" | \
       awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
     fi
   elif [ -z $6 ]
   then
-    python checkStatus.py -s $1 -E $2 -p $3 -g $4 -e $5 -t $7 --closeBy | grep "Output dataset:" | \
+    python checkStatus.py -s $1 -E $2 -p $3 -g $4 -e $5 -t $7 -c $9 --closeBy | grep "Output dataset:" | \
     awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
   else
-    python checkStatus.py -s $1 -E $2 -p $3 -g $4 -e $5 -P $6 -t $7 --closeBy | grep "Output dataset:" | \
+    python checkStatus.py -s $1 -E $2 -p $3 -g $4 -e $5 -P $6 -t $7 -c $9 --closeBy | grep "Output dataset:" | \
     awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
   fi
 else
@@ -38,18 +39,18 @@ else
   then
     if [ -z $6 ]
     then
-      python checkStatus.py -s $1 -E $2 -p $3 -g $4 -t $7 | grep "Output dataset:" | \
+      python checkStatus.py -s $1 -E $2 -p $3 -g $4 -t $7 -c $9 | grep "Output dataset:" | \
       awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
     else
-      python checkStatus.py -s $1 -E $2 -p $3 -g $4 -P $6 -t $7 | grep "Output dataset:" | \
+      python checkStatus.py -s $1 -E $2 -p $3 -g $4 -P $6 -t $7 -c $9 | grep "Output dataset:" | \
       awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
     fi
   elif [ -z $6 ]
   then
-    python checkStatus.py -s $1 -E $2 -p $3 -g $4 -e $5 -t $7 | grep "Output dataset:" | \
+    python checkStatus.py -s $1 -E $2 -p $3 -g $4 -e $5 -t $7 -c $9 | grep "Output dataset:" | \
     awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
   else
-    python checkStatus.py -s $1 -E $2 -p $3 -g $4 -e $5 -P $6 -t $7 | grep "Output dataset:" | \
+    python checkStatus.py -s $1 -E $2 -p $3 -g $4 -e $5 -P $6 -t $7 -c $9 | grep "Output dataset:" | \
     awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
   fi
 fi
