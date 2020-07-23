@@ -126,7 +126,7 @@ if __name__ == '__main__':
                             file0.write("\t\tMinPhi = cms.double(%f)\n"%(phis[phiTag]-0.01))
                         else:
                             file0.write("\t\tMaxPhi = cms.double(%.11f),\n"%(math.pi))
-                            file0.write("\t\tMinPhi = cms.double(-%.11f)\n"%(math.pi))
+                            file0.write("\t\tMinPhi = cms.double(-%.11f)\n"%(-math.pi))
                         file0.write("\t),\n")
                         file0.write("\tVerbosity = cms.untracked.int32(0), ")
                         file0.write("## set to 1 (or greater)  for printouts\n")
