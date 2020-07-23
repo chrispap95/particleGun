@@ -101,7 +101,7 @@ if __name__ == '__main__':
                             file0.write("\t\tMinPhi = cms.double(%f)\n"%())
                         else:
                             file0.write("\t\tMaxPhi = cms.double(%.11f),\n"%(math.pi))
-                            file0.write("\t\tMinPhi = cms.double(-%.11f)\n"%(-math.pi))
+                            file0.write("\t\tMinPhi = cms.double(-%.11f)\n"%(math.pi))
                         file0.write("\t),\n")
                         file0.write("\tVerbosity = cms.untracked.int32(0),\n")
                         file0.write("\tpsethack = cms.string('%s'),\n"%outTag)
