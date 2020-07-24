@@ -51,10 +51,10 @@ if __name__ == '__main__':
 
     # Run cmsdriver.py to create workflows
     print('Creating step2 configuration.')
-    os.system('cmsDriver.py step2 --conditions auto:phase2_realistic_T19 '
+    os.system('cmsDriver.py step2 --conditions auto:phase2_realistic_T15 '
     '-s DIGI:pdigi_valid,L1,L1TrackTrigger,DIGI2RAW,HLT:@fake2 '
     '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s '
-    '--era Phase2C9 --procModifier phase2_PixelCPEGeneric '
+    '--era Phase2C11 '
     '--eventcontent FEVTDEBUGHLT --no_exec --filein file:step1.root '
     '--fileout file:step2.root'%options.geometry)
 
