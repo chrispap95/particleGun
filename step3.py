@@ -51,10 +51,10 @@ if __name__ == '__main__':
 
     # Run cmsdriver.py to create workflows
     print('Creating step3 configuration.')
-    os.system('cmsDriver.py step3 --conditions auto:phase2_realistic_T19 -n 100 '
-    '--era Phase2C9 --procModifier phase2_PixelCPEGeneric --eventcontent FEVTDEBUGHLT '
+    os.system('cmsDriver.py step3 --conditions auto:phase2_realistic_T15 -n 100 '
+    '--era Phase2C11 --eventcontent FEVTDEBUGHLT '
     '-s RAW2DIGI,L1Reco,RECO,RECOSIM,PAT,VALIDATION:@phase2Validation+@miniAODValidation,DQM:@phase2+@miniAODDQM '
-    '--runUnscheduled --no_exec --datatier GEN-SIM-RECO --geometry Extended2026%s '
+    '--no_exec --datatier GEN-SIM-RECO --geometry Extended2026%s '
     '--filein  file:step2.root --fileout file:step3.root'%options.geometry)
 
     # Get filenames from previous step
@@ -71,8 +71,8 @@ if __name__ == '__main__':
     for phiTag in phiTags:
         if phiTag != 'notSet':
             phiList = '%s %s'%(phiList,phiTag)
-    os.system("sh createList.sh step2 '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s'"%(eTag,pTag,options.geometry,etaList,phiList,options.tag,options.closeBy))
+    os.system("sh createList.sh step2 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
+    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,options.tag,options.closeBy,options.campaign))
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
@@ -100,10 +100,16 @@ if __name__ == '__main__':
                     file1.write('import config\n')
                     file1.write('config = config()\n')
                     file1.write("config.General.requestName = ")
-                    if options.tag is None or options.tag == None or options.tag == 'None':
-                        file1.write("'%s_%s_upgrade2026_%s_step3'\n"%(outTag,cmssw,options.geometry))
+                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
+                        if options.tag is None or options.tag == None or options.tag == 'None':
+                            file1.write("'%s_%s_upgrade2026_%s_step3'\n"%(outTag,cmssw,options.geometry))
+                        else:
+                            file1.write("'%s_%s_upgrade2026_%s_%s_step3'\n"%(outTag,cmssw,options.geometry,options.tag))
                     else:
-                        file1.write("'%s_%s_upgrade2026_%s_%s_step3'\n"%(outTag,cmssw,options.geometry,options.tag))
+                        if options.tag is None or options.tag == None or options.tag == 'None':
+                            file1.write("'%s_%s_upgrade2026_%s_%s_step3'\n"%(outTag,cmssw,options.geometry,options.campaign))
+                        else:
+                            file1.write("'%s_%s_upgrade2026_%s_%s_%s_step3'\n"%(outTag,cmssw,options.geometry,options.campaign,options.tag))
                     file1.write("config.General.workArea = 'crab_projects'\n")
                     file1.write("config.General.transferOutputs = True\n")
                     file1.write("config.General.transferLogs = True\n\n")
@@ -122,7 +128,10 @@ if __name__ == '__main__':
                     file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
-                    file1.write("'%s_%s_upgrade2026_%s_step3'\n\n"%(outTag,cmssw,options.geometry))
+                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
+                        file1.write("'%s_%s_upgrade2026_%s_step3'\n\n"%(outTag,cmssw,options.geometry))
+                    else:
+                        file1.write("'%s_%s_upgrade2026_%s_%s_step3'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
 
                     file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")

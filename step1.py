@@ -101,7 +101,7 @@ if __name__ == '__main__':
                             file0.write("\t\tMinPhi = cms.double(%f)\n"%())
                         else:
                             file0.write("\t\tMaxPhi = cms.double(%.11f),\n"%(math.pi))
-                            file0.write("\t\tMinPhi = cms.double(-%.11f)\n"%(-math.pi))
+                            file0.write("\t\tMinPhi = cms.double(-%.11f)\n"%(math.pi))
                         file0.write("\t),\n")
                         file0.write("\tVerbosity = cms.untracked.int32(0),\n")
                         file0.write("\tpsethack = cms.string('%s'),\n"%outTag)
@@ -142,8 +142,8 @@ if __name__ == '__main__':
                     if options.closeBy:
                         pythiaTag = ''
                     os.system('cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py '
-                    '--conditions auto:phase2_realistic_T19 --procModifier phase2_PixelCPEGeneric '
-                    '-n 100 --era Phase2C9 --eventcontent FEVTDEBUG --relval 9000,50 -s GEN,SIM '
+                    '--conditions auto:phase2_realistic_T15 '
+                    '-n 100 --era Phase2C11 --eventcontent FEVTDEBUG --relval 9000,50 -s GEN,SIM '
                     '--datatier GEN-SIM --no_exec --beamspot HLLHC --geometry Extended2026%s '
                     '--fileout file:step1.root'%(outTag,pythiaTag,options.geometry))
 
@@ -155,10 +155,16 @@ if __name__ == '__main__':
                     file1.write('import config\n')
                     file1.write('config = config()\n')
                     file1.write("config.General.requestName = ")
-                    if options.tag is None or options.tag == None or options.tag == 'None':
-                        file1.write("'%s_%s_upgrade2026_%s_step1'\n"%(outTag,cmssw,options.geometry))
+                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
+                        if options.tag is None or options.tag == None or options.tag == 'None':
+                            file1.write("'%s_%s_upgrade2026_%s_step1'\n"%(outTag,cmssw,options.geometry))
+                        else:
+                            file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
                     else:
-                        file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
+                        if options.tag is None or options.tag == None or options.tag == 'None':
+                            file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.campaign))
+                        else:
+                            file1.write("'%s_%s_upgrade2026_%s_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.campaign,options.tag))
                     file1.write("config.General.workArea = 'crab_projects'\n")
                     file1.write("config.General.transferOutputs = True\n")
                     file1.write("config.General.transferLogs = False\n\n")
@@ -177,7 +183,10 @@ if __name__ == '__main__':
                     file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
-                    file1.write("'%s_%s_upgrade2026_%s_step1'\n\n"%(outTag,cmssw,options.geometry))
+                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
+                        file1.write("'%s_%s_upgrade2026_%s_step1'\n\n"%(outTag,cmssw,options.geometry))
+                    else:
+                        file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
 
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
                     file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
