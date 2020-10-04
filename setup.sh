@@ -124,7 +124,7 @@ if [ -n "$WHICH_CMSSW" ]; then
     git clone ${ACCESS_GITHUB}chrispap95/particleGun
     mkdir particleGun/myGeneration
   elif [[ "$WHICH_CMSSW" == *"CMSSW_10_6"* ]]; then
-    git clone ${ACCESS_GITHUB}${FORK}/HGCalAnalysis hgcalAnalysis -b rechitDetID
+    git clone ${ACCESS_GITHUB}${FORK}/HGCalAnalysis HGCalAnalysis -b rechitDetID
     git clone ${ACCESS_GITHUB}chrispap95/particleGun -b CMSSW_10_6_3_patch1-2026D41
     mkdir particleGun/myGeneration
   else
