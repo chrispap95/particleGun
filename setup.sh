@@ -119,10 +119,14 @@ if [ -n "$WHICH_CMSSW" ]; then
 	cd src
 	#git cms-init $ACCESS_CMSSW
 
-	if [[ "$WHICH_CMSSW" == *"CMSSW_11_"* ]]; then
-    git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap
+	if [[ "$WHICH_CMSSW" == *"CMSSW_11_0"* || "$WHICH_CMSSW" == *"CMSSW_11_1"* || "$WHICH_CMSSW" == *"CMSSW_11_2_0_pre"[123]  ]]; then
+    git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap_old
     git clone ${ACCESS_GITHUB}chrispap95/particleGun
     mkdir particleGun/myGeneration
+	elif [[ "$WHICH_CMSSW" == *"CMSSW_11_2"* ]]; then
+	  git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap
+	  git clone ${ACCESS_GITHUB}chrispap95/particleGun
+	  mkdir particleGun/myGeneration
   elif [[ "$WHICH_CMSSW" == *"CMSSW_10_6"* ]]; then
     git clone ${ACCESS_GITHUB}${FORK}/HGCalAnalysis HGCalAnalysis -b rechitDetID
     git clone ${ACCESS_GITHUB}chrispap95/particleGun -b CMSSW_10_6_3_patch1-2026D41
