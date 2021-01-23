@@ -136,16 +136,7 @@ if [ -n "$WHICH_CMSSW" ]; then
     $ECHO "Cannot find an appropriate ntuplizer. You need to set up ntuples step manually."
   fi
 
-	# use as little of genproductions as possible
-	git clone --depth 1 --no-checkout ${ACCESS_GITHUB}cms-sw/genproductions Configuration/GenProduction
-	# setup sparse checkout
-	cd Configuration/GenProduction
-	git config core.sparsecheckout true
-	{
-		echo '/python/Guns'
-	} > .git/info/sparse-checkout
-	git read-tree -mu HEAD
-	cd $CMSSW_BASE/src
+	mkdir -pv Configuration/GenProduction/python
 
 	scram b -j 8
 	cd particleGun
