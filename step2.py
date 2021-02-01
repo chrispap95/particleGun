@@ -51,10 +51,10 @@ if __name__ == '__main__':
 
     # Run cmsdriver.py to create workflows
     print('Creating step2 configuration.')
-    os.system('cmsDriver.py step2 --conditions auto:phase2_realistic_T15 '
-    '-s DIGI:pdigi_valid,L1,L1TrackTrigger,DIGI2RAW,HLT:@fake2 '
+    os.system('cmsDriver.py step2 --conditions auto:phase2_realistic_T21 '
+    '-s DIGI:pdigi_valid,DATAMIX,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 '
     '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s '
-    '--era Phase2C11 '
+    '--era Phase2C12 --procModifiers premix_stage2 --datamix PreMix '
     '--eventcontent FEVTDEBUGHLT --no_exec --filein file:step1.root '
     '--fileout file:step2.root'%options.geometry)
 
