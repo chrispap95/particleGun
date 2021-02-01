@@ -29,7 +29,7 @@ Submit multiple step1 jobs with CRAB3.
 optional arguments:
   -h, --help            show this help message and exit
   -g GEOMETRY, --geometry GEOMETRY
-                        Detector geometry for tagging. (Default is D54)
+                        Detector geometry for tagging. (Default is D57)
   -n NJOBS, --njobs NJOBS
                         Number of jobs to run.
   -u UNITSPERJOB, --unitsPerJob UNITSPERJOB
