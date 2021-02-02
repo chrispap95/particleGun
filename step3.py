@@ -52,9 +52,9 @@ if __name__ == '__main__':
     # Run cmsdriver.py to create workflows
     print('Creating step3 configuration.')
     os.system('cmsDriver.py step3 --conditions auto:phase2_realistic_T21 -n 100 '
-    '--era Phase2C12 --eventcontent FEVTDEBUGHLT --procModifiers premix_stage2 '
-    '-s RAW2DIGI,L1Reco,RECO,RECOSIM,PAT,VALIDATION:@phase2Validation+@miniAODValidation,DQM:@phase2+@miniAODDQM '
-    '--no_exec --datatier GEN-SIM-RECO --geometry Extended2026%s '
+    '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_2_0_pre11-112X_mcRun4_realistic_v4_2026D66noPU-v1/GEN-SIM '
+    '--era Phase2C11 --eventcontent FEVTDEBUGHLT --pileup AVE_200_BX_25ns --no_exec '
+    '-s RAW2DIGI,L1Reco,RECO,RECOSIM --datatier GEN-SIM-RECO --geometry Extended2026%s '
     '--filein  file:step2.root --fileout file:step3.root'%options.geometry)
 
     # Get filenames from previous step

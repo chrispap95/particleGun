@@ -143,7 +143,7 @@ if __name__ == '__main__':
                         pythiaTag = ''
                     os.system('cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py '
                     '--conditions auto:phase2_realistic_T21 '
-                    '-n 100 --era Phase2C12 --eventcontent FEVTDEBUG --relval 9000,100 -s GEN,SIM '
+                    '-n 100 --era Phase2C11 --eventcontent FEVTDEBUG --relval 9000,100 -s GEN,SIM '
                     '--datatier GEN-SIM --no_exec --beamspot HLLHC --geometry Extended2026%s '
                     '--fileout file:step1.root'%(outTag,pythiaTag,options.geometry))
 
