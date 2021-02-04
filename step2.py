@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
                     file1.write("config.JobType.pluginName = 'Analysis'\n")
                     file1.write("config.JobType.psetName = ")
-                    file1.write("'step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py'\n")
+                    file1.write("'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py'\n")
                     file1.write("config.JobType.maxJobRuntimeMin = 60\n\n")
 
                     file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
@@ -141,4 +141,4 @@ if __name__ == '__main__':
                         os.system('crab submit -c crabConfig_%s_step2.py'%outTag)
 
 os.chdir(cwd)
-os.system('rm step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py')
+os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py')
