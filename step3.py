@@ -89,7 +89,7 @@ if __name__ == '__main__':
                     if phiTag != 'notSet':
                         outTag = '%sPhi%s'%(outTag,phiTag)
                     os.chdir(cwd)
-                    os.system('cp step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PAT_PU.py myGeneration/%s/'%outTag)
+                    os.system('cp step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py myGeneration/%s/'%outTag)
                     os.chdir('myGeneration/%s'%outTag)
 
                     # Create CRAB configuration file
@@ -116,7 +116,7 @@ if __name__ == '__main__':
 
                     file1.write("config.JobType.pluginName = 'Analysis'\n")
                     file1.write("config.JobType.psetName = ")
-                    file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PAT_PU.py'\n")
+                    file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py'\n")
                     file1.write("config.JobType.numCores = 4\n")
                     file1.write("config.JobType.maxMemoryMB = 10000\n")
                     file1.write("config.JobType.maxJobRuntimeMin = 50\n\n")
@@ -142,4 +142,4 @@ if __name__ == '__main__':
                         os.system('crab submit -c crabConfig_%s_step3.py'%outTag)
 
 os.chdir(cwd)
-os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PAT_PU.py')
+os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py')
