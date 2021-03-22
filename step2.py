@@ -52,10 +52,10 @@ if __name__ == '__main__':
     # Run cmsdriver.py to create workflows
     print('Creating step2 configuration.')
     os.system('cmsDriver.py step2 --conditions auto:phase2_realistic_T21 '
-    ' --pileup_input das:/RelValMinBias_14TeV/CMSSW_11_2_0_pre11-112X_mcRun4_realistic_v4_2026D66noPU-v1/GEN-SIM '
+    ' --pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM '
     '-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 '
     '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s '
-    '--era Phase2C11 --pileup AVE_200_BX_25ns --eventcontent FEVTDEBUGHLT --no_exec '
+    '--era Phase2C11M9 --pileup AVE_200_BX_25ns --eventcontent FEVTDEBUGHLT --no_exec '
     '--filein file:step1.root --fileout file:step2.root'%options.geometry)
 
     # Get filenames from previous step
@@ -118,6 +118,8 @@ if __name__ == '__main__':
                     file1.write("config.JobType.pluginName = 'Analysis'\n")
                     file1.write("config.JobType.psetName = ")
                     file1.write("'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py'\n")
+                    file1.write("config.JobType.numCores = 4\n")
+                    file1.write("config.JobType.maxMemoryMB = 10000\n\n")
                     file1.write("config.JobType.maxJobRuntimeMin = 60\n\n")
 
                     file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
