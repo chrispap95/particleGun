@@ -53,7 +53,7 @@ if __name__ == '__main__':
     print('Creating step2 configuration.')
     os.system('cmsDriver.py step2 --conditions auto:phase2_realistic_T21 '
     ' --pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM '
-    '-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads 4'
+    '-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads 4 '
     '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s '
     '--era Phase2C11M9 --pileup AVE_200_BX_25ns --eventcontent FEVTDEBUGHLT --no_exec '
     '--filein file:step1.root --fileout file:step2.root'%options.geometry)
