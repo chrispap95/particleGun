@@ -88,22 +88,22 @@ fi
 # -------------------------------------------------------------------------------------
 if [ -n "$WHICH_CMSSW" ]; then
 	case $WHICH_CMSSW in
-	CMSSW_10_6_*)
-		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
-	;;
-	CMSSW_11_1_*)
-		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
-	;;
-  CMSSW_11_2_*)
-		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
-	;;
-	CMSSW_11_3_*)
-		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
-	;;
-	*)
-		$ECHO "Unknown architecture for release $WHICH_CMSSW"
-		exit 1
-	;;
+		CMSSW_10_6_*)
+			export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
+		;;
+		CMSSW_11_1_*)
+			export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
+		;;
+		CMSSW_11_2_*)
+			export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
+		;;
+		CMSSW_11_3_*)
+			export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
+		;;
+		*)
+			$ECHO "Unknown architecture for release $WHICH_CMSSW"
+			exit 1
+		;;
 	esac
 	scramv1 project CMSSW $WHICH_CMSSW
 	cd $WHICH_CMSSW
