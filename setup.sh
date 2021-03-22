@@ -91,13 +91,13 @@ if [ -n "$WHICH_CMSSW" ]; then
 	CMSSW_10_6_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
 	;;
-        CMSSW_11_1_*)
+	CMSSW_11_1_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
 	;;
-        CMSSW_11_2_*)
+  CMSSW_11_2_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
 	;;
-				CMSSW_11_3_*)
+	CMSSW_11_3_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
 	;;
 	*)
