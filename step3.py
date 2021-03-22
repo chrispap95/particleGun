@@ -55,7 +55,7 @@ if __name__ == '__main__':
     '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM '
     '--era Phase2C11M9 --eventcontent FEVTDEBUGHLT --pileup AVE_200_BX_25ns --no_exec '
     '-s RAW2DIGI,L1Reco,RECO,RECOSIM --datatier GEN-SIM-RECO --geometry Extended2026%s '
-    '--filein  file:step2.root --fileout file:step3.root'%options.geometry)
+    '--nThreads 4 --filein  file:step2.root --fileout file:step3.root'%options.geometry)
 
     # Get filenames from previous step
     eTag = ''
