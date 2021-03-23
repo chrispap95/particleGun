@@ -55,7 +55,7 @@ if __name__ == '__main__':
     '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM '
     '--era Phase2C11M9 --eventcontent FEVTDEBUGHLT --pileup AVE_200_BX_25ns --no_exec '
     '-s RAW2DIGI,L1Reco,RECO,RECOSIM --datatier GEN-SIM-RECO --geometry Extended2026%s '
-    '--nThreads 4 --filein  file:step2.root --fileout file:step3.root'%options.geometry)
+    '--nThreads 8 --filein  file:step2.root --fileout file:step3.root'%options.geometry)
 
     # Get filenames from previous step
     eTag = ''
@@ -117,8 +117,8 @@ if __name__ == '__main__':
                     file1.write("config.JobType.pluginName = 'Analysis'\n")
                     file1.write("config.JobType.psetName = ")
                     file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py'\n")
-                    file1.write("config.JobType.numCores = 4\n")
-                    file1.write("config.JobType.maxMemoryMB = 10000\n")
+                    file1.write("config.JobType.numCores = 8\n")
+                    file1.write("config.JobType.maxMemoryMB = 16000\n")
                     file1.write("config.JobType.maxJobRuntimeMin = 50\n\n")
 
                     file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
