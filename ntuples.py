@@ -116,7 +116,7 @@ if __name__ == '__main__':
                     file1.write("config.Data.splitting = 'FileBased'\n")
                     file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
                     file1.write("config.Data.totalUnits = %d\n"%options.njobs)
-                    file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
+                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
                     file1.write("config.Data.publication = False\n")
                     file1.write("config.Data.outputDatasetTag = ")
                     if options.campaign is None or options.campaign == None or options.campaign == 'None':
@@ -124,7 +124,7 @@ if __name__ == '__main__':
                     else:
                         file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
 
-                    file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
+                    file1.write("config.Site.storageSite = '%s'\n"%options.site)
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
                     file1.close()
 

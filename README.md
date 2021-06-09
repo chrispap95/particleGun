@@ -43,6 +43,10 @@ optional arguments:
   -p [PARTICLES [PARTICLES ...]], --particles [PARTICLES [PARTICLES ...]]
                         List of particles to shoot.
   -t TAG, --tag TAG     Unique tag to discern between different submissions.
+  -c CAMPAIGN, --campaign CAMPAIGN
+                        Adds a tag to outputDatasetTag.
+  -S SITE, --site SITE  Changes the output site. (Default is T3_US_FNALLPC)
+  -d DEST, --dest DEST  Changes the output destination path. (Default is /store/user/)
   --no_exec             Prepare scripts but do not submit.
   --closeBy             Use CloseByParticleGunProducer instead of Pythia8EGun.
 ```

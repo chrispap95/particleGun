@@ -180,7 +180,7 @@ if __name__ == '__main__':
                     file1.write("NJOBS = %d  # This is not a configuration parameter,"%options.njobs)
                     file1.write(" but an auxiliary variable that we use in the next line.\n")
                     file1.write("config.Data.totalUnits = config.Data.unitsPerJob * NJOBS\n")
-                    file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
+                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
                     if options.campaign is None or options.campaign == None or options.campaign == 'None':
@@ -189,7 +189,7 @@ if __name__ == '__main__':
                         file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
 
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
-                    file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
+                    file1.write("config.Site.storageSite = '%s'\n"%options.site)
                     file1.close()
 
                     if options.no_exec:

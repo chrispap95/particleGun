@@ -16,6 +16,8 @@ def standardParser():
     parser.add_argument('-p','--particles',type=int, help='List of particles to shoot.',nargs='*')
     parser.add_argument('-t','--tag', help='Unique tag to discern between different submissions.',default=None)
     parser.add_argument('-c','--campaign', help='Adds a tag to outputDatasetTag.',default=None)
+    parser.add_argument('-S','--site', help='Changes the output site. (Default is T3_US_FNALLPC)',default='T3_US_FNALLPC')
+    parser.add_argument('-d','--dest', help='Changes the output destination path. (Default is /store/user/)',default='/store/user/')
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
 
@@ -34,6 +36,8 @@ def mainParserStep1():
     parser.add_argument('-p','--particles',type=int, help='List of particles to shoot.',nargs='*')
     parser.add_argument('-t','--tag', help='Unique tag to discern between different submissions.',default=None)
     parser.add_argument('-c','--campaign', help='Adds a tag to outputDatasetTag.',default=None)
+    parser.add_argument('-S','--site', help='Changes the output site. (Default is T3_US_FNALLPC)',default='T3_US_FNALLPC')
+    parser.add_argument('-d','--dest', help='Changes the output destination path. (Default is /store/user/)',default='/store/user/')
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
 
@@ -52,6 +56,8 @@ def mainParserStepN():
     parser.add_argument('-p','--particles',type=int, help='List of particles to shoot.',nargs='*')
     parser.add_argument('-t','--tag', help='Unique tag to discern between different submissions.',default=None)
     parser.add_argument('-c','--campaign', help='Adds a tag to outputDatasetTag.',default=None)
+    parser.add_argument('-S','--site', help='Changes the output site. (Default is T3_US_FNALLPC)',default='T3_US_FNALLPC')
+    parser.add_argument('-d','--dest', help='Changes the output destination path. (Default is /store/user/)',default='/store/user/')
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
 
