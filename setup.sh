@@ -123,7 +123,7 @@ if [ -n "$WHICH_CMSSW" ]; then
     git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap_old
     git clone ${ACCESS_GITHUB}chrispap95/particleGun
     mkdir particleGun/myGeneration
-	elif [[ "$WHICH_CMSSW" == *"CMSSW_11_"[2-9]* ]]; then
+	elif [[ "$WHICH_CMSSW" == *"CMSSW_11_"[2-9]* || "$WHICH_CMSSW" == *"CMSSW_12_"* ]]; then
 	  git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap
 	  git clone ${ACCESS_GITHUB}chrispap95/particleGun
 	  mkdir particleGun/myGeneration
