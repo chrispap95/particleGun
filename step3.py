@@ -49,13 +49,22 @@ if __name__ == '__main__':
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
 
+    # Pileup configuration
+    pileupInput = ''
+    pileupConfig = ''
+    nThreads = '4'
+    if options.pileup:
+        pileupInput = '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM'
+        pileupConfig = '--pileup AVE_200_BX_25ns'
+        nThreads = '8'
+
+
     # Run cmsdriver.py to create workflows
     print('Creating step3 configuration.')
-    os.system('cmsDriver.py step3 --conditions auto:phase2_realistic_T21 -n 100 '
-    '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM '
-    '--era Phase2C11M9 --eventcontent FEVTDEBUGHLT --pileup AVE_200_BX_25ns --no_exec '
-    '-s RAW2DIGI,L1Reco,RECO,RECOSIM --datatier GEN-SIM-RECO --geometry Extended2026%s '
-    '--nThreads 8 --filein  file:step2.root --fileout file:step3.root'%options.geometry)
+    os.system('cmsDriver.py step3 --conditions auto:%s -n 100 %s %s --era %s '
+    '--eventcontent FEVTDEBUGHLT --no_exec -s RAW2DIGI,L1Reco,RECO,RECOSIM '
+    '--datatier GEN-SIM-RECO --geometry Extended2026%s --nThreads %s --filein file:step2.root '
+    '--fileout file:step3.root'%(options.conditions, pileupInput, pileupConfig, options.era, options.geometry, nThreads))
 
     # Get filenames from previous step
     eTag = ''
@@ -89,7 +98,10 @@ if __name__ == '__main__':
                     if phiTag != 'notSet':
                         outTag = '%sPhi%s'%(outTag,phiTag)
                     os.chdir(cwd)
-                    os.system('cp step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py myGeneration/%s/'%outTag)
+                    if options.pileup:
+                        os.system('cp step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py myGeneration/%s/'%outTag)
+                    else:
+                        os.system('cp step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py myGeneration/%s/'%outTag)
                     os.chdir('myGeneration/%s'%outTag)
 
                     # Create CRAB configuration file
@@ -116,9 +128,14 @@ if __name__ == '__main__':
 
                     file1.write("config.JobType.pluginName = 'Analysis'\n")
                     file1.write("config.JobType.psetName = ")
-                    file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py'\n")
-                    file1.write("config.JobType.numCores = 8\n")
-                    file1.write("config.JobType.maxMemoryMB = 16000\n")
+                    if options.pileup:
+                        file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py'\n")
+                        file1.write("config.JobType.numCores = 8\n")
+                        file1.write("config.JobType.maxMemoryMB = 16000\n")
+                    else:
+                        file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py'\n")
+                        file1.write("config.JobType.numCores = 4\n")
+                        file1.write("config.JobType.maxMemoryMB = 10000\n")
                     file1.write("config.JobType.maxJobRuntimeMin = 50\n\n")
 
                     file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
@@ -142,4 +159,7 @@ if __name__ == '__main__':
                         os.system('crab submit -c crabConfig_%s_step3.py'%outTag)
 
 os.chdir(cwd)
-os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py')
+if options.pileup:
+    os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py')
+else:
+    os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py')

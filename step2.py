@@ -49,14 +49,20 @@ if __name__ == '__main__':
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
 
+    # Pileup configuration
+    pileupInput = ''
+    pileupConfig = ''
+    if options.pileup:
+        pileupInput = '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM'
+        pileupConfig = '--pileup AVE_200_BX_25ns'
+
     # Run cmsdriver.py to create workflows
     print('Creating step2 configuration.')
-    os.system('cmsDriver.py step2 --conditions auto:phase2_realistic_T21 '
-    ' --pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM '
+    os.system('cmsDriver.py step2 '
     '-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads 4 '
-    '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s '
-    '--era Phase2C11M9 --pileup AVE_200_BX_25ns --eventcontent FEVTDEBUGHLT --no_exec '
-    '--filein file:step1.root --fileout file:step2.root'%options.geometry)
+    '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s %s %s --era %s '
+    '--eventcontent FEVTDEBUGHLT --no_exec --conditions auto:%s --filein file:step1.root '
+    '--fileout file:step2.root'%(options.geometry, pileupInput, pileupConfig, options.era, options.conditions))
 
     # Get filenames from previous step
     eTag = ''
@@ -90,7 +96,10 @@ if __name__ == '__main__':
                     if phiTag != 'notSet':
                         outTag = '%sPhi%s'%(outTag,phiTag)
                     os.chdir(cwd)
-                    os.system('cp step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py myGeneration/%s/'%outTag)
+                    if options.pileup:
+                        os.system('cp step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py myGeneration/%s/'%outTag)
+                    else:
+                        os.system('cp step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py myGeneration/%s/'%outTag)
                     os.chdir('myGeneration/%s'%outTag)
 
                     # Create CRAB configuration file
@@ -117,7 +126,10 @@ if __name__ == '__main__':
 
                     file1.write("config.JobType.pluginName = 'Analysis'\n")
                     file1.write("config.JobType.psetName = ")
-                    file1.write("'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py'\n")
+                    if options.pileup:
+                        file1.write("'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py'\n")
+                    else:
+                        file1.write("'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py'\n")
                     file1.write("config.JobType.numCores = 4\n")
                     file1.write("config.JobType.maxMemoryMB = 10000\n")
                     file1.write("config.JobType.maxJobRuntimeMin = 60\n\n")
@@ -143,4 +155,7 @@ if __name__ == '__main__':
                         os.system('crab submit -c crabConfig_%s_step2.py'%outTag)
 
 os.chdir(cwd)
-os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py')
+if options.pileup:
+    os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py')
+else:
+    os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py')
