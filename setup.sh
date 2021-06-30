@@ -13,7 +13,7 @@ usage() {
 	$ECHO "setup.sh [options]"
 	$ECHO
 	$ECHO "Options:"
-	$ECHO "-c <RELEASE>  \tCMSSW release to install (e.g. CMSSW_11_1_0_pre6)"
+	$ECHO "-c <RELEASE>  \tCMSSW release to install (e.g. CMSSW_11_3_1_patch1)"
 	$ECHO "-f [fork]     \tclone from specified fork (default = chrispap95)"
 	$ECHO "-b [branch]   \tclone specified branch (default = master)"
 	$ECHO "-s            \tuse protocol to clone (default = ${ACCESS}, alternative = ssh)"
@@ -91,11 +91,20 @@ if [ -n "$WHICH_CMSSW" ]; then
 	CMSSW_10_6_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
 	;;
-        CMSSW_11_1_*)
+  CMSSW_11_1_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
 	;;
-        CMSSW_11_2_*)
-		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
+  CMSSW_11_2_*)
+		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
+	;;
+	CMSSW_11_3_*)
+		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
+	;;
+	CMSSW_11_4_*)
+		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
+	;;
+	CMSSW_12_*)
+		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
 	;;
 	*)
 		$ECHO "Unknown architecture for release $WHICH_CMSSW"
