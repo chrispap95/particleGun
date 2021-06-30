@@ -58,22 +58,22 @@ fi
 # OS check
 if [[ `uname -r` == *"el6"* ]]; then
 	SLC_VERSION="slc6"
-  $ECHO "Unsupported architecture $SLC_VERSION. Please switch to slc7."
-  exit 1
+	$ECHO "Unsupported architecture $SLC_VERSION. Please switch to slc7."
+	exit 1
 elif [[ `uname -r` == *"el7"* ]]; then
 	SLC_VERSION="slc7"
-  $ECHO "Detected $SLC_VERSION architecture."
+	$ECHO "Detected $SLC_VERSION architecture."
 elif [[ -f "/etc/redhat-release" ]]; then
 	VERSION_TMP=`awk -F'[ .]' '{print $4}' "/etc/redhat-release"`
 	POSSIBLE_VERSIONS=( 6 7 )
 	if [[ "${POSSIBLE_VERSIONS[@]} " =~ " ${VERSION_TMP}" ]]; then
 		SLC_VERSION="slc${VERSION_TMP}"
-    if [[ "$SLC_VERSION" == "slc6" ]]; then
-      $ECHO "Unsupported architecture $SLC_VERSION. Please switch to slc7."
-      exit 1
-    else
-      $ECHO "Detected $SLC_VERSION architecture."
-    fi
+  	if [[ "$SLC_VERSION" == "slc6" ]]; then
+    	$ECHO "Unsupported architecture $SLC_VERSION. Please switch to slc7."
+    	exit 1
+  	else
+    	$ECHO "Detected $SLC_VERSION architecture."
+  	fi
 	else
 		echo "WARNING::Unknown SLC version. Defaulting to slc7."
 		SLC_VERSION="slc7"
@@ -129,21 +129,21 @@ if [ -n "$WHICH_CMSSW" ]; then
 	#git cms-init $ACCESS_CMSSW
 
 	if [[ "$WHICH_CMSSW" == *"CMSSW_11_0"* || "$WHICH_CMSSW" == *"CMSSW_11_1"* || "$WHICH_CMSSW" == *"CMSSW_11_2_0_pre"[123]  ]]; then
-    git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap_old
-    git clone ${ACCESS_GITHUB}chrispap95/particleGun
-    mkdir particleGun/myGeneration
+		git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap_old
+  	git clone ${ACCESS_GITHUB}chrispap95/particleGun
+  	mkdir particleGun/myGeneration
 	elif [[ "$WHICH_CMSSW" == *"CMSSW_11_"[2-9]* || "$WHICH_CMSSW" == *"CMSSW_12_"* ]]; then
-	  git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap
-	  git clone ${ACCESS_GITHUB}chrispap95/particleGun
-	  mkdir particleGun/myGeneration
-  elif [[ "$WHICH_CMSSW" == *"CMSSW_10_6"* ]]; then
-    git clone ${ACCESS_GITHUB}${FORK}/HGCalAnalysis HGCalAnalysis -b rechitDetID
-    git clone ${ACCESS_GITHUB}chrispap95/particleGun -b CMSSW_10_6_3_patch1-2026D41
-    mkdir particleGun/myGeneration
-  else
-    $ECHO "Unknown CMSSW configuration: $WHICH_CMSSW"
-    $ECHO "Cannot find an appropriate ntuplizer. You need to set up ntuples step manually."
-  fi
+	 	git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap
+	 	git clone ${ACCESS_GITHUB}chrispap95/particleGun
+	 	mkdir particleGun/myGeneration
+	elif [[ "$WHICH_CMSSW" == *"CMSSW_10_6"* ]]; then
+  	git clone ${ACCESS_GITHUB}${FORK}/HGCalAnalysis HGCalAnalysis -b rechitDetID
+  	git clone ${ACCESS_GITHUB}chrispap95/particleGun -b CMSSW_10_6_3_patch1-2026D41
+  	mkdir particleGun/myGeneration
+	else
+  	$ECHO "Unknown CMSSW configuration: $WHICH_CMSSW"
+  	$ECHO "Cannot find an appropriate ntuplizer. You need to set up ntuples step manually."
+	fi
 
 	mkdir -pv Configuration/GenProduction/python
 
