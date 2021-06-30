@@ -68,19 +68,19 @@ elif [[ -f "/etc/redhat-release" ]]; then
 	POSSIBLE_VERSIONS=( 6 7 )
 	if [[ "${POSSIBLE_VERSIONS[@]} " =~ " ${VERSION_TMP}" ]]; then
 		SLC_VERSION="slc${VERSION_TMP}"
-  	if [[ "$SLC_VERSION" == "slc6" ]]; then
-    	$ECHO "Unsupported architecture $SLC_VERSION. Please switch to slc7."
-    	exit 1
-  	else
-    	$ECHO "Detected $SLC_VERSION architecture."
-  	fi
+		if [[ "$SLC_VERSION" == "slc6" ]]; then
+			$ECHO "Unsupported architecture $SLC_VERSION. Please switch to slc7."
+			exit 1
+		else
+			$ECHO "Detected $SLC_VERSION architecture."
+		fi
 	else
 		echo "WARNING::Unknown SLC version. Defaulting to slc7."
 		SLC_VERSION="slc7"
 	fi
 else
 	echo "WARNING::Unknown SLC version. Defaulting to slc7."
-SLC_VERSION="slc7"
+	SLC_VERSION="slc7"
 fi
 
 # -------------------------------------------------------------------------------------
@@ -91,10 +91,10 @@ if [ -n "$WHICH_CMSSW" ]; then
 	CMSSW_10_6_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
 	;;
-  CMSSW_11_1_*)
+	CMSSW_11_1_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
 	;;
-  CMSSW_11_2_*)
+	CMSSW_11_2_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
 	;;
 	CMSSW_11_3_*)
