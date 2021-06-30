@@ -75,11 +75,11 @@ elif [[ -f "/etc/redhat-release" ]]; then
 			$ECHO "Detected $SLC_VERSION architecture."
 		fi
 	else
-		echo "WARNING::Unknown SLC version. Defaulting to slc7."
+		$ECHO "WARNING::Unknown SLC version. Defaulting to slc7."
 		SLC_VERSION="slc7"
 	fi
 else
-	echo "WARNING::Unknown SLC version. Defaulting to slc7."
+	$ECHO "WARNING::Unknown SLC version. Defaulting to slc7."
 	SLC_VERSION="slc7"
 fi
 
@@ -107,7 +107,8 @@ if [ -n "$WHICH_CMSSW" ]; then
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
 	;;
 	*)
-		$ECHO "Unknown architecture for release $WHICH_CMSSW"
+		$ECHO "Unknown architecture for release $WHICH_CMSSW."
+		$ECHO "Make sure it is at least CMSSW_10_6_X."
 		exit 1
 	;;
 	esac
@@ -128,7 +129,11 @@ if [ -n "$WHICH_CMSSW" ]; then
 	cd src
 	#git cms-init $ACCESS_CMSSW
 
-	if [[ "$WHICH_CMSSW" == *"CMSSW_11_0"* || "$WHICH_CMSSW" == *"CMSSW_11_1"* || "$WHICH_CMSSW" == *"CMSSW_11_2_0_pre"[123]  ]]; then
+	# CMSSW_10_X_Y needs the HGCalAnalysis ntuplizer
+	# CMSSW_11_2_0_pre3 and below work with reco-ntuples ntuplizer
+	# CMSSW_11_2_0_pre4 and above work with a patched reco-ntuples ntuplizer
+	# See https://github.com/cms-sw/cmssw/pull/31013 for more details
+	if [[ "$WHICH_CMSSW" == *"CMSSW_11_"[0-1]* || "$WHICH_CMSSW" == *"CMSSW_11_2_0_pre"[123]  ]]; then
 		git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap_old
 		git clone ${ACCESS_GITHUB}chrispap95/particleGun
 		mkdir particleGun/myGeneration
