@@ -38,6 +38,8 @@ def mainParserStep1():
     parser.add_argument('-a','--pileup', help='Generate samples with pileup. (Default is False)',default=False)
     parser.add_argument('-C','--conditions', help='Conditions option passed to cmsDriver.py. (Default is phase2_realistic_T21)',default='phase2_realistic_T21')
     parser.add_argument('-R','--era', help='Era option passed to cmsDriver.py. (Default is Phase2C11I13M9)',default='Phase2C11I13M9')
+    parser.add_argument('-m','--memory', help='Override max memory setting in MB for CRAB. (Default is set by CRAB)',default=None)
+    parser.add_argument('-N','--cpu', help='Override number of cores per job. (Default is 1)',default=None)
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
 
@@ -54,6 +56,7 @@ def mainParserStepN():
     parser.add_argument('-e','--eta', help='List of eta to shoot.',nargs='*')
     parser.add_argument('-P','--phi', help='List of phi to shoot.',nargs='*')
     parser.add_argument('-p','--particles',type=int, help='List of particles to shoot.',nargs='*')
+    parser.add_argument('-i','--inputTag', help='Tag of input dataset.',default=None)
     parser.add_argument('-t','--tag', help='Unique tag to discern between different submissions.',default=None)
     parser.add_argument('-c','--campaign', help='Adds a tag to outputDatasetTag.',default=None)
     parser.add_argument('-S','--site', help='Changes the output site. (Default is T3_US_FNALLPC)',default='T3_US_FNALLPC')
@@ -61,6 +64,8 @@ def mainParserStepN():
     parser.add_argument('-a','--pileup', help='Generate samples with pileup.',default=False)
     parser.add_argument('-C','--conditions', help='Conditions option passed to cmsDriver.py. (Default is phase2_realistic_T21)',default='phase2_realistic_T21')
     parser.add_argument('-R','--era', help='Era option passed to cmsDriver.py. (Default is Phase2C11I13M9)',default='Phase2C11I13M9')
+    parser.add_argument('-m','--memory', help='Override max memory setting in MB for CRAB. (Defaults differ between steps and PU configs.)',default=None)
+    parser.add_argument('-N','--cpu', help='Override number of cores per job. (Defaults differ between steps and PU configs.)',default=None)
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
 

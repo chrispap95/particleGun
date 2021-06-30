@@ -171,6 +171,10 @@ if __name__ == '__main__':
                     file1.write("config.JobType.pluginName = 'PrivateMC'\n")
                     file1.write("config.JobType.psetName = ")
                     file1.write("'%s%s_cfi_py_GEN_SIM.py'\n"%(outTag,pythiaTag))
+                    if options.memory is not None:
+                        file1.write("config.JobType.maxMemoryMB = %s\n"%options.memory)
+                    if options.cpu is not None:
+                        file1.write("config.JobType.numCores = %s\n"%options.cpu)
                     file1.write("config.JobType.maxJobRuntimeMin = 600\n\n")
 
                     file1.write("config.Data.outputPrimaryDataset = '%s'\n"%outTag)

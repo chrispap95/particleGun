@@ -58,6 +58,8 @@ if __name__ == '__main__':
         pileupConfig = '--pileup AVE_200_BX_25ns'
         nThreads = '8'
 
+    if options.cpu is not None:
+        nThreads = options.cpu
 
     # Run cmsdriver.py to create workflows
     print('Creating step3 configuration.')
@@ -81,7 +83,7 @@ if __name__ == '__main__':
         if phiTag != 'notSet':
             phiList = '%s %s'%(phiList,phiTag)
     os.system("sh createList.sh step2 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,options.tag,options.closeBy,options.campaign))
+    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,options.inputTag,options.closeBy,options.campaign))
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
@@ -130,12 +132,17 @@ if __name__ == '__main__':
                     file1.write("config.JobType.psetName = ")
                     if options.pileup:
                         file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py'\n")
-                        file1.write("config.JobType.numCores = 8\n")
-                        file1.write("config.JobType.maxMemoryMB = 16000\n")
+                        if options.memory is None:
+                            file1.write("config.JobType.maxMemoryMB = 16000\n")
+                        else:
+                            file1.write("config.JobType.maxMemoryMB = %s\n"%options.memory)
                     else:
                         file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py'\n")
-                        file1.write("config.JobType.numCores = 4\n")
-                        file1.write("config.JobType.maxMemoryMB = 10000\n")
+                        if options.memory is None:
+                            file1.write("config.JobType.maxMemoryMB = 10000\n")
+                        else:
+                            file1.write("config.JobType.maxMemoryMB = %s\n"%options.memory)
+                    file1.write("config.JobType.numCores = %s\n"%nThreads)
                     file1.write("config.JobType.maxJobRuntimeMin = 50\n\n")
 
                     file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
