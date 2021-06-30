@@ -9,7 +9,7 @@ import argparse
 def standardParser():
     parser = argparse.ArgumentParser(description='Utility for managing multiple CRAB3 submissions.',usage='%(prog)s [options]')
     parser.add_argument('-s','--step', help='Step to be used.',choices=['step1','step2','step3','ntuples'],required=True)
-    parser.add_argument('-g','--geometry', help='Detector geometry for tagging. (Default is D57)',default='D57')
+    parser.add_argument('-g','--geometry', help='Detector geometry for tagging. (Default is D57)',default='D76')
     parser.add_argument('-E','--energies',type=int, help='List of energies to shoot.',nargs='*')
     parser.add_argument('-e','--eta', help='List of eta to shoot.',nargs='*')
     parser.add_argument('-P','--phi', help='List of phi to shoot.',nargs='*')
