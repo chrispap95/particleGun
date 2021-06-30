@@ -66,7 +66,7 @@ if __name__ == '__main__':
     '-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads %s '
     '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s %s %s --era %s '
     '--eventcontent FEVTDEBUGHLT --no_exec --conditions auto:%s --filein file:step1.root '
-    '--fileout file:step2.root'%(options.cpu, options.geometry, pileupInput, pileupConfig, options.era, options.conditions))
+    '--fileout file:step2.root'%(nThreads, options.geometry, pileupInput, pileupConfig, options.era, options.conditions))
 
     # Get filenames from previous step
     eTag = ''
