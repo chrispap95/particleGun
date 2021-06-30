@@ -130,19 +130,19 @@ if [ -n "$WHICH_CMSSW" ]; then
 
 	if [[ "$WHICH_CMSSW" == *"CMSSW_11_0"* || "$WHICH_CMSSW" == *"CMSSW_11_1"* || "$WHICH_CMSSW" == *"CMSSW_11_2_0_pre"[123]  ]]; then
 		git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap_old
-  	git clone ${ACCESS_GITHUB}chrispap95/particleGun
-  	mkdir particleGun/myGeneration
+		git clone ${ACCESS_GITHUB}chrispap95/particleGun
+		mkdir particleGun/myGeneration
 	elif [[ "$WHICH_CMSSW" == *"CMSSW_11_"[2-9]* || "$WHICH_CMSSW" == *"CMSSW_12_"* ]]; then
-	 	git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap
-	 	git clone ${ACCESS_GITHUB}chrispap95/particleGun
-	 	mkdir particleGun/myGeneration
+		git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap
+		git clone ${ACCESS_GITHUB}chrispap95/particleGun
+		mkdir particleGun/myGeneration
 	elif [[ "$WHICH_CMSSW" == *"CMSSW_10_6"* ]]; then
-  	git clone ${ACCESS_GITHUB}${FORK}/HGCalAnalysis HGCalAnalysis -b rechitDetID
-  	git clone ${ACCESS_GITHUB}chrispap95/particleGun -b CMSSW_10_6_3_patch1-2026D41
-  	mkdir particleGun/myGeneration
+		git clone ${ACCESS_GITHUB}${FORK}/HGCalAnalysis HGCalAnalysis -b rechitDetID
+		git clone ${ACCESS_GITHUB}chrispap95/particleGun -b CMSSW_10_6_3_patch1-2026D41
+		mkdir particleGun/myGeneration
 	else
-  	$ECHO "Unknown CMSSW configuration: $WHICH_CMSSW"
-  	$ECHO "Cannot find an appropriate ntuplizer. You need to set up ntuples step manually."
+		$ECHO "Unknown CMSSW configuration: $WHICH_CMSSW"
+		$ECHO "Cannot find an appropriate ntuplizer. You need to set up ntuples step manually."
 	fi
 
 	mkdir -pv Configuration/GenProduction/python
