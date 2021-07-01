@@ -42,6 +42,12 @@ def mainParserStep1():
     parser.add_argument('-N','--cpu', help='Override number of cores per job. (Default is 1)',default=None)
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
+    parser.add_argument('--maxE', help='Maximum of energy range in case of continuous energy distribution. (Default is 650 GeV)',default='650')
+    parser.add_argument('--minE', help='Minimum of energy range in case of continuous energy distribution. (Default is 0 GeV)',default='0')
+    parser.add_argument('--maxEta', help='Maximum of eta range in case of continuous eta distribution. (Default is 3.0)',default='3p0')
+    parser.add_argument('--minEta', help='Minimum of eta range in case of continuous eta distribution. (Default is 1.5)',default='1p5')
+    parser.add_argument('--maxPhi', help='Maximum of phi range in case of continuous phi distribution. (Default is -pi)')
+    parser.add_argument('--minPhi', help='Minimum of phi range in case of continuous phi distribution. (Default is pi)')
 
     options = parser.parse_args()
 
@@ -68,6 +74,12 @@ def mainParserStepN():
     parser.add_argument('-N','--cpu', help='Override number of cores per job. (Defaults differ between steps and PU configs.)',default=None)
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
+    parser.add_argument('--maxE', help='Maximum of energy range in case of continuous energy distribution. (Default is 650 GeV)',default='650')
+    parser.add_argument('--minE', help='Minimum of energy range in case of continuous energy distribution. (Default is 0 GeV)',default='0')
+    parser.add_argument('--maxEta', help='Maximum of eta range in case of continuous eta distribution. (Default is 3.0)',default='3p0')
+    parser.add_argument('--minEta', help='Minimum of eta range in case of continuous eta distribution. (Default is 1.5)',default='1p5')
+    parser.add_argument('--maxPhi', help='Maximum of phi range in case of continuous phi distribution. (Default is -pi)')
+    parser.add_argument('--minPhi', help='Minimum of phi range in case of continuous phi distribution. (Default is pi)')
 
     options = parser.parse_args()
 
