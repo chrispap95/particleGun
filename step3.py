@@ -139,7 +139,7 @@ if __name__ == '__main__':
                     else:
                         file1.write("'step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py'\n")
                         if options.memory is None:
-                            file1.write("config.JobType.maxMemoryMB = 10000\n")
+                            file1.write("config.JobType.maxMemoryMB = 5000\n")
                         else:
                             file1.write("config.JobType.maxMemoryMB = %s\n"%options.memory)
                     file1.write("config.JobType.numCores = %s\n"%nThreads)
