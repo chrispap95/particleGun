@@ -49,14 +49,24 @@ if __name__ == '__main__':
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
 
+    # Pileup configuration
+    pileupInput = ''
+    pileupConfig = ''
+    nThreads = '4'
+    if options.pileup:
+        pileupInput = '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM'
+        pileupConfig = '--pileup AVE_200_BX_25ns'
+
+    if options.cpu is not None:
+        nThreads = options.cpu
+
     # Run cmsdriver.py to create workflows
     print('Creating step2 configuration.')
-    os.system('cmsDriver.py step2 --conditions auto:phase2_realistic_T15 '
-    '-s DIGI:pdigi_valid,L1,L1TrackTrigger,DIGI2RAW,HLT:@fake2 '
-    '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s '
-    '--era Phase2C11 '
-    '--eventcontent FEVTDEBUGHLT --no_exec --filein file:step1.root '
-    '--fileout file:step2.root'%options.geometry)
+    os.system('cmsDriver.py step2 '
+    '-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads %s '
+    '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s %s %s --era %s '
+    '--eventcontent FEVTDEBUGHLT --no_exec --conditions auto:%s --filein file:step1.root '
+    '--fileout file:step2.root'%(nThreads, options.geometry, pileupInput, pileupConfig, options.era, options.conditions))
 
     # Get filenames from previous step
     eTag = ''
@@ -73,7 +83,7 @@ if __name__ == '__main__':
         if phiTag != 'notSet':
             phiList = '%s %s'%(phiList,phiTag)
     os.system("sh createList.sh step1 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,options.tag,options.closeBy,options.campaign))
+    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,options.inputTag,options.closeBy,options.campaign))
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
@@ -90,7 +100,10 @@ if __name__ == '__main__':
                     if phiTag != 'notSet':
                         outTag = '%sPhi%s'%(outTag,phiTag)
                     os.chdir(cwd)
-                    os.system('cp step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py myGeneration/%s/'%outTag)
+                    if options.pileup:
+                        os.system('cp step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py myGeneration/%s/'%outTag)
+                    else:
+                        os.system('cp step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py myGeneration/%s/'%outTag)
                     os.chdir('myGeneration/%s'%outTag)
 
                     # Create CRAB configuration file
@@ -117,7 +130,15 @@ if __name__ == '__main__':
 
                     file1.write("config.JobType.pluginName = 'Analysis'\n")
                     file1.write("config.JobType.psetName = ")
-                    file1.write("'step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py'\n")
+                    if options.pileup:
+                        file1.write("'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py'\n")
+                    else:
+                        file1.write("'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py'\n")
+                    if options.memory is None:
+                        file1.write("config.JobType.maxMemoryMB = 5000\n")
+                    else:
+                        file1.write("config.JobType.maxMemoryMB = %s\n"%options.memory)
+                    file1.write("config.JobType.numCores = %s\n"%nThreads)
                     file1.write("config.JobType.maxJobRuntimeMin = 60\n\n")
 
                     file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
@@ -125,7 +146,7 @@ if __name__ == '__main__':
                     file1.write("config.Data.splitting = 'FileBased'\n")
                     file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
                     file1.write("config.Data.totalUnits = %d\n"%options.njobs)
-                    file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
+                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
                     if options.campaign is None or options.campaign == None or options.campaign == 'None':
@@ -133,7 +154,7 @@ if __name__ == '__main__':
                     else:
                         file1.write("'%s_%s_upgrade2026_%s_%s_step2'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
 
-                    file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
+                    file1.write("config.Site.storageSite = '%s'\n"%options.site)
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
                     file1.close()
 
@@ -141,4 +162,7 @@ if __name__ == '__main__':
                         os.system('crab submit -c crabConfig_%s_step2.py'%outTag)
 
 os.chdir(cwd)
-os.system('rm step2_DIGI_L1_L1TrackTrigger_DIGI2RAW_HLT.py')
+if options.pileup:
+    os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py')
+else:
+    os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py')

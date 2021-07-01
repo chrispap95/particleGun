@@ -64,7 +64,7 @@ if __name__ == '__main__':
         if phiTag != 'notSet':
             phiList = '%s %s'%(phiList,phiTag)
     os.system("sh createList.sh step3 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,options.tag,options.closeBy,options.campaign))
+    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,options.inputTag,options.closeBy,options.campaign))
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
@@ -109,15 +109,14 @@ if __name__ == '__main__':
                     file1.write("config.JobType.pluginName = 'Analysis'\n")
                     file1.write("config.JobType.psetName = ")
                     file1.write("'ntuplesConfig.py'\n")
-                    file1.write("config.JobType.maxJobRuntimeMin = 50\n")
-                    file1.write("config.JobType.maxMemoryMB = 5000\n\n")
+                    file1.write("config.JobType.maxJobRuntimeMin = 50\n\n")
 
                     file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
                     file1.write("config.Data.inputDBS = 'phys03'\n")
                     file1.write("config.Data.splitting = 'FileBased'\n")
                     file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
                     file1.write("config.Data.totalUnits = %d\n"%options.njobs)
-                    file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
+                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
                     file1.write("config.Data.publication = False\n")
                     file1.write("config.Data.outputDatasetTag = ")
                     if options.campaign is None or options.campaign == None or options.campaign == 'None':
@@ -125,7 +124,7 @@ if __name__ == '__main__':
                     else:
                         file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
 
-                    file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
+                    file1.write("config.Site.storageSite = '%s'\n"%options.site)
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
                     file1.close()
 

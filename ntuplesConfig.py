@@ -4,7 +4,7 @@ from Configuration.StandardSequences.Eras import eras
 process = cms.Process("Demo")
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
-process.load('Configuration.Geometry.GeometryExtended2026D54Reco_cff')
+process.load('Configuration.Geometry.GeometryExtended2026D76Reco_cff')
 process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.EventContent.EventContent_cff')
 process.load("FWCore.MessageService.MessageLogger_cfi")
@@ -15,7 +15,7 @@ except Exception: # ConfigFileReadError in case config does not exist
     process.load('SimCalorimetry.HGCalSimProducers.hgcalDigitizer_cfi')
     process.load('RecoLocalCalo.HGCalRecProducers.hgcalLayerClusters_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T19', '')
+process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T21', '')
 from FastSimulation.Event.ParticleFilter_cfi import *
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(10) )

@@ -61,7 +61,6 @@ if __name__ == '__main__':
                     outTag = '%sEta%s'%(outTag,etaTag)
                     if phiTag != 'notSet':
                         outTag = '%sPhi%s'%(outTag,phiTag)
-                    if phiTag != 'notSet':
                         print('%sChecking%s status for %s at E=%d Eta=%s Phi=%s.'%(col.yellow,col.endc,particleTag,E,etaTag,phiTag))
                     else:
                         print('%sChecking%s status for %s at E=%d Eta=%s.'%(col.yellow,col.endc,particleTag,E,etaTag))

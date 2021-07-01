@@ -142,10 +142,9 @@ if __name__ == '__main__':
                     if options.closeBy:
                         pythiaTag = ''
                     os.system('cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py '
-                    '--conditions auto:phase2_realistic_T15 '
-                    '-n 100 --era Phase2C11 --eventcontent FEVTDEBUG --relval 9000,50 -s GEN,SIM '
+                    '--conditions auto:%s -n 100 --era %s --eventcontent FEVTDEBUG -s GEN,SIM '
                     '--datatier GEN-SIM --no_exec --beamspot HLLHC --geometry Extended2026%s '
-                    '--fileout file:step1.root'%(outTag,pythiaTag,options.geometry))
+                    '--fileout file:step1.root'%(outTag,pythiaTag,options.conditions,options.era,options.geometry))
 
                     # Create CRAB configuration file
                     file1 = open('crabConfig_%s_step1.py'%outTag,'w')
@@ -172,6 +171,10 @@ if __name__ == '__main__':
                     file1.write("config.JobType.pluginName = 'PrivateMC'\n")
                     file1.write("config.JobType.psetName = ")
                     file1.write("'%s%s_cfi_py_GEN_SIM.py'\n"%(outTag,pythiaTag))
+                    if options.memory is not None:
+                        file1.write("config.JobType.maxMemoryMB = %s\n"%options.memory)
+                    if options.cpu is not None:
+                        file1.write("config.JobType.numCores = %s\n"%options.cpu)
                     file1.write("config.JobType.maxJobRuntimeMin = 600\n\n")
 
                     file1.write("config.Data.outputPrimaryDataset = '%s'\n"%outTag)
@@ -180,7 +183,7 @@ if __name__ == '__main__':
                     file1.write("NJOBS = %d  # This is not a configuration parameter,"%options.njobs)
                     file1.write(" but an auxiliary variable that we use in the next line.\n")
                     file1.write("config.Data.totalUnits = config.Data.unitsPerJob * NJOBS\n")
-                    file1.write("config.Data.outLFNDirBase = '/store/user/%s/'\n"%user)
+                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
                     if options.campaign is None or options.campaign == None or options.campaign == 'None':
@@ -189,7 +192,7 @@ if __name__ == '__main__':
                         file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
 
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
-                    file1.write("config.Site.storageSite = 'T3_US_FNALLPC'\n")
+                    file1.write("config.Site.storageSite = '%s'\n"%options.site)
                     file1.close()
 
                     if options.no_exec:
