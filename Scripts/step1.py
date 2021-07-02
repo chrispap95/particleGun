@@ -1,13 +1,14 @@
-import os, sys
+import os, sys, math
+from Tools import mainParser, particleNumbers, col
 
-# Getting environment info
-cmssw = os.environ['CMSSW_VERSION']
-cmsswBase = os.environ['CMSSW_BASE']
-user = os.environ['USER']
-genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-cwd = os.getcwd()
+def step1(options):
+    # Getting environment info
+    cmssw = os.environ['CMSSW_VERSION']
+    cmsswBase = os.environ['CMSSW_BASE']
+    user = os.environ['USER']
+    genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
+    cwd = os.getcwd()
 
-def step1():
     # List or range of energies to shoot particles
     minEn, maxEn = 0, 650
     minEnTag, maxEnTag = '0', '650'
@@ -56,6 +57,7 @@ def step1():
             phis[phiTag] = float(phiTag.replace("p","."))
 
     # List of particles to generate in pdg codes
+    particleTags = particleNumbers()
     particles = options.particles
     if particles is None or len(particles) == 0:
         print(col.magenta+'Warning: '+col.endc+'Particle not specified. '

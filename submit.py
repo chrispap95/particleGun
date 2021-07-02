@@ -5,16 +5,15 @@ from Tools import mainParser, particleNumbers, col
 sys.path.append(os.path.abspath(os.path.curdir))
 
 options = mainParser()
-particleTags = particleNumbers()
 
 if __name__ == '__main__':
     if options.step == 'step1':
-        step1.step1()
+        step1.step1(options)
     elif  options.step == 'step2':
-        step2.step2()
+        step2.step2(options)
     elif  options.step == 'step2':
-        step3.step3()
+        step3.step3(options)
     elif  options.step == 'ntuples':
-        ntuples.ntuples()
+        ntuples.ntuples(options)
     else:
         raise ValueError

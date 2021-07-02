@@ -1,13 +1,13 @@
 import os, sys
 
-# Getting environment info
-cmssw = os.environ['CMSSW_VERSION']
-cmsswBase = os.environ['CMSSW_BASE']
-user = os.environ['USER']
-genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-cwd = os.getcwd()
+def ntuples(options):
+    # Getting environment info
+    cmssw = os.environ['CMSSW_VERSION']
+    cmsswBase = os.environ['CMSSW_BASE']
+    user = os.environ['USER']
+    genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
+    cwd = os.getcwd()
 
-def ntuples():
     # List or range of energies to shoot particles
     minEnTag, maxEnTag = '0', '650'
     if options.maxEn is not None:
@@ -45,6 +45,7 @@ def ntuples():
         phiTags = ['notSet']
 
     # List of particles to generate in pdg codes
+    particleTags = particleNumbers()
     particles = options.particles
     if particles is None or len(particles) == 0:
         print('%sWarning%s: Particles not specified. Using Gamma as default. '
