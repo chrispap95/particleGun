@@ -76,8 +76,11 @@ def ntuples(options):
                 phiList = '%sto%s'%(minPhiTag,maxPhiTag)
         else:
             phiList = '%s %s'%(phiList,phiTag)
+    inputTag = options.inputTag
+    if options.input is None:
+        inputTag = options.Tag
     os.system("sh Tools/createList.sh step3 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,options.inputTag,options.closeBy,options.campaign))
+    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,inputTag,options.closeBy,options.campaign))
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
