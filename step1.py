@@ -75,7 +75,7 @@ if __name__ == '__main__':
                     # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
                     # and create printout message.
                     outTag = ''
-                    printOut = ''
+                    printOut = col.bold
                     if options.closeBy:
                         outTag = 'CloseBy'
                         printOut = 'Using CloseBy gun.\n'
@@ -99,10 +99,10 @@ if __name__ == '__main__':
                     if phiTag is 'notSet':
                         if options.minPhi is not None or options.maxPhi is not None:
                             outTag = '%sPhi%sto%s'%(outTag,minPhiTag,maxPhiTag)
-                        printOut = '%sand phi in (%s,%s)'%(printOut,minPhiTag,maxPhiTag)
+                        printOut = '%sand phi in (%s,%s)%s'%(printOut,minPhiTag,maxPhiTag,col.endc)
                     else:
                         outTag = '%sPhi%s'%(outTag,phiTag)
-                        printOut = '%sand phi=%s'%(printOut,phiTag)
+                        printOut = '%sand phi=%s%s'%(printOut,phiTag,col.endc)
                         minPhi, maxPhi = phis[phiTag]-0.01, phis[phiTag]+0.01
                     print(printOut)
 
