@@ -1,12 +1,4 @@
-import os, sys
-
-sys.path.append(os.path.abspath(os.path.curdir))
-
-from Tools import mainParserStepN, particleNumbers, col
-options = mainParserStepN()
-particleTags = particleNumbers()
-
-if __name__ == '__main__':
+def step3():
     # List or range of energies to shoot particles
     minEnTag, maxEnTag = '0', '650'
     if options.maxEn is not None:
@@ -50,13 +42,6 @@ if __name__ == '__main__':
         'This might not be compatible with your configuration.'%(col.magenta,col.endc))
         particles = [22]
 
-    # Getting environment info
-    cmssw = os.environ['CMSSW_VERSION']
-    cmsswBase = os.environ['CMSSW_BASE']
-    user = os.environ['USER']
-    genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-    cwd = os.getcwd()
-
     # Pileup configuration
     pileupInput = ''
     pileupConfig = ''
@@ -99,7 +84,7 @@ if __name__ == '__main__':
                 phiList = '%sto%s'%(minPhiTag,maxPhiTag)
         else:
             phiList = '%s %s'%(phiList,phiTag)
-    os.system("sh createList.sh step2 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
+    os.system("sh Tools/createList.sh step2 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
     "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,options.inputTag,options.closeBy,options.campaign))
     filein = open('myGeneration/list.txt','r')
 

@@ -1,12 +1,4 @@
-import os, sys, math
-
-sys.path.append(os.path.abspath(os.path.curdir))
-
-from Tools import mainParserStep1, particleNumbers, col
-options = mainParserStep1()
-particleTags = particleNumbers()
-
-if __name__ == '__main__':
+def step1():
     # List or range of energies to shoot particles
     minEn, maxEn = 0, 650
     minEnTag, maxEnTag = '0', '650'
@@ -60,13 +52,6 @@ if __name__ == '__main__':
         print(col.magenta+'Warning: '+col.endc+'Particle not specified. '
         'Using Gamma as default. This might not be compatible with your configuration.')
         particles = [22]
-
-    # Getting environment info
-    cmssw = os.environ['CMSSW_VERSION']
-    cmsswBase = os.environ['CMSSW_BASE']
-    user = os.environ['USER']
-    genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-    cwd = os.getcwd()
 
     for p in particles:
         for E in energies:
