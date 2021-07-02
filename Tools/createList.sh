@@ -13,6 +13,7 @@
 
 echo -n -e "\033[93mFetching\033[0m"
 echo " data from previous step. Hold tight! "
+cd ${CMSSW_BASE}/src/particleGun
 
 if [ "$8" == "True" ]
 then
