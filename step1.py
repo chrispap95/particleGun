@@ -84,25 +84,25 @@ if __name__ == '__main__':
                     printOut = '%sCreating configuration for %s with '%(printOut,particleTag)
                     if E is 'notSet':
                         outTag = '%s_E%sto%s'%(outTag,minEnTag,maxEnTag)
-                        printOut = '%sE in (%s,%s) GeV '%(printOut,minEnTag,maxEnTag)
+                        printOut = '%sE in (%s,%s) GeV, '%(printOut,minEnTag,maxEnTag)
                     else:
                         outTag = '%s_E%d'%(outTag,E)
-                        printOut = '%sE=%d GeV '%(printOut,E)
+                        printOut = '%sE=%d GeV, '%(printOut,E)
                         minEn, maxEn = E-0.01, E+0.01
                     if etaTag is 'notSet':
                         outTag = '%sEta%sto%s'%(outTag,minEtaTag,maxEtaTag)
-                        printOut = '%seta in (%s,%s) '%(printOut,minEtaTag,maxEtaTag)
+                        printOut = '%seta in (%s,%s), '%(printOut,minEtaTag,maxEtaTag)
                     else:
                         outTag = '%sEta%s'%(outTag,etaTag)
-                        printOut = '%seta=%s '%(printOut,etaTag)
+                        printOut = '%seta=%s, '%(printOut,etaTag)
                         minEta, maxEta = etas[etaTag]-0.01, etas[etaTag]+0.01
                     if phiTag is 'notSet':
                         if options.minPhi is not None or options.maxPhi is not None:
                             outTag = '%sPhi%sto%s'%(outTag,minPhiTag,maxPhiTag)
-                        printOut = '%sphi in (%s,%s)'%(printOut,minPhiTag,maxPhiTag)
+                        printOut = '%sand phi in (%s,%s)'%(printOut,minPhiTag,maxPhiTag)
                     else:
                         outTag = '%sPhi%s'%(outTag,phiTag)
-                        printOut = '%sphi=%s'%(printOut,phiTag)
+                        printOut = '%sand phi=%s'%(printOut,phiTag)
                         minPhi, maxPhi = phis[phiTag]-0.01, phis[phiTag]+0.01
                     print(printOut)
 
