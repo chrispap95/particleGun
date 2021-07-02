@@ -26,7 +26,7 @@ if __name__ == '__main__':
     if options.maxEta is not None:
         maxEtaTag = options.maxEta.replace("-","minus")
         maxEta = float(options.maxEta.replace("p","."))
-    if options.minE is not None:
+    if options.minEta is not None:
         minEtaTag = options.minEta.replace("-","minus")
         minEta = float(options.minEta.replace("p","."))
     etaTags = options.eta
