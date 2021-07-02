@@ -46,6 +46,7 @@ if __name__ == '__main__':
     if options.minPhi is not None:
         minPhiTag = options.minPhi.replace("-","minus")
         minPhi = float(options.minPhi.replace("p","."))
+    phiTags = options.phi
     if phiTags is None or len(phiTags) == 0:
         phiTags = ['notSet']
     phis = {}
