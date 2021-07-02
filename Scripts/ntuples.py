@@ -1,4 +1,5 @@
 import os, sys
+from Tools import mainParser, particleNumbers, col
 
 def ntuples(options):
     # Getting environment info
