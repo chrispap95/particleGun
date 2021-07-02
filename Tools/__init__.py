@@ -2,6 +2,7 @@
 #  Author: Christos Papageorgakis
 #
 # Contains option parsing definitions
+# and other necessary tools.
 #
 
 import argparse
@@ -42,10 +43,10 @@ def mainParserStep1():
     parser.add_argument('-N','--cpu', help='Override number of cores per job. (Default is 1)',default=None)
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
-    parser.add_argument('--maxE', help='Maximum of energy range in case of continuous energy distribution. (Default is 650 GeV)',default='650')
-    parser.add_argument('--minE', help='Minimum of energy range in case of continuous energy distribution. (Default is 0 GeV)',default='0')
-    parser.add_argument('--maxEta', help='Maximum of eta range in case of continuous eta distribution. (Default is 3.0)',default='3p0')
-    parser.add_argument('--minEta', help='Minimum of eta range in case of continuous eta distribution. (Default is 1.5)',default='1p5')
+    parser.add_argument('--maxE', help='Maximum of energy range in case of continuous energy distribution. (Default is 650 GeV)')
+    parser.add_argument('--minE', help='Minimum of energy range in case of continuous energy distribution. (Default is 0 GeV)')
+    parser.add_argument('--maxEta', help='Maximum of eta range in case of continuous eta distribution. (Default is 3.0)')
+    parser.add_argument('--minEta', help='Minimum of eta range in case of continuous eta distribution. (Default is 1.5)')
     parser.add_argument('--maxPhi', help='Maximum of phi range in case of continuous phi distribution. (Default is -pi)')
     parser.add_argument('--minPhi', help='Minimum of phi range in case of continuous phi distribution. (Default is pi)')
 
@@ -74,10 +75,10 @@ def mainParserStepN():
     parser.add_argument('-N','--cpu', help='Override number of cores per job. (Defaults differ between steps and PU configs.)',default=None)
     parser.add_argument('--no_exec', help='Prepare scripts but do not submit.',action='store_false')
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
-    parser.add_argument('--maxE', help='Maximum of energy range in case of continuous energy distribution. (Default is 650 GeV)',default='650')
-    parser.add_argument('--minE', help='Minimum of energy range in case of continuous energy distribution. (Default is 0 GeV)',default='0')
-    parser.add_argument('--maxEta', help='Maximum of eta range in case of continuous eta distribution. (Default is 3.0)',default='3p0')
-    parser.add_argument('--minEta', help='Minimum of eta range in case of continuous eta distribution. (Default is 1.5)',default='1p5')
+    parser.add_argument('--maxEn', help='Maximum of energy range in case of continuous energy distribution. (Default is 650 GeV)')
+    parser.add_argument('--minEn', help='Minimum of energy range in case of continuous energy distribution. (Default is 0 GeV)')
+    parser.add_argument('--maxEta', help='Maximum of eta range in case of continuous eta distribution. (Default is 3.0)')
+    parser.add_argument('--minEta', help='Minimum of eta range in case of continuous eta distribution. (Default is 1.5)')
     parser.add_argument('--maxPhi', help='Maximum of phi range in case of continuous phi distribution. (Default is -pi)')
     parser.add_argument('--minPhi', help='Minimum of phi range in case of continuous phi distribution. (Default is pi)')
 
@@ -85,6 +86,7 @@ def mainParserStepN():
 
     return options
 
+# Define PDG ID codes
 def particleNumbers():
     Dict = {
         22: 'Gamma',
@@ -96,6 +98,7 @@ def particleNumbers():
 
     return Dict
 
+# Define colors
 class col:
     red = '\033[91m'
     green = '\033[92m'
