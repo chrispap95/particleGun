@@ -12,7 +12,7 @@ def mainParser():
     parser.add_argument('-s','--step', help='Step to be used.',choices=['step1','step2','step3','ntuples'],required=True)
     parser.add_argument('-g','--geometry', help='Detector geometry for tagging. (Default is D76)',default='D76')
     parser.add_argument('-n','--njobs',type=int, help='Number of jobs to run. (Default is 10)',default='10')
-    parser.add_argument('-u','--unitsPerJob',type=int, help='Events per job for step1 and files processed per job for all other steps. (Default is 10)',required='10')
+    parser.add_argument('-u','--unitsPerJob',type=int, help='Events per job for step1 and files processed per job for all other steps. (Default is 10)',default='10')
     parser.add_argument('-E','--energies',type=int, help='List of energies to shoot.',nargs='*')
     parser.add_argument('-e','--eta', help='List of eta to shoot.',nargs='*')
     parser.add_argument('-P','--phi', help='List of phi to shoot.',nargs='*')
