@@ -198,8 +198,8 @@ def step3():
                     if options.no_exec:
                         os.system('crab submit -c crabConfig_%s_step3.py'%outTag)
 
-os.chdir(cwd)
-if options.pileup:
-    os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py')
-else:
-    os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py')
+    os.chdir(cwd)
+    if options.pileup:
+        os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py')
+    else:
+        os.system('rm step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py')

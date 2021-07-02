@@ -194,8 +194,8 @@ def step2():
                     if options.no_exec:
                         os.system('crab submit -c crabConfig_%s_step2.py'%outTag)
 
-os.chdir(cwd)
-if options.pileup:
-    os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py')
-else:
-    os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py')
+    os.chdir(cwd)
+    if options.pileup:
+        os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py')
+    else:
+        os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py')
