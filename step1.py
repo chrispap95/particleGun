@@ -75,7 +75,7 @@ if __name__ == '__main__':
                     # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
                     # and create printout message.
                     outTag = ''
-                    printOut = col.bold
+                    printOut = '%s%s'%(col.bold, col.yellow)
                     if options.closeBy:
                         outTag = 'CloseBy'
                         printOut = 'Using CloseBy gun.\n'
