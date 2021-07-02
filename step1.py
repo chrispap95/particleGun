@@ -185,13 +185,13 @@ if __name__ == '__main__':
                     file1.write('import config\n')
                     file1.write('config = config()\n')
                     file1.write("config.General.requestName = ")
-                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
-                        if options.tag is None or options.tag == None or options.tag == 'None':
+                    if options.campaign is None:
+                        if options.tag is None:
                             file1.write("'%s_%s_upgrade2026_%s_step1'\n"%(outTag,cmssw,options.geometry))
                         else:
                             file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
                     else:
-                        if options.tag is None or options.tag == None or options.tag == 'None':
+                        if options.tag is None:
                             file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.campaign))
                         else:
                             file1.write("'%s_%s_upgrade2026_%s_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.campaign,options.tag))
@@ -217,7 +217,7 @@ if __name__ == '__main__':
                     file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
-                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
+                    if options.campaign is None:
                         file1.write("'%s_%s_upgrade2026_%s_step1'\n\n"%(outTag,cmssw,options.geometry))
                     else:
                         file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n\n"%(outTag,cmssw,options.geometry,options.campaign))

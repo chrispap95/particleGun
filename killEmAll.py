@@ -7,33 +7,41 @@ options = standardParser()
 particleTags = particleNumbers()
 
 if __name__ == '__main__':
-    # List of energies to shoot
+    # List or range of energies to shoot particles
+    minEnTag, maxEnTag = '0', '650'
+    if options.maxEn is not None:
+        maxEnTag = options.maxEn
+        maxEn = float(options.maxEn.replace("p","."))
+    if options.minEn is not None:
+        minEnTag = options.minEn
+        minEn = float(options.minEn.replace("p","."))
     energies = options.energies
     if energies is None or len(energies) == 0:
-        print('Energies not specified. '
-        'Using default values that might not work in your case.')
-        energies = [1,3,5,10,15,20,25,30]
+        energies = ['notSet']
 
-    # List of etas to shoot particles
+    # List or range of etas to shoot particles
+    minEtaTag, maxEtaTag = '1p5', '3p0'
+    if options.maxEta is not None:
+        maxEtaTag = options.maxEta.replace("-","minus")
+        maxEta = float(options.maxEta.replace("p","."))
+    if options.minEta is not None:
+        minEtaTag = options.minEta.replace("-","minus")
+        minEta = float(options.minEta.replace("p","."))
     etaTags = options.eta
     if etaTags is None or len(etaTags) == 0:
-        print(col.magenta+'Warning: '+col.endc+'Etas not specified. '
-        'Using default values that might not work in your case.')
-        etaTags = ['1p7']
-    etas = {}
-    for etaTag in etaTags:
-        etas[etaTag] = float(etaTag.replace("p","."))
+        etaTags = ['notSet']
 
-    # List of phi to shoot particles
+    # List or range of phi to shoot particles
+    minPhiTag, maxPhiTag = 'minusPi', 'Pi'
+    if options.maxPhi is not None:
+        maxPhiTag = options.maxPhi.replace("-","minus")
+        maxPhi = float(options.maxPhi.replace("p","."))
+    if options.minPhi is not None:
+        minPhiTag = options.minPhi.replace("-","minus")
+        minPhi = float(options.minPhi.replace("p","."))
     phiTags = options.phi
     if phiTags is None or len(phiTags) == 0:
-        print(col.magenta+'Warning: '+col.endc+'Phi not specified. '
-        'The script is not going to specify a Phi.')
         phiTags = ['notSet']
-    phis = {}
-    for phiTag in phiTags:
-        if phiTag != 'notSet':
-            phis[phiTag] = float(phiTag.replace("p","."))
 
     # List of particles to generate in pdg codes
     particles = options.particles
@@ -52,31 +60,49 @@ if __name__ == '__main__':
         for E in energies:
             for etaTag in etaTags:
                 for phiTag in phiTags:
+                    # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
+                    # and create printout message.
                     outTag = ''
+                    printOut = '%s%s'%(col.bold, col.red)
                     if options.closeBy:
                         outTag = 'CloseBy'
+                        printOut = 'Using CloseBy gun.\n'
                     particleTag = particleTags[p]
                     outTag = '%sSingle%s'%(outTag,particleTag)
-                    outTag = '%s_E%d'%(outTag,E)
-                    outTag = '%sEta%s'%(outTag,etaTag)
-                    if phiTag != 'notSet':
-                        outTag = '%sPhi%s'%(outTag,phiTag)
-                    if phiTag != 'notSet':
-                        print('%sKilling%s jobs for %s at E=%d Eta=%s Phi=%s.'%(col.yellow,col.endc,particleTag,E,etaTag,phiTag))
+                    printOut = '%sKilling jobs for %s with '%(printOut,particleTag)
+                    if E is 'notSet':
+                        outTag = '%s_E%sto%s'%(outTag,minEnTag,maxEnTag)
+                        printOut = '%sE in (%s,%s) GeV, '%(printOut,minEnTag,maxEnTag)
                     else:
-                        print('%sKilling%s jobs for %s at E=%d Eta=%s.'%(col.yellow,col.endc,particleTag,E,etaTag))
-                    print('Campaing: %s\tTag: %s'%(options.campaign,options.tag))
+                        outTag = '%s_E%d'%(outTag,E)
+                        printOut = '%sE=%d GeV, '%(printOut,E)
+                    if etaTag is 'notSet':
+                        outTag = '%sEta%sto%s'%(outTag,minEtaTag,maxEtaTag)
+                        printOut = '%seta in (%s,%s), '%(printOut,minEtaTag,maxEtaTag)
+                    else:
+                        outTag = '%sEta%s'%(outTag,etaTag)
+                        printOut = '%seta=%s, '%(printOut,etaTag)
+                    if phiTag is 'notSet':
+                        if options.minPhi is not None or options.maxPhi is not None:
+                            outTag = '%sPhi%sto%s'%(outTag,minPhiTag,maxPhiTag)
+                        printOut = '%sand phi in (%s,%s)%s'%(printOut,minPhiTag,maxPhiTag,col.endc)
+                    else:
+                        outTag = '%sPhi%s'%(outTag,phiTag)
+                        printOut = '%sand phi=%s%s'%(printOut,phiTag,col.endc)
+                    print(printOut)
+                    print('%sCampaign: %s%s%s\t%sTag: %s%s%s'%(col.bold,col.magenta,options.campaign,col.endc,
+                                                               col.bold,col.magenta,options.tag,col.endc))
                     os.chdir(cwd)
                     os.chdir('myGeneration/%s/crab_projects/'%outTag)
-                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
-                        if options.tag is None or options.tag == None or options.tag == 'None':
+                    if options.campaign is None:
+                        if options.tag is None:
                             os.system('ls | grep %s | grep %s '
                             '> submissions.txt'%(options.step,options.geometry))
                         else:
                             os.system('ls | grep %s | grep %s | grep %s '
                             '> submissions.txt'%(options.step,options.geometry,options.tag))
                     else:
-                        if options.tag is None or options.tag == None or options.tag == 'None':
+                        if options.tag is None:
                             os.system('ls | grep %s | grep %s | grep %s '
                             '> submissions.txt'%(options.step,options.geometry,options.campaign))
                         else:
