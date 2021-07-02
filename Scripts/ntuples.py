@@ -1,3 +1,12 @@
+import os, sys
+
+# Getting environment info
+cmssw = os.environ['CMSSW_VERSION']
+cmsswBase = os.environ['CMSSW_BASE']
+user = os.environ['USER']
+genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
+cwd = os.getcwd()
+
 def ntuples():
     # List or range of energies to shoot particles
     minEnTag, maxEnTag = '0', '650'

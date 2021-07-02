@@ -1,9 +1,9 @@
 import os, sys
+from Tools import mainParser, particleNumbers, col
 
 sys.path.append(os.path.abspath(os.path.curdir))
 
-from Tools import standardParser, particleNumbers, col
-options = standardParser()
+options = mainParser()
 particleTags = particleNumbers()
 
 if __name__ == '__main__':
@@ -70,19 +70,19 @@ if __name__ == '__main__':
                     particleTag = particleTags[p]
                     outTag = '%sSingle%s'%(outTag,particleTag)
                     printOut = '%sChecking status for %s with '%(printOut,particleTag)
-                    if E is 'notSet':
+                    if E == 'notSet':
                         outTag = '%s_E%sto%s'%(outTag,minEnTag,maxEnTag)
                         printOut = '%sE in (%s,%s) GeV, '%(printOut,minEnTag,maxEnTag)
                     else:
                         outTag = '%s_E%d'%(outTag,E)
                         printOut = '%sE=%d GeV, '%(printOut,E)
-                    if etaTag is 'notSet':
+                    if etaTag == 'notSet':
                         outTag = '%sEta%sto%s'%(outTag,minEtaTag,maxEtaTag)
                         printOut = '%seta in (%s,%s), '%(printOut,minEtaTag,maxEtaTag)
                     else:
                         outTag = '%sEta%s'%(outTag,etaTag)
                         printOut = '%seta=%s, '%(printOut,etaTag)
-                    if phiTag is 'notSet':
+                    if phiTag == 'notSet':
                         if options.minPhi is not None or options.maxPhi is not None:
                             outTag = '%sPhi%sto%s'%(outTag,minPhiTag,maxPhiTag)
                         printOut = '%sand phi in (%s,%s)%s'%(printOut,minPhiTag,maxPhiTag,col.endc)

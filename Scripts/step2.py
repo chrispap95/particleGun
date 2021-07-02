@@ -1,3 +1,12 @@
+import os, sys
+
+# Getting environment info
+cmssw = os.environ['CMSSW_VERSION']
+cmsswBase = os.environ['CMSSW_BASE']
+user = os.environ['USER']
+genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
+cwd = os.getcwd()
+
 def step2():
     # List or range of energies to shoot particles
     minEnTag, maxEnTag = '0', '650'
@@ -64,7 +73,7 @@ def step2():
     # Get filenames from previous step
     eTag = ''
     for E in energies:
-        if E is 'notSet':
+        if E == 'notSet':
             eTag = '%sto%s'%(minEnTag,maxEnTag)
         else:
             eTag = '%s %d'%(eTag,E)
@@ -73,13 +82,13 @@ def step2():
         pTag = '%s %d'%(pTag,p)
     etaList = ''
     for etaTag in etaTags:
-        if etaTag is 'notSet':
+        if etaTag == 'notSet':
             etaList = '%sto%s'%(minEtaTag,maxEtaTag)
         else:
             etaList = '%s %s'%(etaList,etaTag)
     phiList = ''
     for phiTag in phiTags:
-        if phiTag is 'notSet':
+        if phiTag == 'notSet':
             if options.minPhi is not None or options.maxPhi is not None:
                 phiList = '%sto%s'%(minPhiTag,maxPhiTag)
         else:
@@ -102,19 +111,19 @@ def step2():
                     particleTag = particleTags[p]
                     outTag = '%sSingle%s'%(outTag,particleTag)
                     printOut = '%sCreating configuration for %s with '%(printOut,particleTag)
-                    if E is 'notSet':
+                    if E == 'notSet':
                         outTag = '%s_E%sto%s'%(outTag,minEnTag,maxEnTag)
                         printOut = '%sE in (%s,%s) GeV, '%(printOut,minEnTag,maxEnTag)
                     else:
                         outTag = '%s_E%d'%(outTag,E)
                         printOut = '%sE=%d GeV, '%(printOut,E)
-                    if etaTag is 'notSet':
+                    if etaTag == 'notSet':
                         outTag = '%sEta%sto%s'%(outTag,minEtaTag,maxEtaTag)
                         printOut = '%seta in (%s,%s), '%(printOut,minEtaTag,maxEtaTag)
                     else:
                         outTag = '%sEta%s'%(outTag,etaTag)
                         printOut = '%seta=%s, '%(printOut,etaTag)
-                    if phiTag is 'notSet':
+                    if phiTag == 'notSet':
                         if options.minPhi is not None or options.maxPhi is not None:
                             outTag = '%sPhi%sto%s'%(outTag,minPhiTag,maxPhiTag)
                         printOut = '%sand phi in (%s,%s)%s'%(printOut,minPhiTag,maxPhiTag,col.endc)
