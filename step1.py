@@ -172,7 +172,7 @@ if __name__ == '__main__':
                     pythiaTag = '_pythia8'
                     if options.closeBy:
                         pythiaTag = ''
-                    os.system('cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py --mc'
+                    os.system('cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py --mc '
                     '--conditions auto:%s -n 100 --era %s --eventcontent FEVTDEBUG -s GEN,SIM '
                     '--datatier GEN-SIM --no_exec --beamspot HLLHC --geometry Extended2026%s '
                     '--fileout file:step1.root'%(outTag,pythiaTag,options.conditions,options.era,options.geometry))
