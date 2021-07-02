@@ -96,7 +96,7 @@ def step3(options):
         else:
             phiList = '%s %s'%(phiList,phiTag)
     inputTag = options.inputTag
-    if options.input is None:
+    if options.inputTag is None:
         inputTag = options.Tag
     os.system("sh Tools/createList.sh step2 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
     "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,inputTag,options.closeBy,options.campaign))
