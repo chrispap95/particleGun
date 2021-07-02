@@ -1,5 +1,6 @@
 import os, sys
 from Scripts import step1, step2, step3, ntuples
+from tools import mainParser
 
 sys.path.append(os.path.abspath(os.path.curdir))
 

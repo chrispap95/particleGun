@@ -1,5 +1,5 @@
 import os, sys
-from Tools import mainParser, particleNumbers, col
+from Tools import particleNumbers, col
 
 def step2(options):
     # Getting environment info
