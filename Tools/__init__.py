@@ -18,6 +18,12 @@ def standardParser():
     parser.add_argument('-t','--tag', help='Unique tag to discern between different submissions.',default=None)
     parser.add_argument('-c','--campaign', help='Adds a tag to outputDatasetTag.',default=None)
     parser.add_argument('--closeBy', help='Use CloseByParticleGunProducer instead of Pythia8EGun.',action='store_true')
+    parser.add_argument('--maxEn', help='Maximum of energy range in case of continuous energy distribution. (Default is 650 GeV)')
+    parser.add_argument('--minEn', help='Minimum of energy range in case of continuous energy distribution. (Default is 0 GeV)')
+    parser.add_argument('--maxEta', help='Maximum of eta range in case of continuous eta distribution. (Default is 3.0)')
+    parser.add_argument('--minEta', help='Minimum of eta range in case of continuous eta distribution. (Default is 1.5)')
+    parser.add_argument('--maxPhi', help='Maximum of phi range in case of continuous phi distribution. (Default is -pi)')
+    parser.add_argument('--minPhi', help='Minimum of phi range in case of continuous phi distribution. (Default is pi)')
 
     options = parser.parse_args()
 
