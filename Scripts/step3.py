@@ -68,7 +68,7 @@ def step3(options):
     # Run cmsdriver.py to create workflows
     print('Creating step3 configuration.')
     os.system('cmsDriver.py step3 --conditions auto:%s -n 100 %s %s --era %s '
-    '--eventcontent FEVTDEBUGHLT --no_exec -s RAW2DIGI,L1Reco,RECO,RECOSIM '
+    '--eventcontent FEVTDEBUGHLT --no_exec -s RAW2DIGI,L1Reco,RECO,RECOSIM --mc '
     '--datatier GEN-SIM-RECO --geometry Extended2026%s --nThreads %s --filein file:step2.root '
     '--fileout file:step3.root'%(options.conditions, pileupInput, pileupConfig, options.era, options.geometry, nThreads))
 
