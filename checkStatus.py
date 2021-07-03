@@ -100,7 +100,7 @@ if __name__ == '__main__':
                         listCommand  = '%s| grep %s '%(listCommand,options.campaign)
                     if options.tag is not None:
                         listCommand  = '%s| grep %s '%(listCommand,options.tag)
-                    listComand = '%s> submissions.txt'%(listComand)
+                    listCommand = '%s> submissions.txt'%(listCommand)
                     os.system(listCommand)
 
                     fSubmissions = open('submissions.txt','r')
