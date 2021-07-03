@@ -15,25 +15,29 @@ cd particleGun
 The setup.sh script is going to take care setting up a CMSSW release and cloning
 the necessary repositories. (CVMFS access is needed)
 
+The repository contains four scripts that can be used to submit, check, resubmit and kill particle gun jobs.
+
 Submit step1 (GEN-SIM) by issuing:
 ```bash
-python step1.py -E 5 10 15 -e 1p7 -p 22 -n 10 -u 50 -c campaign1 -t tag1
+python submit.py -s step1 -E 5 10 15 -e 1p7 -p 22 -n 10 -u 50 -c campaign1 -t tag1
 ```
-That is going to submit single gamma (```-p 22```) at energies 5, 10, 15 GeV (```-E 5 10 15```) and eta 1.7 (```-e 1p7```). For each energy and eta, the script submits 10 jobs (```-n 10```) with 50 events each (```-u 50```). Campaign and tag arguments are used for bookmarking purposes. To see the options available:
+This command will submit step1 jobs (`-s step1`) single gamma (`-p 22`) at energies 5, 10, 15 GeV (`-E 5 10 15`) and eta 1.7 (`-e 1p7`). For each energy and eta, the script submits 10 jobs (`-n 10`) with 50 events each (`-u 50`). Campaign and tag arguments are used for bookmarking purposes. To see the options available:
 ```
 [chpapage@cmslpc163 particleGun]$ python step1.py --help
-usage: step1.py [options]
+usage: submit.py [options]
 
-Submit multiple step1 jobs with CRAB3.
+Submit and manage multiple particle gun jobs with CRAB3.
 
 optional arguments:
   -h, --help            show this help message and exit
+  -s {step1,step2,step3,ntuples}, --step {step1,step2,step3,ntuples}
+                        Step to be used.
   -g GEOMETRY, --geometry GEOMETRY
                         Detector geometry for tagging. (Default is D76)
   -n NJOBS, --njobs NJOBS
-                        Number of jobs to run.
+                        Number of jobs to run. (Default is 10)
   -u UNITSPERJOB, --unitsPerJob UNITSPERJOB
-                        Events per job.
+                        Events per job for step1 and files processed per job for all other steps. (Default is 10)
   -E [ENERGIES ...], --energies [ENERGIES ...]
                         List of energies to shoot.
   -e [ETA ...], --eta [ETA ...]
@@ -43,6 +47,8 @@ optional arguments:
   -p [PARTICLES ...], --particles [PARTICLES ...]
                         List of particles to shoot.
   -t TAG, --tag TAG     Unique tag to discern between different submissions.
+  -i INPUTTAG, --inputTag INPUTTAG
+                        Tag of input dataset.
   -c CAMPAIGN, --campaign CAMPAIGN
                         Adds a tag to outputDatasetTag.
   -S SITE, --site SITE  Changes the output site. (Default is T3_US_FNALLPC)
@@ -52,8 +58,17 @@ optional arguments:
   -C CONDITIONS, --conditions CONDITIONS
                         Conditions option passed to cmsDriver.py. (Default is phase2_realistic_T21)
   -R ERA, --era ERA     Era option passed to cmsDriver.py. (Default is Phase2C11I13M9)
+  -m MEMORY, --memory MEMORY
+                        Override max memory setting in MB for CRAB. (Default is set by CRAB)
+  -N CPU, --cpu CPU     Override number of cores per job. (Default is 1)
   --no_exec             Prepare scripts but do not submit.
-  --closeBy             Use CloseByParticleGunProducer instead of Pythia8EGun.```
+  --closeBy             Use CloseByParticleGunProducer instead of Pythia8EGun.
+  --maxEn MAXEN         Maximum of energy range in case of continuous energy distribution. (Default is 650 GeV)
+  --minEn MINEN         Minimum of energy range in case of continuous energy distribution. (Default is 0 GeV)
+  --maxEta MAXETA       Maximum of eta range in case of continuous eta distribution. (Default is 3.0)
+  --minEta MINETA       Minimum of eta range in case of continuous eta distribution. (Default is 1.5)
+  --maxPhi MAXPHI       Maximum of phi range in case of continuous phi distribution. (Default is -pi)
+  --minPhi MINPHI       Minimum of phi range in case of continuous phi distribution. (Default is pi)
 ```
 
 To check the submitted jobs issue:
@@ -74,14 +89,14 @@ You can check the produced datasets online at https://cmsweb.cern.ch/das/ by sea
 
 To submit step2:
 ```bash
-python step2.py -E 5 10 15 -e 1p7 -p 22 -n 10 -u 1 -c campaign1 -t tag1
+python submit.py -s step2 -E 5 10 15 -e 1p7 -p 22 -n 10 -u 1 -c campaign1 -i tag1 -t tag1
 ```
 and step3:
 ```bash
-python step3.py -E 5 10 15 -e 1p7 -p 22 -n 10 -u 1 -c campaign1 -t tag1
+python submit.py -s step3 -E 5 10 15 -e 1p7 -p 22 -n 10 -u 1 -c campaign1 -i tag1 -t tag1
 ```
 
-Finally, if you want to produced ntuples (they can't be published) do:
+Finally, if you want to produced ntuples (they can't be published at the CMS DAS) do:
 ```bash
-python ntuples.py -E 5 10 15 -e 1p7 -p 22 -n 10 -u 1 -c campaign1 -t tag1
+python submit.py -s ntuples -E 5 10 15 -e 1p7 -p 22 -n 10 -u 1 -c campaign1 -i tag1 -t tag1
 ```
