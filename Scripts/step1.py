@@ -1,47 +1,7 @@
 import os, sys, math
+from Tools import particleNumbers, col
 
-sys.path.append(os.path.abspath(os.path.curdir))
-
-from Tools import mainParserStep1, particleNumbers, col
-options = mainParserStep1()
-particleTags = particleNumbers()
-
-if __name__ == '__main__':
-    # List of energies to shoot
-    energies = options.energies
-    if energies is None or len(energies) == 0:
-        print(col.magenta+'Warning: '+col.endc+'Energies not specified. '
-        'Using default values that might not work in your case.')
-        energies = [1,3,5,10,15,20,25,30]
-
-    # List of etas to shoot particles
-    etaTags = options.eta
-    if etaTags is None or len(etaTags) == 0:
-        print(col.magenta+'Warning: '+col.endc+'Etas not specified. '
-        'Using default values that might not work in your case.')
-        etaTags = ['1p7']
-    etas = {}
-    for etaTag in etaTags:
-        etas[etaTag] = float(etaTag.replace("p","."))
-
-    # List of phi to shoot particles
-    phiTags = options.phi
-    if phiTags is None or len(phiTags) == 0:
-        print(col.magenta+'Warning: '+col.endc+'Phi not specified. '
-        'The script is not going to specify a Phi.')
-        phiTags = ['notSet']
-    phis = {}
-    for phiTag in phiTags:
-        if phiTag != 'notSet':
-            phis[phiTag] = float(phiTag.replace("p","."))
-
-    # List of particles to generate in pdg codes
-    particles = options.particles
-    if particles is None or len(particles) == 0:
-        print(col.magenta+'Warning: '+col.endc+'Particles not specified. '
-        'Using Gamma as default. This might not be compatible with your configuration.')
-        particles = [22]
-
+def step1(options):
     # Getting environment info
     cmssw = os.environ['CMSSW_VERSION']
     cmsswBase = os.environ['CMSSW_BASE']
@@ -49,40 +9,117 @@ if __name__ == '__main__':
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
 
+    # List or range of energies to shoot particles
+    minEn, maxEn = 0, 650
+    minEnTag, maxEnTag = '0', '650'
+    if options.maxEn is not None:
+        maxEnTag = options.maxEn
+        maxEn = float(options.maxEn.replace("p","."))
+    if options.minEn is not None:
+        minEnTag = options.minEn
+        minEn = float(options.minEn.replace("p","."))
+    energies = options.energies
+    if energies is None or len(energies) == 0:
+        energies = ['notSet']
+
+    # List or range of etas to shoot particles
+    minEta, maxEta = 1.5, 3.0
+    minEtaTag, maxEtaTag = '1p5', '3p0'
+    if options.maxEta is not None:
+        maxEtaTag = options.maxEta.replace("-","minus")
+        maxEta = float(options.maxEta.replace("p","."))
+    if options.minEta is not None:
+        minEtaTag = options.minEta.replace("-","minus")
+        minEta = float(options.minEta.replace("p","."))
+    etaTags = options.eta
+    if etaTags is None or len(etaTags) == 0:
+        etaTags = ['notSet']
+    etas = {}
+    for etaTag in etaTags:
+        if etaTag != 'notSet':
+            etas[etaTag] = float(etaTag.replace("p","."))
+
+    # List or range of phi to shoot particles
+    minPhi, maxPhi = -math.pi, math.pi
+    minPhiTag, maxPhiTag = 'minusPi', 'Pi'
+    if options.maxPhi is not None:
+        maxPhiTag = options.maxPhi.replace("-","minus")
+        maxPhi = float(options.maxPhi.replace("p","."))
+    if options.minPhi is not None:
+        minPhiTag = options.minPhi.replace("-","minus")
+        minPhi = float(options.minPhi.replace("p","."))
+    phiTags = options.phi
+    if phiTags is None or len(phiTags) == 0:
+        phiTags = ['notSet']
+    phis = {}
+    for phiTag in phiTags:
+        if phiTag != 'notSet':
+            phis[phiTag] = float(phiTag.replace("p","."))
+
+    # List of particles to generate in pdg codes
+    particleTags = particleNumbers()
+    particles = options.particles
+    if particles is None or len(particles) == 0:
+        print(col.magenta+'Warning: '+col.endc+'Particle not specified. '
+        'Using Gamma as default. This might not be compatible with your configuration.')
+        particles = [22]
+
     for p in particles:
         for E in energies:
             for etaTag in etaTags:
                 for phiTag in phiTags:
+                    # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
+                    # and create printout message.
                     outTag = ''
+                    printOut = '%s%s'%(col.bold, col.yellow)
                     if options.closeBy:
                         outTag = 'CloseBy'
+                        printOut = 'Using CloseBy gun.\n'
                     particleTag = particleTags[p]
                     outTag = '%sSingle%s'%(outTag,particleTag)
-                    outTag = '%s_E%d'%(outTag,E)
-                    outTag = '%sEta%s'%(outTag,etaTag)
-                    if phiTag != 'notSet':
-                        outTag = '%sPhi%s'%(outTag,phiTag)
-                    os.chdir(cwd)
-                    os.system('mkdir -p myGeneration/%s'%outTag)
-                    if phiTag != 'notSet':
-                        print('Creating configuration for %s at E=%d Eta=%s Phi=%s.'%(particleTag,E,etaTag,phiTag))
+                    printOut = '%sCreating configuration for %s with '%(printOut,particleTag)
+                    if E == 'notSet':
+                        outTag = '%s_E%sto%s'%(outTag,minEnTag,maxEnTag)
+                        printOut = '%sE in (%s,%s) GeV, '%(printOut,minEnTag,maxEnTag)
                     else:
-                        print('Creating configuration for %s at E=%d Eta=%s.'%(particleTag,E,etaTag))
+                        outTag = '%s_E%d'%(outTag,E)
+                        printOut = '%sE=%d GeV, '%(printOut,E)
+                        minEn, maxEn = E-0.01, E+0.01
+                    if etaTag == 'notSet':
+                        outTag = '%sEta%sto%s'%(outTag,minEtaTag,maxEtaTag)
+                        printOut = '%seta in (%s,%s), '%(printOut,minEtaTag,maxEtaTag)
+                    else:
+                        outTag = '%sEta%s'%(outTag,etaTag)
+                        printOut = '%seta=%s, '%(printOut,etaTag)
+                        minEta, maxEta = etas[etaTag]-0.01, etas[etaTag]+0.01
+                    if phiTag == 'notSet':
+                        if options.minPhi is not None or options.maxPhi is not None:
+                            outTag = '%sPhi%sto%s'%(outTag,minPhiTag,maxPhiTag)
+                        printOut = '%sand phi in (%s,%s)%s'%(printOut,minPhiTag,maxPhiTag,col.endc)
+                    else:
+                        outTag = '%sPhi%s'%(outTag,phiTag)
+                        printOut = '%sand phi=%s%s'%(printOut,phiTag,col.endc)
+                        minPhi, maxPhi = phis[phiTag]-0.01, phis[phiTag]+0.01
+                    print(printOut)
+
+                    # Create working directory
+                    os.chdir(cwd)
+                    os.system('mkdir -pv myGeneration/%s'%outTag)
 
                     # Create generator configurations
                     if options.closeBy:
                         zmin = 320;
                         zmax = 321;
-                        rmin = zmin*math.tan(2*math.atan(math.exp(-(etas[etaTag]+0.01))));
-                        rmax = zmax*math.tan(2*math.atan(math.exp(-(etas[etaTag]-0.01))));
+                        rmin = zmin*math.tan(2*math.atan(math.exp(-maxEta)));
+                        rmax = zmax*math.tan(2*math.atan(math.exp(-minEta)));
                         file0 = open('%s%s_cfi.py'%(genDir,outTag),'w')
                         file0.write("# Generator fragment automatically generated by step1.py script\n\n")
                         file0.write("import FWCore.ParameterSet.Config as cms\n\n")
                         file0.write("generator = cms.EDProducer('CloseByParticleGunProducer',\n")
                         file0.write("\tPGunParameters = cms.PSet(\n")
                         file0.write("\t\tPartID = cms.vint32(%d),\n"%p)
-                        file0.write("\t\tEnMax = cms.double(%f),\n"%(E+0.01))
-                        file0.write("\t\tEnMin = cms.double(%f),\n"%(E-0.01))
+                        file0.write("\t\tEnMax = cms.double(%f),\n"%(maxEn))
+                        file0.write("\t\tEnMin = cms.double(%f),\n"%(minEn))
                         file0.write("\t\tRMax = cms.double(%f),\n"%(rmax))
                         file0.write("\t\tRMin = cms.double(%f),\n"%(rmin))
                         file0.write("\t\tZMax = cms.double(%f),\n"%(zmax))
@@ -92,16 +129,10 @@ if __name__ == '__main__':
                         file0.write("\t\tOverlapping = cms.bool(False),\n")
                         file0.write("\t\tRandomShoot = cms.bool(False),\n")
                         file0.write("\t\tNParticles = cms.int32(1),\n")
-                        file0.write("\t\tMaxEta = cms.double(%f),\n"%(etas[etaTag]+0.01))
-                        file0.write("\t\tMinEta = cms.double(%f),\n"%(etas[etaTag]-0.01))
-                        if phiTag != 'notSet':
-                            phimax = phis[phiTag]+0.01;
-                            phimin = phis[phiTag]-0.01;
-                            file0.write("\t\tMaxPhi = cms.double(%f),\n"%phimax)
-                            file0.write("\t\tMinPhi = cms.double(%f)\n"%())
-                        else:
-                            file0.write("\t\tMaxPhi = cms.double(%.11f),\n"%(math.pi))
-                            file0.write("\t\tMinPhi = cms.double(-%.11f)\n"%(math.pi))
+                        file0.write("\t\tMaxEta = cms.double(%f),\n"%(maxEta))
+                        file0.write("\t\tMinEta = cms.double(%f),\n"%(minEta))
+                        file0.write("\t\tMaxPhi = cms.double(%.11f),\n"%(maxPhi))
+                        file0.write("\t\tMinPhi = cms.double(%.11f)\n"%(minPhi))
                         file0.write("\t),\n")
                         file0.write("\tVerbosity = cms.untracked.int32(0),\n")
                         file0.write("\tpsethack = cms.string('%s'),\n"%outTag)
@@ -115,18 +146,14 @@ if __name__ == '__main__':
                         file0.write("import FWCore.ParameterSet.Config as cms\n\n")
                         file0.write("generator = cms.EDFilter('Pythia8EGun',\n")
                         file0.write("\tPGunParameters = cms.PSet(\n")
-                        file0.write("\t\tMaxE = cms.double(%f),\n"%(E+0.01))
-                        file0.write("\t\tMinE = cms.double(%f),\n"%(E-0.01))
+                        file0.write("\t\tMaxE = cms.double(%f),\n"%(maxEn))
+                        file0.write("\t\tMinE = cms.double(%f),\n"%(minEn))
                         file0.write("\t\tParticleID = cms.vint32(%d),\n"%p)
                         file0.write("\t\tAddAntiParticle = cms.bool(False),\n")
-                        file0.write("\t\tMaxEta = cms.double(%f),\n"%(etas[etaTag]+0.01))
-                        file0.write("\t\tMinEta = cms.double(%f),\n"%(etas[etaTag]-0.01))
-                        if phiTag != 'notSet':
-                            file0.write("\t\tMaxPhi = cms.double(%f),\n"%(phis[phiTag]+0.01))
-                            file0.write("\t\tMinPhi = cms.double(%f)\n"%(phis[phiTag]-0.01))
-                        else:
-                            file0.write("\t\tMaxPhi = cms.double(%.11f),\n"%(math.pi))
-                            file0.write("\t\tMinPhi = cms.double(-%.11f)\n"%(math.pi))
+                        file0.write("\t\tMaxEta = cms.double(%f),\n"%(maxEta))
+                        file0.write("\t\tMinEta = cms.double(%f),\n"%(minEta))
+                        file0.write("\t\tMaxPhi = cms.double(%f),\n"%(maxPhi))
+                        file0.write("\t\tMinPhi = cms.double(%f)\n"%(minPhi))
                         file0.write("\t),\n")
                         file0.write("\tVerbosity = cms.untracked.int32(0), ")
                         file0.write("## set to 1 (or greater)  for printouts\n")
@@ -141,7 +168,7 @@ if __name__ == '__main__':
                     pythiaTag = '_pythia8'
                     if options.closeBy:
                         pythiaTag = ''
-                    os.system('cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py '
+                    os.system('cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py --mc '
                     '--conditions auto:%s -n 100 --era %s --eventcontent FEVTDEBUG -s GEN,SIM '
                     '--datatier GEN-SIM --no_exec --beamspot HLLHC --geometry Extended2026%s '
                     '--fileout file:step1.root'%(outTag,pythiaTag,options.conditions,options.era,options.geometry))
@@ -154,13 +181,13 @@ if __name__ == '__main__':
                     file1.write('import config\n')
                     file1.write('config = config()\n')
                     file1.write("config.General.requestName = ")
-                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
-                        if options.tag is None or options.tag == None or options.tag == 'None':
+                    if options.campaign is None:
+                        if options.tag is None:
                             file1.write("'%s_%s_upgrade2026_%s_step1'\n"%(outTag,cmssw,options.geometry))
                         else:
                             file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.tag))
                     else:
-                        if options.tag is None or options.tag == None or options.tag == 'None':
+                        if options.tag is None:
                             file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.campaign))
                         else:
                             file1.write("'%s_%s_upgrade2026_%s_%s_%s_step1'\n"%(outTag,cmssw,options.geometry,options.campaign,options.tag))
@@ -186,7 +213,7 @@ if __name__ == '__main__':
                     file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
-                    if options.campaign is None or options.campaign == None or options.campaign == 'None':
+                    if options.campaign is None:
                         file1.write("'%s_%s_upgrade2026_%s_step1'\n\n"%(outTag,cmssw,options.geometry))
                     else:
                         file1.write("'%s_%s_upgrade2026_%s_%s_step1'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
