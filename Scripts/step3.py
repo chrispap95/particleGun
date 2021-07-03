@@ -1,4 +1,4 @@
- == 'notSet'import os, sys
+import os, sys
 from Tools import particleNumbers, col
 
 def step3(options):
