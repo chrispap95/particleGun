@@ -11,9 +11,9 @@ if __name__ == '__main__':
         step1.step1(options)
     elif  options.step == 'step2':
         step2.step2(options)
-    elif  options.step == 'step2':
+    elif  options.step == 'step3':
         step3.step3(options)
     elif  options.step == 'ntuples':
         ntuples.ntuples(options)
     else:
-        raise ValueError
+        raise ValueError("Unknown step '%s'"%options.step)
