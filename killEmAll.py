@@ -94,20 +94,15 @@ if __name__ == '__main__':
                                                                col.bold,col.magenta,options.tag,col.endc))
                     os.chdir(cwd)
                     os.chdir('myGeneration/%s/crab_projects/'%outTag)
-                    if options.campaign is None:
-                        if options.tag is None:
-                            os.system('ls | grep %s | grep %s '
-                            '> submissions.txt'%(options.step,options.geometry))
-                        else:
-                            os.system('ls | grep %s | grep %s | grep %s '
-                            '> submissions.txt'%(options.step,options.geometry,options.tag))
-                    else:
-                        if options.tag is None:
-                            os.system('ls | grep %s | grep %s | grep %s '
-                            '> submissions.txt'%(options.step,options.geometry,options.campaign))
-                        else:
-                            os.system('ls | grep %s | grep %s | grep %s | grep %s '
-                            '> submissions.txt'%(options.step,options.geometry,options.tag,options.campaign))
+
+                    listCommand = 'ls | grep %s | grep %s'%(options.step,options.geometry)
+                    if options.campaign is not None:
+                        listCommand  = '%s| grep %s '%(listCommand,options.campaign)
+                    if options.tag is not None:
+                        listCommand  = '%s| grep %s '%(listCommand,options.tag)
+                    listCommand = '%s> submissions.txt'%(listCommand)
+                    os.system(listCommand)
+
                     fSubmissions = open('submissions.txt','r')
                     for submission in fSubmissions:
                         os.system('crab kill -d %s'%(submission))
