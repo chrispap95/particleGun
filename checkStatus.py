@@ -4,62 +4,59 @@ from Tools import mainParser, particleNumbers, col
 sys.path.append(os.path.abspath(os.path.curdir))
 
 options = mainParser()
-particleTags = particleNumbers()
 
 if __name__ == '__main__':
-    # List or range of energies to shoot particles
-    minEnTag, maxEnTag = '0', '650'
-    if options.maxEn is not None:
-        maxEnTag = options.maxEn
-        maxEn = float(options.maxEn.replace("p","."))
-    if options.minEn is not None:
-        minEnTag = options.minEn
-        minEn = float(options.minEn.replace("p","."))
-    energies = options.energies
-    if energies is None or len(energies) == 0:
-        energies = ['notSet']
-
-    # List or range of etas to shoot particles
-    minEtaTag, maxEtaTag = '1p5', '3p0'
-    if options.maxEta is not None:
-        maxEtaTag = options.maxEta.replace("-","minus")
-        maxEta = float(options.maxEta.replace("p","."))
-    if options.minEta is not None:
-        minEtaTag = options.minEta.replace("-","minus")
-        minEta = float(options.minEta.replace("p","."))
-    etaTags = options.eta
-    if etaTags is None or len(etaTags) == 0:
-        etaTags = ['notSet']
-
-    # List or range of phi to shoot particles
-    minPhiTag, maxPhiTag = 'minusPi', 'Pi'
-    if options.maxPhi is not None:
-        maxPhiTag = options.maxPhi.replace("-","minus")
-        maxPhi = float(options.maxPhi.replace("p","."))
-    if options.minPhi is not None:
-        minPhiTag = options.minPhi.replace("-","minus")
-        minPhi = float(options.minPhi.replace("p","."))
-    phiTags = options.phi
-    if phiTags is None or len(phiTags) == 0:
-        phiTags = ['notSet']
-
-    # List of particles to generate in pdg codes
-    particles = options.particles
-    if particles is None or len(particles) == 0:
-        print(col.magenta+'Warning: '+col.endc+'Particles not specified. '
-        'Using Gamma as default. This might not be compatible with your configuration.')
-        particles = [22]
-
     # Getting environment info
     cmssw = os.environ['CMSSW_VERSION']
     cmsswBase = os.environ['CMSSW_BASE']
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
 
+    # Converts floats to nice strings for printouts and names
+    makeTag = lambda x : str(round(x,2)).replace(".","p").replace("-","minus")
+
+    # List or range of energies to shoot particles
+    minEn, maxEn = 0, 650
+    if options.maxEn is not None:
+        maxEn = options.maxEn
+    if options.minEn is not None:
+        minEn = options.minEn
+    energies = options.energies
+    if energies is None or len(energies) == 0:
+        energies = ['notSet']
+
+    # List or range of etas to shoot particles
+    minEta, maxEta = 1.5, 3.0
+    if options.maxEta is not None:
+        maxEta = options.maxEta
+    if options.minEta is not None:
+        minEta = options.minEta
+    etas = options.eta
+    if etas is None or len(etas) == 0:
+        etaTags = ['notSet']
+
+    # List or range of phi to shoot particles
+    minPhi, maxPhi = -math.pi, math.pi
+    if options.maxPhi is not None:
+        maxPhi = options.maxPhi
+    if options.minPhi is not None:
+        minPhi = options.minPhi
+    phis = options.phi
+    if phis is None or len(phis) == 0:
+        phis = ['notSet']
+
+    # List of particles to generate in pdg codes
+    particleTags = particleNumbers()
+    particles = options.particles
+    if particles is None or len(particles) == 0:
+        print(col.magenta+'Warning: '+col.endc+'Particles not specified. '
+        'Using Gamma as default. This might not be compatible with your configuration.')
+        particles = [22]
+
     for p in particles:
         for E in energies:
-            for etaTag in etaTags:
-                for phiTag in phiTags:
+            for eta in etas:
+                for phi in phis:
                     # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
                     # and create printout message.
                     outTag = ''
@@ -71,24 +68,24 @@ if __name__ == '__main__':
                     outTag = '%sSingle%s'%(outTag,particleTag)
                     printOut = '%sChecking status for %s with '%(printOut,particleTag)
                     if E == 'notSet':
-                        outTag = '%s_E%sto%s'%(outTag,minEnTag,maxEnTag)
-                        printOut = '%sE in (%s,%s) GeV, '%(printOut,minEnTag,maxEnTag)
+                        outTag = '%s_E%sto%s'%(outTag,makeTag(minEn),makeTag(maxEn))
+                        printOut = '%sE in (%s,%s) GeV, '%(printOut,makeTag(minEn),makeTag(maxEn))
                     else:
-                        outTag = '%s_E%d'%(outTag,E)
-                        printOut = '%sE=%d GeV, '%(printOut,E)
+                        outTag = '%s_E%d'%(outTag,makeTag(E))
+                        printOut = '%sE=%d GeV, '%(printOut,makeTag(E))
                     if etaTag == 'notSet':
-                        outTag = '%sEta%sto%s'%(outTag,minEtaTag,maxEtaTag)
-                        printOut = '%seta in (%s,%s), '%(printOut,minEtaTag,maxEtaTag)
+                        outTag = '%sEta%sto%s'%(outTag,makeTag(minEta),makeTag(maxEta))
+                        printOut = '%seta in (%s,%s), '%(printOut,makeTag(minEta),makeTag(maxEta))
                     else:
-                        outTag = '%sEta%s'%(outTag,etaTag)
-                        printOut = '%seta=%s, '%(printOut,etaTag)
+                        outTag = '%sEta%s'%(outTag,makeTag(eta))
+                        printOut = '%seta=%s, '%(printOut,makeTag(eta))
                     if phiTag == 'notSet':
                         if options.minPhi is not None or options.maxPhi is not None:
-                            outTag = '%sPhi%sto%s'%(outTag,minPhiTag,maxPhiTag)
-                        printOut = '%sand phi in (%s,%s)%s'%(printOut,minPhiTag,maxPhiTag,col.endc)
+                            outTag = '%sPhi%sto%s'%(outTag,makeTag(minPhi),makeTag(maxPhi))
+                        printOut = '%sand phi in (%s,%s)%s'%(printOut,makeTag(minPhi),makeTag(maxPhi),col.endc)
                     else:
-                        outTag = '%sPhi%s'%(outTag,phiTag)
-                        printOut = '%sand phi=%s%s'%(printOut,phiTag,col.endc)
+                        outTag = '%sPhi%s'%(outTag,makeTag(phi))
+                        printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
                     print(printOut)
                     print('%sCampaign: %s%s%s\t%sTag: %s%s%s'%(col.bold,col.magenta,options.campaign,col.endc,
                                                                col.bold,col.magenta,options.tag,col.endc))

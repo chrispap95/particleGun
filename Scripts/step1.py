@@ -9,6 +9,7 @@ def step1(options):
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
 
+    # Converts floats to nice strings for printouts and names
     makeTag = lambda x : str(round(x,2)).replace(".","p").replace("-","minus")
 
     # List or range of energies to shoot particles
