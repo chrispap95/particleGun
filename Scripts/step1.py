@@ -68,8 +68,8 @@ def step1(options):
                         outTag = '%s_E%sto%s'%(outTag,makeTag(minEn),makeTag(maxEn))
                         printOut = '%sE in (%s,%s) GeV, '%(printOut,makeTag(minEn),makeTag(maxEn))
                     else:
-                        outTag = '%s_E%d'%(outTag,makeTag(E))
-                        printOut = '%sE=%d GeV, '%(printOut,makeTag(E))
+                        outTag = '%s_E%s'%(outTag,makeTag(E))
+                        printOut = '%sE=%s GeV, '%(printOut,makeTag(E))
                         minEn, maxEn = E-0.01, E+0.01
                     if eta == 'notSet':
                         outTag = '%sEta%sto%s'%(outTag,makeTag(minEta),makeTag(maxEta))
