@@ -55,8 +55,7 @@ def step1(options):
                     # and create printout message.
                     outTag = tagBuilder(options, p, E, eta, phi,
                                         minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
-                    minEn, maxEn, minEta, maxEta, minPhi, maxPhi = setRanges(options,
-                                                                             p, E, eta, phi,
+                    minEn, maxEn, minEta, maxEta, minPhi, maxPhi = setRanges(p, E, eta, phi,
                                                                              minEn, maxEn,
                                                                              minEta, maxEta,
                                                                              minPhi, maxPhi)
