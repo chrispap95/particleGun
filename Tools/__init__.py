@@ -107,7 +107,7 @@ def makeTag(x):
 
 # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
 # and create printout message.
-def tagBuilder(options, p, E, eta, phi):
+def tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi):
     outTag = ''
     printOut = '%s%s'%(col.bold, col.yellow)
     if options.closeBy:

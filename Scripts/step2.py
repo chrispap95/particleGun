@@ -101,7 +101,7 @@ def step2(options):
                 for phi in phis:
                     # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
                     # and create printout message.
-                    outTag = tagBuilder(options, p, E, eta, phi)
+                    outTag = tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
 
                     os.chdir(cwd)
                     if options.pileup:

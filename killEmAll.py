@@ -56,7 +56,7 @@ if __name__ == '__main__':
                 for phi in phis:
                     # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
                     # and create printout message.
-                    outTag = tagBuilder(options, p, E, eta, phi)
+                    outTag = tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
                     print('%sCampaign: %s%s%s\t%sTag: %s%s%s'%(col.bold,col.magenta,options.campaign,col.endc,
                                                                col.bold,col.magenta,options.tag,col.endc))
                     os.chdir(cwd)
