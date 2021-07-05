@@ -69,25 +69,25 @@ def step2(options):
     eTag = ''
     for E in energies:
         if E == 'notSet':
-            eTag = '%sto%s'%(makeTag(minEn),makeTag(maxEn))
+            eTag = '%sto%s'%(minEn,maxEn)
         else:
-            eTag = '%s %s'%(eTag,makeTag(E))
+            eTag = '%s %s'%(eTag,E)
     pTag = ''
     for p in particles:
         pTag = '%s %d'%(pTag,p)
     etaList = ''
     for eta in etas:
         if eta == 'notSet':
-            etaList = '%sto%s'%(makeTag(minEta),makeTag(maxEta))
+            etaList = '%sto%s'%(minEta,maxEta)
         else:
-            etaList = '%s %s'%(etaList,makeTag(eta))
+            etaList = '%s %s'%(etaList,eta)
     phiList = ''
     for phi in phis:
         if phi == 'notSet':
             if options.minPhi is not None or options.maxPhi is not None:
-                phiList = '%sto%s'%(makeTag(minPhi),makeTag(maxPhi))
+                phiList = '%sto%s'%(minPhi,maxPhi)
         else:
-            phiList = '%s %s'%(phiList,makeTag(phi))
+            phiList = '%s %s'%(phiList,phi)
     inputTag = options.inputTag
     if options.inputTag is None:
         inputTag = options.tag
