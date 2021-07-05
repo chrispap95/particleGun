@@ -19,9 +19,13 @@ The repository contains four scripts that can be used to submit, check, resubmit
 
 Submit step1 (GEN-SIM) by issuing:
 ```bash
-python submit.py -s step1 -E 5 10 15 -e 1p7 -p 22 -n 10 -u 50 -c campaign1 -t tag1
+python submit.py -s step1 -E 5 10 15 -e 1.62 -p 22 -n 10 -u 50 -c campaign1 -t tag1
 ```
-This command will submit step1 jobs (`-s step1`) single gamma (`-p 22`) at energies 5, 10, 15 GeV (`-E 5 10 15`) and eta 1.7 (`-e 1p7`). For each energy and eta, the script submits 10 jobs (`-n 10`) with 50 events each (`-u 50`). Campaign and tag arguments are used for bookmarking purposes. To see the options available:
+This command will submit step1 jobs (`-s step1`) single gamma (`-p 22`) at energies 5, 10, 15 GeV (`-E 5 10 15`) and eta 1.7 (`-e 1.62`). For each energy and eta, the script submits 10 jobs (`-n 10`) with 50 events each (`-u 50`). Campaign and tag arguments are used for bookmarking purposes.
+
+If you want to shoot at a continuous range of energies, eta or phi, then omit the `-E`, `-e`, and `-P` options, respectively, and use the `--maxEn`, `minEn`, etc options to define the desired ranges.
+
+To see the options available:
 ```
 [chpapage@cmslpc163 particleGun]$ python step1.py --help
 usage: submit.py [options]
@@ -73,30 +77,30 @@ optional arguments:
 
 To check the submitted jobs issue:
 ```bash
-python checkStatus.py -s step1 -E 5 10 15 -e 1p7 -p 22 -c campaign1 -t tag1
+python checkStatus.py -s step1 -E 5 10 15 -e 1.62 -p 22 -c campaign1 -t tag1
 ```
 
 Similarly, to resubmit failed jobs or kill them:
 ```bash
-python resubmit.py -s step1 -E 5 10 15 -e 1p7 -p 22 -c campaign1 -t tag1
+python resubmit.py -s step1 -E 5 10 15 -e 1.62 -p 22 -c campaign1 -t tag1
 ```
 and
 ```bash
-python killEmAll.py -s step1 -E 5 10 15 -e 1p7 -p 22 -c campaign1 -t tag1
+python killEmAll.py -s step1 -E 5 10 15 -e 1.62 -p 22 -c campaign1 -t tag1
 ```
 
 You can check the produced datasets online at https://cmsweb.cern.ch/das/ by searching for the dataset name from the output of checkStatus.py.
 
 To submit step2:
 ```bash
-python submit.py -s step2 -E 5 10 15 -e 1p7 -p 22 -n 10 -u 1 -c campaign1 -i tag1 -t tag1
+python submit.py -s step2 -E 5 10 15 -e 1.62 -p 22 -n 10 -u 1 -c campaign1 -i tag1 -t tag1
 ```
 and step3:
 ```bash
-python submit.py -s step3 -E 5 10 15 -e 1p7 -p 22 -n 10 -u 1 -c campaign1 -i tag1 -t tag1
+python submit.py -s step3 -E 5 10 15 -e 1.62 -p 22 -n 10 -u 1 -c campaign1 -i tag1 -t tag1
 ```
 
 Finally, if you want to produced ntuples (they can't be published at the CMS DAS) do:
 ```bash
-python submit.py -s ntuples -E 5 10 15 -e 1p7 -p 22 -n 10 -u 1 -c campaign1 -i tag1 -t tag1
+python submit.py -s ntuples -E 5 10 15 -e 1.62 -p 22 -n 10 -u 1 -c campaign1 -i tag1 -t tag1
 ```
