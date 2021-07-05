@@ -91,7 +91,7 @@ def step3(options):
             phiList = '%s %s'%(phiList,makeTag(phi))
     inputTag = options.inputTag
     if options.inputTag is None:
-        inputTag = options.Tag
+        inputTag = options.tag
     os.system("sh Tools/createList.sh step2 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
     "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,inputTag,options.closeBy,options.campaign))
     filein = open('myGeneration/list.txt','r')
