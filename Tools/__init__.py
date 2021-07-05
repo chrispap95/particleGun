@@ -104,3 +104,36 @@ def makeTag(x):
     if re.search("p0$",tag) is not None:
         tag = tag.replace("p0","")
     return tag
+
+# Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
+# and create printout message.
+def tagBuilder(options, p, E, eta, phi):
+    outTag = ''
+    printOut = '%s%s'%(col.bold, col.yellow)
+    if options.closeBy:
+        outTag = 'CloseBy'
+        printOut = 'Using CloseBy gun.\n'
+    particleTag = particleTags[p]
+    outTag = '%sSingle%s'%(outTag,particleTag)
+    printOut = '%sCreating configuration for %s with '%(printOut,particleTag)
+    if E == 'notSet':
+        outTag = '%s_E%sto%s'%(outTag,makeTag(minEn),makeTag(maxEn))
+        printOut = '%sE in (%s,%s) GeV, '%(printOut,makeTag(minEn),makeTag(maxEn))
+    else:
+        outTag = '%s_E%s'%(outTag,makeTag(E))
+        printOut = '%sE=%s GeV, '%(printOut,makeTag(E))
+    if eta == 'notSet':
+        outTag = '%sEta%sto%s'%(outTag,makeTag(minEta),makeTag(maxEta))
+        printOut = '%seta in (%s,%s), '%(printOut,makeTag(minEta),makeTag(maxEta))
+    else:
+        outTag = '%sEta%s'%(outTag,makeTag(eta))
+        printOut = '%seta=%s, '%(printOut,makeTag(eta))
+    if phi == 'notSet':
+        if options.minPhi is not None or options.maxPhi is not None:
+            outTag = '%sPhi%sto%s'%(outTag,makeTag(minPhi),makeTag(maxPhi))
+        printOut = '%sand phi in (%s,%s)%s'%(printOut,makeTag(minPhi),makeTag(maxPhi),col.endc)
+    else:
+        outTag = '%sPhi%s'%(outTag,makeTag(phi))
+        printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
+    print(printOut)
+    return outTag
