@@ -30,7 +30,7 @@ def step2(options):
         minEta = options.minEta
     etas = options.eta
     if etas is None or len(etas) == 0:
-        etaTags = ['notSet']
+        etas = ['notSet']
 
     # List or range of phi to shoot particles
     minPhi, maxPhi = -math.pi, math.pi
@@ -81,13 +81,13 @@ def step2(options):
         pTag = '%s %d'%(pTag,p)
     etaList = ''
     for eta in etas:
-        if etaTag == 'notSet':
+        if eta == 'notSet':
             etaList = '%sto%s'%(makeTag(minEta),makeTag(maxEta))
         else:
             etaList = '%s %s'%(etaList,makeTag(eta))
     phiList = ''
     for phi in phis:
-        if phiTag == 'notSet':
+        if phi == 'notSet':
             if options.minPhi is not None or options.maxPhi is not None:
                 phiList = '%sto%s'%(makeTag(minPhi),makeTag(maxPhi))
         else:
@@ -119,13 +119,13 @@ def step2(options):
                     else:
                         outTag = '%s_E%d'%(outTag,makeTag(E))
                         printOut = '%sE=%d GeV, '%(printOut,makeTag(E))
-                    if etaTag == 'notSet':
+                    if eta == 'notSet':
                         outTag = '%sEta%sto%s'%(outTag,makeTag(minEta),makeTag(maxEta))
                         printOut = '%seta in (%s,%s), '%(printOut,makeTag(minEta),makeTag(maxEta))
                     else:
                         outTag = '%sEta%s'%(outTag,makeTag(eta))
                         printOut = '%seta=%s, '%(printOut,makeTag(eta))
-                    if phiTag == 'notSet':
+                    if phi == 'notSet':
                         if options.minPhi is not None or options.maxPhi is not None:
                             outTag = '%sPhi%sto%s'%(outTag,makeTag(minPhi),makeTag(maxPhi))
                         printOut = '%sand phi in (%s,%s)%s'%(printOut,makeTag(minPhi),makeTag(maxPhi),col.endc)

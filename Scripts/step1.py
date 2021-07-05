@@ -30,7 +30,7 @@ def step1(options):
         minEta = options.minEta
     etas = options.eta
     if etas is None or len(etas) == 0:
-        etaTags = ['notSet']
+        etas = ['notSet']
 
     # List or range of phi to shoot particles
     minPhi, maxPhi = -math.pi, math.pi
