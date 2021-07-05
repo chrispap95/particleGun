@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     for p in particles:
         for E in energies:
-            for eta in eta:
+            for eta in etas:
                 for phi in phis:
                     # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
                     # and create printout message.
