@@ -1,5 +1,5 @@
 import os, sys, math
-from Tools import particleNumbers, col, makeTag, tagBuilder
+from Tools import col, makeTag, tagBuilder
 
 def step2(options):
     # Getting environment info
@@ -40,7 +40,6 @@ def step2(options):
         phis = ['notSet']
 
     # List of particles to generate in pdg codes
-    particleTags = particleNumbers()
     particles = options.particles
     if particles is None or len(particles) == 0:
         print(col.magenta+'Warning: '+col.endc+'Particles not specified. '

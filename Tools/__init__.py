@@ -113,6 +113,7 @@ def tagBuilder(options, p, E, eta, phi):
     if options.closeBy:
         outTag = 'CloseBy'
         printOut = 'Using CloseBy gun.\n'
+    particleTags = particleNumbers()
     particleTag = particleTags[p]
     outTag = '%sSingle%s'%(outTag,particleTag)
     printOut = '%sCreating configuration for %s with '%(printOut,particleTag)
