@@ -1,5 +1,5 @@
 import os, sys, math
-from Tools import mainParser, particleNumbers, col
+from Tools import mainParser, particleNumbers, col, makeTag
 
 sys.path.append(os.path.abspath(os.path.curdir))
 
@@ -11,9 +11,6 @@ if __name__ == '__main__':
     cmsswBase = os.environ['CMSSW_BASE']
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
-
-    # Converts floats to nice strings for printouts and names
-    makeTag = lambda x : str(round(x,2)).replace(".","p").replace("-","minus")
 
     # List or range of energies to shoot particles
     minEn, maxEn = 0, 650

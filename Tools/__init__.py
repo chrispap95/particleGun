@@ -5,7 +5,7 @@
 # and other necessary tools.
 #
 
-import argparse
+import argparse, re
 
 def mainParser():
     parser = argparse.ArgumentParser(description='Submit and manage multiple particle gun jobs with CRAB3.',
@@ -97,3 +97,10 @@ class col:
     endc = '\033[0m'
     bold = '\033[1m'
     uline = '\033[4m'
+
+# Converts floats to nice strings for printouts and names
+def makeTag(x):
+    tag = str(round(x,2)).replace(".","p").replace("-","minus")
+    if re.search("p0$",tag) is not None:
+        tag = tag.replace("p0","")
+    return tag

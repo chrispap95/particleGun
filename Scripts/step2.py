@@ -1,5 +1,5 @@
 import os, sys, math
-from Tools import particleNumbers, col
+from Tools import particleNumbers, col, makeTag
 
 def step2(options):
     # Getting environment info
@@ -8,9 +8,6 @@ def step2(options):
     user = os.environ['USER']
     genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
     cwd = os.getcwd()
-
-    # Converts floats to nice strings for printouts and names
-    makeTag = lambda x : str(round(x,2)).replace(".","p").replace("-","minus")
 
     # List or range of energies to shoot particles
     minEn, maxEn = 0, 650
