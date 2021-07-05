@@ -138,3 +138,13 @@ def tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, ma
         printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
     print(printOut)
     return outTag
+
+# Set the particle gun ranges when using discrete values
+def setRanges(p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi):
+    if E != 'notSet':
+        minEn, maxEn = E-0.01, E+0.01
+    if eta != 'notSet':
+        minEta, maxEta = eta-0.01, eta+0.01
+    if phi != 'notSet':
+        minPhi, maxPhi = phi-0.01, phi+0.01
+    return minEn, maxEn, minEta, maxEta, minPhi, maxPhi
