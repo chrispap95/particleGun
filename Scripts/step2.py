@@ -3,11 +3,9 @@ from Tools import col, makeTag, tagBuilder
 
 def step2(options):
     # Getting environment info
-    cmssw = os.environ['CMSSW_VERSION']
-    cmsswBase = os.environ['CMSSW_BASE']
-    user = os.environ['USER']
-    genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-    cwd = os.getcwd()
+    CMSSW = os.environ['CMSSW_VERSION']
+    USER = os.environ['USER']
+    CWD = os.getcwd()
 
     # List or range of energies to shoot particles
     minEn, maxEn = 0, 650
@@ -103,7 +101,7 @@ def step2(options):
                     # and create printout message.
                     outTag = tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
 
-                    os.chdir(cwd)
+                    os.chdir(CWD)
                     if options.pileup:
                         os.system('cp step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py myGeneration/%s/'%outTag)
                     else:
@@ -120,14 +118,14 @@ def step2(options):
                     file1.write("config.General.requestName = ")
                     if options.campaign is None:
                         if options.tag is None:
-                            file1.write("'%s_%s_upgrade2026_%s_step2'\n"%(outTag,cmssw,options.geometry))
+                            file1.write("'%s_%s_upgrade2026_%s_step2'\n"%(outTag,CMSSW,options.geometry))
                         else:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_step2'\n"%(outTag,cmssw,options.geometry,options.tag))
+                            file1.write("'%s_%s_upgrade2026_%s_%s_step2'\n"%(outTag,CMSSW,options.geometry,options.tag))
                     else:
                         if options.tag is None:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_step2'\n"%(outTag,cmssw,options.geometry,options.campaign))
+                            file1.write("'%s_%s_upgrade2026_%s_%s_step2'\n"%(outTag,CMSSW,options.geometry,options.campaign))
                         else:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_%s_step2'\n"%(outTag,cmssw,options.geometry,options.campaign,options.tag))
+                            file1.write("'%s_%s_upgrade2026_%s_%s_%s_step2'\n"%(outTag,CMSSW,options.geometry,options.campaign,options.tag))
                     file1.write("config.General.workArea = 'crab_projects'\n")
                     file1.write("config.General.transferOutputs = True\n")
                     file1.write("config.General.transferLogs = True\n\n")
@@ -154,9 +152,9 @@ def step2(options):
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
                     if options.campaign is None:
-                        file1.write("'%s_%s_upgrade2026_%s_step2'\n\n"%(outTag,cmssw,options.geometry))
+                        file1.write("'%s_%s_upgrade2026_%s_step2'\n\n"%(outTag,CMSSW,options.geometry))
                     else:
-                        file1.write("'%s_%s_upgrade2026_%s_%s_step2'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
+                        file1.write("'%s_%s_upgrade2026_%s_%s_step2'\n\n"%(outTag,CMSSW,options.geometry,options.campaign))
 
                     file1.write("config.Site.storageSite = '%s'\n"%options.site)
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
@@ -165,7 +163,7 @@ def step2(options):
                     if options.no_exec:
                         os.system('crab submit -c crabConfig_%s_step2.py'%outTag)
 
-    os.chdir(cwd)
+    os.chdir(CWD)
     if options.pileup:
         os.system('rm step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py')
     else:

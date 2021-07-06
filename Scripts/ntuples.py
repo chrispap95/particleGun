@@ -3,11 +3,9 @@ from Tools import mainParser, particleNumbers, col, makeTag, tagBuilder
 
 def ntuples(options):
     # Getting environment info
-    cmssw = os.environ['CMSSW_VERSION']
-    cmsswBase = os.environ['CMSSW_BASE']
-    user = os.environ['USER']
-    genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-    cwd = os.getcwd()
+    CMSSW = os.environ['CMSSW_VERSION']
+    USER = os.environ['USER']
+    CWD = os.getcwd()
 
     # List or range of energies to shoot particles
     minEn, maxEn = 0, 650
@@ -85,7 +83,7 @@ def ntuples(options):
                     # and create printout message.
                     outTag = tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
 
-                    os.chdir(cwd)
+                    os.chdir(CWD)
                     os.system('cp Misc/ntuplesConfig.py myGeneration/%s/'%outTag)
                     os.chdir('myGeneration/%s'%outTag)
 
@@ -99,14 +97,14 @@ def ntuples(options):
                     file1.write("config.General.requestName = ")
                     if options.campaign is None:
                         if options.tag is None:
-                            file1.write("'%s_%s_upgrade2026_%s_ntuples'\n"%(outTag,cmssw,options.geometry))
+                            file1.write("'%s_%s_upgrade2026_%s_ntuples'\n"%(outTag,CMSSW,options.geometry))
                         else:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.tag))
+                            file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,CMSSW,options.geometry,options.tag))
                     else:
                         if options.tag is None:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.campaign))
+                            file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,CMSSW,options.geometry,options.campaign))
                         else:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.campaign,options.tag))
+                            file1.write("'%s_%s_upgrade2026_%s_%s_%s_ntuples'\n"%(outTag,CMSSW,options.geometry,options.campaign,options.tag))
                     file1.write("config.General.workArea = 'crab_projects'\n")
                     file1.write("config.General.transferOutputs = True\n")
                     file1.write("config.General.transferLogs = True\n\n")
@@ -121,13 +119,13 @@ def ntuples(options):
                     file1.write("config.Data.splitting = 'FileBased'\n")
                     file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
                     file1.write("config.Data.totalUnits = %d\n"%options.njobs)
-                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
+                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,USER))
                     file1.write("config.Data.publication = False\n")
                     file1.write("config.Data.outputDatasetTag = ")
                     if options.campaign is None:
-                        file1.write("'%s_%s_upgrade2026_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry))
+                        file1.write("'%s_%s_upgrade2026_%s_ntuples'\n\n"%(outTag,CMSSW,options.geometry))
                     else:
-                        file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
+                        file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n\n"%(outTag,CMSSW,options.geometry,options.campaign))
 
                     file1.write("config.Site.storageSite = '%s'\n"%options.site)
                     file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
@@ -136,5 +134,5 @@ def ntuples(options):
                     if options.no_exec:
                         os.system('crab submit -c crabConfig_%s_ntuples.py'%outTag)
 
-    os.chdir(cwd)
+    os.chdir(CWD)
     os.system('rm myGeneration/list.txt')

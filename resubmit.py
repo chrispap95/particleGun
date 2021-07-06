@@ -7,10 +7,7 @@ options = mainParser()
 
 if __name__ == '__main__':
     # Getting environment info
-    cmssw = os.environ['CMSSW_VERSION']
-    cmsswBase = os.environ['CMSSW_BASE']
-    genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-    cwd = os.getcwd()
+    CWD = os.getcwd()
 
     # List or range of energies to shoot particles
     minEn, maxEn = 0, 650
@@ -59,7 +56,7 @@ if __name__ == '__main__':
                     outTag = tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
                     print('%sCampaign: %s%s%s\t%sTag: %s%s%s'%(col.bold,col.magenta,options.campaign,col.endc,
                                                                col.bold,col.magenta,options.tag,col.endc))
-                    os.chdir(cwd)
+                    os.chdir(CWD)
                     os.chdir('myGeneration/%s/crab_projects/'%outTag)
 
                     listCommand = 'ls | grep %s | grep %s'%(options.step,options.geometry)
