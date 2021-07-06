@@ -148,7 +148,7 @@ def step2(options):
                     file1.write("config.Data.splitting = 'FileBased'\n")
                     file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
                     file1.write("config.Data.totalUnits = %d\n"%options.njobs)
-                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
+                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,USER))
                     file1.write("config.Data.publication = True\n")
                     file1.write("config.Data.outputDatasetTag = ")
                     if options.campaign is None:
