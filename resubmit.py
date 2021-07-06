@@ -72,5 +72,8 @@ if __name__ == '__main__':
 
                     fSubmissions = open('submissions.txt','r')
                     for submission in fSubmissions:
-                        os.system('crab resubmit --siteblacklist=T2_US_Caltech -d %s'%(submission))
+                        maxMemory = ""
+                        if options.memory is not None:
+                            maxMemory = " --maxmemory %s"%(options.memory)
+                        os.system('crab resubmit --siteblacklist=T2_US_Caltech -d %s%s'%(submission,maxMemory))
                     os.system('rm submissions.txt')
