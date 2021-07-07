@@ -1,13 +1,12 @@
 import os, sys, math
-from Tools import mainParser, particleNumbers, col, makeTag
+from Tools import mainParser, particleNumbers, col
+from Tools import makeTag, tagBuilder, writeCRABConfig, fetchData
 
 def ntuples(options):
     # Getting environment info
-    cmssw = os.environ['CMSSW_VERSION']
-    cmsswBase = os.environ['CMSSW_BASE']
-    user = os.environ['USER']
-    genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-    cwd = os.getcwd()
+    CMSSW = os.environ['CMSSW_VERSION']
+    USER = os.environ['USER']
+    CWD = os.getcwd()
 
     # List or range of energies to shoot particles
     minEn, maxEn = 0, 650
@@ -47,121 +46,44 @@ def ntuples(options):
         'This might not be compatible with your configuration.'%(col.magenta,col.endc))
         particles = [22]
 
+    # Pack the ranges into an array
+    ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
+
+    # Get memory, maxTime and numCores configuration
+    maxRuntime = 50
+    if options.maxRuntime is not None:
+        maxRuntime = options.maxRuntime
+    memory = 2000
+    if options.memory is not None:
+        memory = options.memory
+    nThreads = 1
+    if options.cpu is not None:
+        nThreads = options.cpu
+
+    script = 'ntuplesConfig.py'
+
     # Get filenames from previous step
-    eTag = ''
-    for E in energies:
-        if E == 'notSet':
-            eTag = '%sto%s'%(makeTag(minEn),makeTag(maxEn))
-        else:
-            eTag = '%s %s'%(eTag,makeTag(E))
-    pTag = ''
-    for p in particles:
-        pTag = '%s %d'%(pTag,p)
-    etaList = ''
-    for eta in etas:
-        if eta == 'notSet':
-            etaList = '%sto%s'%(makeTag(minEta),makeTag(maxEta))
-        else:
-            etaList = '%s %s'%(etaList,makeTag(eta))
-    phiList = ''
-    for phi in phis:
-        if phi == 'notSet':
-            if options.minPhi is not None or options.maxPhi is not None:
-                phiList = '%sto%s'%(makeTag(minPhi),makeTag(maxPhi))
-        else:
-            phiList = '%s %s'%(phiList,makeTag(phi))
-    inputTag = options.inputTag
-    if options.inputTag is None:
-        inputTag = options.Tag
-    os.system("sh Tools/createList.sh step3 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,inputTag,options.closeBy,options.campaign))
+    fetchData(options, energies, particles, etas, phis, ranges)
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
         for E in energies:
             for eta in etas:
                 for phi in phis:
-                    # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
-                    # and create printout message.
-                    outTag = ''
-                    printOut = '%s%s'%(col.bold, col.yellow)
-                    if options.closeBy:
-                        outTag = 'CloseBy'
-                        printOut = 'Using CloseBy gun.\n'
-                    particleTag = particleTags[p]
-                    outTag = '%sSingle%s'%(outTag,particleTag)
-                    printOut = '%sCreating configuration for %s with '%(printOut,particleTag)
-                    if E == 'notSet':
-                        outTag = '%s_E%sto%s'%(outTag,makeTag(minEn),makeTag(maxEn))
-                        printOut = '%sE in (%s,%s) GeV, '%(printOut,makeTag(minEn),makeTag(maxEn))
-                    else:
-                        outTag = '%s_E%s'%(outTag,makeTag(E))
-                        printOut = '%sE=%s GeV, '%(printOut,makeTag(E))
-                    if eta == 'notSet':
-                        outTag = '%sEta%sto%s'%(outTag,makeTag(minEta),makeTag(maxEta))
-                        printOut = '%seta in (%s,%s), '%(printOut,makeTag(minEta),makeTag(maxEta))
-                    else:
-                        outTag = '%sEta%s'%(outTag,makeTag(eta))
-                        printOut = '%seta=%s, '%(printOut,makeTag(eta))
-                    if phi == 'notSet':
-                        if options.minPhi is not None or options.maxPhi is not None:
-                            outTag = '%sPhi%sto%s'%(outTag,makeTag(minPhi),makeTag(maxPhi))
-                        printOut = '%sand phi in (%s,%s)%s'%(printOut,makeTag(minPhi),makeTag(maxPhi),col.endc)
-                    else:
-                        outTag = '%sPhi%s'%(outTag,makeTag(phi))
-                        printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
-                    print(printOut)
+                    # Append particle, energy, eta and phi tags. Phi tag is skipped
+                    # if full range is used and create printout message.
+                    outTag = tagBuilder(options, p, E, eta, phi, ranges)
 
-                    os.chdir(cwd)
+                    os.chdir(CWD)
                     os.system('cp Misc/ntuplesConfig.py myGeneration/%s/'%outTag)
                     os.chdir('myGeneration/%s'%outTag)
 
                     # Create CRAB configuration file
-                    file1 = open('crabConfig_%s_ntuples.py'%outTag,'w')
-                    file1.write('# Script automatically generated using ntuples.py\n\n')
-
-                    file1.write('from CRABClient.UserUtilities ')
-                    file1.write('import config\n')
-                    file1.write('config = config()\n')
-                    file1.write("config.General.requestName = ")
-                    if options.campaign is None:
-                        if options.tag is None:
-                            file1.write("'%s_%s_upgrade2026_%s_ntuples'\n"%(outTag,cmssw,options.geometry))
-                        else:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.tag))
-                    else:
-                        if options.tag is None:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.campaign))
-                        else:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_%s_ntuples'\n"%(outTag,cmssw,options.geometry,options.campaign,options.tag))
-                    file1.write("config.General.workArea = 'crab_projects'\n")
-                    file1.write("config.General.transferOutputs = True\n")
-                    file1.write("config.General.transferLogs = True\n\n")
-
-                    file1.write("config.JobType.pluginName = 'Analysis'\n")
-                    file1.write("config.JobType.psetName = ")
-                    file1.write("'ntuplesConfig.py'\n")
-                    file1.write("config.JobType.maxJobRuntimeMin = 50\n\n")
-
-                    file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
-                    file1.write("config.Data.inputDBS = 'phys03'\n")
-                    file1.write("config.Data.splitting = 'FileBased'\n")
-                    file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
-                    file1.write("config.Data.totalUnits = %d\n"%options.njobs)
-                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,user))
-                    file1.write("config.Data.publication = False\n")
-                    file1.write("config.Data.outputDatasetTag = ")
-                    if options.campaign is None:
-                        file1.write("'%s_%s_upgrade2026_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry))
-                    else:
-                        file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n\n"%(outTag,cmssw,options.geometry,options.campaign))
-
-                    file1.write("config.Site.storageSite = '%s'\n"%options.site)
-                    file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
-                    file1.close()
+                    writeCRABConfig(options, outTag, nThreads, memory,
+                                    maxRuntime, filein, CMSSW, USER, script)
 
                     if options.no_exec:
                         os.system('crab submit -c crabConfig_%s_ntuples.py'%outTag)
 
-    os.chdir(cwd)
+    os.chdir(CWD)
     os.system('rm myGeneration/list.txt')

@@ -64,7 +64,9 @@ optional arguments:
   -R ERA, --era ERA     Era option passed to cmsDriver.py. (Default is Phase2C11I13M9)
   -m MEMORY, --memory MEMORY
                         Override max memory setting in MB for CRAB. (Default is set by CRAB)
-  -N CPU, --cpu CPU     Override number of cores per job. (Default is 1)
+  -N CPU, --cpu CPU     Override number of cores per job. (Defaults vary with step and pileup configuration)
+  -T MAXRUNTIME, --maxRuntime MAXRUNTIME
+                        Maximum wall clock time for jobs. (Defaults vary with step)
   --no_exec             Prepare scripts but do not submit.
   --closeBy             Use CloseByParticleGunProducer instead of Pythia8EGun.
   --maxEn MAXEN         Maximum of energy range in case of continuous energy distribution. (Default is 650 GeV)

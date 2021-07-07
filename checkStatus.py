@@ -1,5 +1,5 @@
 import os, sys, math
-from Tools import mainParser, particleNumbers, col, makeTag
+from Tools import mainParser, particleNumbers, col, makeTag, tagBuilder
 
 sys.path.append(os.path.abspath(os.path.curdir))
 
@@ -7,10 +7,7 @@ options = mainParser()
 
 if __name__ == '__main__':
     # Getting environment info
-    cmssw = os.environ['CMSSW_VERSION']
-    cmsswBase = os.environ['CMSSW_BASE']
-    genDir = '%s/src/Configuration/GenProduction/python/'%cmsswBase
-    cwd = os.getcwd()
+    CWD = os.getcwd()
 
     # List or range of energies to shoot particles
     minEn, maxEn = 0, 650
@@ -50,43 +47,19 @@ if __name__ == '__main__':
         'Using Gamma as default. This might not be compatible with your configuration.')
         particles = [22]
 
+    # Pack the ranges into an array
+    ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
+
     for p in particles:
         for E in energies:
             for eta in etas:
                 for phi in phis:
                     # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
                     # and create printout message.
-                    outTag = ''
-                    printOut = '%s%s'%(col.bold, col.yellow)
-                    if options.closeBy:
-                        outTag = 'CloseBy'
-                        printOut = 'Using CloseBy gun.\n'
-                    particleTag = particleTags[p]
-                    outTag = '%sSingle%s'%(outTag,particleTag)
-                    printOut = '%sChecking status for %s with '%(printOut,particleTag)
-                    if E == 'notSet':
-                        outTag = '%s_E%sto%s'%(outTag,makeTag(minEn),makeTag(maxEn))
-                        printOut = '%sE in (%s,%s) GeV, '%(printOut,makeTag(minEn),makeTag(maxEn))
-                    else:
-                        outTag = '%s_E%s'%(outTag,makeTag(E))
-                        printOut = '%sE=%s GeV, '%(printOut,makeTag(E))
-                    if eta == 'notSet':
-                        outTag = '%sEta%sto%s'%(outTag,makeTag(minEta),makeTag(maxEta))
-                        printOut = '%seta in (%s,%s), '%(printOut,makeTag(minEta),makeTag(maxEta))
-                    else:
-                        outTag = '%sEta%s'%(outTag,makeTag(eta))
-                        printOut = '%seta=%s, '%(printOut,makeTag(eta))
-                    if phi == 'notSet':
-                        if options.minPhi is not None or options.maxPhi is not None:
-                            outTag = '%sPhi%sto%s'%(outTag,makeTag(minPhi),makeTag(maxPhi))
-                        printOut = '%sand phi in (%s,%s)%s'%(printOut,makeTag(minPhi),makeTag(maxPhi),col.endc)
-                    else:
-                        outTag = '%sPhi%s'%(outTag,makeTag(phi))
-                        printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
-                    print(printOut)
+                    outTag = tagBuilder(options, p, E, eta, phi, ranges)
                     print('%sCampaign: %s%s%s\t%sTag: %s%s%s'%(col.bold,col.magenta,options.campaign,col.endc,
                                                                col.bold,col.magenta,options.tag,col.endc))
-                    os.chdir(cwd)
+                    os.chdir(CWD)
                     os.chdir('myGeneration/%s/crab_projects/'%outTag)
 
                     listCommand = 'ls | grep %s | grep %s'%(options.step,options.geometry)
