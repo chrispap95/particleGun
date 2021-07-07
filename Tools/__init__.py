@@ -5,7 +5,7 @@
 # and other necessary tools.
 #
 
-import argparse, re
+import os, argparse, re
 
 def mainParser():
     parser = argparse.ArgumentParser(description='Submit and manage multiple particle gun jobs with CRAB3.',
