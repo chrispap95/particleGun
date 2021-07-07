@@ -197,11 +197,11 @@ def writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW
     else:
         file1.write("config.Data.publication = True\n\n")
 
-def fetchData(options, energies, particles, etas, phis, minEn, maxEn, minEta, maxEta, minPhi, maxPhi):
+def fetchData(options, energies, particles, etas, phis, ranges):
     enList = ''
     for E in energies:
         if E == 'notSet':
-            enList = '%sto%s'%(minEn,maxEn)
+            enList = '%sto%s'%(ranges[0],ranges[1])
         else:
             enList = '%s %s'%(enList,E)
     pList = ''
@@ -210,14 +210,14 @@ def fetchData(options, energies, particles, etas, phis, minEn, maxEn, minEta, ma
     etaList = ''
     for eta in etas:
         if eta == 'notSet':
-            etaList = '%sto%s'%(minEta,maxEta)
+            etaList = '%sto%s'%(ranges[2],ranges[3])
         else:
             etaList = '%s %s'%(etaList,eta)
     phiList = ''
     for phi in phis:
         if phi == 'notSet':
             if options.minPhi is not None or options.maxPhi is not None:
-                phiList = '%sto%s'%(minPhi,maxPhi)
+                phiList = '%sto%s'%(ranges[4],ranges[5])
         else:
             phiList = '%s %s'%(phiList,phi)
     inputTag = options.inputTag
