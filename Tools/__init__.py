@@ -35,6 +35,9 @@ def mainParser():
     parser.add_argument('--minEta', help='Minimum of eta range in case of continuous eta distribution. (Default is 1.5)',default=None)
     parser.add_argument('--maxPhi', help='Maximum of phi range in case of continuous phi distribution. (Default is -pi)',default=None)
     parser.add_argument('--minPhi', help='Minimum of phi range in case of continuous phi distribution. (Default is pi)',default=None)
+    defaultPUInput = '/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM'
+    parser.add_argument('--pileupInput', help='Input file for PU mixing. (Default is %s)'%defaultPUInput,default=defaultPUInput)
+    parser.add_argument('--pileupConfig', help='PU configuration. (Default is AVE_200_BX_25ns)',default='AVE_200_BX_25ns')
 
     options = parser.parse_args()
 

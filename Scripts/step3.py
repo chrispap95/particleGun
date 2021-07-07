@@ -58,8 +58,8 @@ def step3(options):
     pileupConfig = ''
     nThreads = '4'
     if options.pileup:
-        pileupInput = '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM'
-        pileupConfig = '--pileup AVE_200_BX_25ns'
+        pileupInput = '--pileup_input das:%s'%(options.pileupInput)
+        pileupConfig = '--pileup %s'%(options.pileupConfig)
         nThreads = '8'
 
     if options.cpu is not None:
