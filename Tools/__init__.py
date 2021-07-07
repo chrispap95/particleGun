@@ -196,3 +196,33 @@ def writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW
         file1.write("config.Data.publication = False\n\n")
     else:
         file1.write("config.Data.publication = True\n\n")
+
+def fetchData(options, energies, particles, etas, phis):
+    enList = ''
+    for E in energies:
+        if E == 'notSet':
+            enList = '%sto%s'%(minEn,maxEn)
+        else:
+            enList = '%s %s'%(enList,E)
+    pList = ''
+    for p in particles:
+        pList = '%s %d'%(pList,p)
+    etaList = ''
+    for eta in etas:
+        if eta == 'notSet':
+            etaList = '%sto%s'%(minEta,maxEta)
+        else:
+            etaList = '%s %s'%(etaList,eta)
+    phiList = ''
+    for phi in phis:
+        if phi == 'notSet':
+            if options.minPhi is not None or options.maxPhi is not None:
+                phiList = '%sto%s'%(minPhi,maxPhi)
+        else:
+            phiList = '%s %s'%(phiList,phi)
+    inputTag = options.inputTag
+    if options.inputTag is None:
+        inputTag = options.tag
+    os.system("sh Tools/createList.sh '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
+    "'%s' "%(options.step,enList,pList,options.geometry,etaList,phiList,
+             inputTag,options.closeBy,options.campaign))

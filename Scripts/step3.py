@@ -1,5 +1,5 @@
 import os, sys, math
-from Tools import particleNumbers, col, makeTag, tagBuilder, writeCRABConfig
+from Tools import particleNumbers, col, makeTag, tagBuilder, writeCRABConfig, fetchData
 
 def step3(options):
     # Getting environment info
@@ -78,33 +78,7 @@ def step3(options):
         script = 'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py'
 
     # Get filenames from previous step
-    eTag = ''
-    for E in energies:
-        if E == 'notSet':
-            eTag = '%sto%s'%(makeTag(minEn),makeTag(maxEn))
-        else:
-            eTag = '%s %s'%(eTag,makeTag(E))
-    pTag = ''
-    for p in particles:
-        pTag = '%s %d'%(pTag,p)
-    etaList = ''
-    for eta in etas:
-        if eta == 'notSet':
-            etaList = '%sto%s'%(makeTag(minEta),makeTag(maxEta))
-        else:
-            etaList = '%s %s'%(etaList,makeTag(eta))
-    phiList = ''
-    for phi in phis:
-        if phi == 'notSet':
-            if options.minPhi is not None or options.maxPhi is not None:
-                phiList = '%sto%s'%(makeTag(minPhi),makeTag(maxPhi))
-        else:
-            phiList = '%s %s'%(phiList,makeTag(phi))
-    inputTag = options.inputTag
-    if options.inputTag is None:
-        inputTag = options.tag
-    os.system("sh Tools/createList.sh step2 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,inputTag,options.closeBy,options.campaign))
+    fetchData(options, energies, particles, etas, phis)
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:

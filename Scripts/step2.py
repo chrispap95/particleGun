@@ -1,5 +1,5 @@
 import os, sys, math
-from Tools import col, makeTag, tagBuilder, writeCRABConfig
+from Tools import col, makeTag, tagBuilder, writeCRABConfig, fetchData
 
 def step2(options):
     # Getting environment info
@@ -74,33 +74,7 @@ def step2(options):
         script = 'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py'
 
     # Get filenames from previous step
-    eTag = ''
-    for E in energies:
-        if E == 'notSet':
-            eTag = '%sto%s'%(minEn,maxEn)
-        else:
-            eTag = '%s %s'%(eTag,E)
-    pTag = ''
-    for p in particles:
-        pTag = '%s %d'%(pTag,p)
-    etaList = ''
-    for eta in etas:
-        if eta == 'notSet':
-            etaList = '%sto%s'%(minEta,maxEta)
-        else:
-            etaList = '%s %s'%(etaList,eta)
-    phiList = ''
-    for phi in phis:
-        if phi == 'notSet':
-            if options.minPhi is not None or options.maxPhi is not None:
-                phiList = '%sto%s'%(minPhi,maxPhi)
-        else:
-            phiList = '%s %s'%(phiList,phi)
-    inputTag = options.inputTag
-    if options.inputTag is None:
-        inputTag = options.tag
-    os.system("sh Tools/createList.sh step1 '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s' "%(eTag,pTag,options.geometry,etaList,phiList,inputTag,options.closeBy,options.campaign))
+    fetchData(options, energies, particles, etas, phis)
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
