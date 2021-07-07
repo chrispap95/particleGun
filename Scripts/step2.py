@@ -62,8 +62,8 @@ def step2(options):
     pileupInput = ''
     pileupConfig = ''
     if options.pileup:
-        pileupInput = '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-'
-                      '113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM'
+        pileupInput = ('--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-'
+                       '113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM')
         pileupConfig = '--pileup AVE_200_BX_25ns'
 
     # Run cmsdriver.py to create workflows

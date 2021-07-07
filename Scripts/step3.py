@@ -67,8 +67,8 @@ def step3(options):
             nThreads = 8
         if options.memory is None:
             nThreads = 16000
-        pileupInput = '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3'
-                      '-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM'
+        pileupInput = ('--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3'
+                       '-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM')
         pileupConfig = '--pileup AVE_200_BX_25ns'
 
     # Run cmsdriver.py to create workflows
