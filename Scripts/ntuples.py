@@ -46,6 +46,9 @@ def ntuples(options):
         'This might not be compatible with your configuration.'%(col.magenta,col.endc))
         particles = [22]
 
+    # Pack the ranges into an array
+    ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
+
     # Get memory, maxTime and numCores configuration
     maxRuntime = 50
     if options.maxRuntime is not None:
@@ -58,25 +61,26 @@ def ntuples(options):
         nThreads = options.cpu
 
     script = 'ntuplesConfig.py'
-    
+
     # Get filenames from previous step
-    fetchData(options, energies, particles, etas, phis, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
+    fetchData(options, energies, particles, etas, phis, ranges)
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
         for E in energies:
             for eta in etas:
                 for phi in phis:
-                    # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
-                    # and create printout message.
-                    outTag = tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
+                    # Append particle, energy, eta and phi tags. Phi tag is skipped
+                    # if full range is used and create printout message.
+                    outTag = tagBuilder(options, p, E, eta, phi, ranges)
 
                     os.chdir(CWD)
                     os.system('cp Misc/ntuplesConfig.py myGeneration/%s/'%outTag)
                     os.chdir('myGeneration/%s'%outTag)
 
                     # Create CRAB configuration file
-                    writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW, USER, script)
+                    writeCRABConfig(options, outTag, nThreads, memory,
+                                    maxRuntime, filein, CMSSW, USER, script)
 
                     if options.no_exec:
                         os.system('crab submit -c crabConfig_%s_ntuples.py'%outTag)

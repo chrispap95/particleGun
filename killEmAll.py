@@ -47,13 +47,16 @@ if __name__ == '__main__':
         'Using Gamma as default. This might not be compatible with your configuration.')
         particles = [22]
 
+    # Pack the ranges into an array
+    ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
+
     for p in particles:
         for E in energies:
             for eta in etas:
                 for phi in phis:
                     # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
                     # and create printout message.
-                    outTag = tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
+                    outTag = tagBuilder(options, p, E, eta, phi, ranges)
                     print('%sCampaign: %s%s%s\t%sTag: %s%s%s'%(col.bold,col.magenta,options.campaign,col.endc,
                                                                col.bold,col.magenta,options.tag,col.endc))
                     os.chdir(CWD)

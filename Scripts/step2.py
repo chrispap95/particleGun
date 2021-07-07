@@ -44,6 +44,9 @@ def step2(options):
         'Using Gamma as default. This might not be compatible with your configuration.\n')
         particles = [22]
 
+    # Pack the ranges into an array
+    ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
+
     # Get memory, maxTime and numCores configuration
     maxRuntime = 60
     if options.maxRuntime is not None:
@@ -59,7 +62,8 @@ def step2(options):
     pileupInput = ''
     pileupConfig = ''
     if options.pileup:
-        pileupInput = '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM'
+        pileupInput = '--pileup_input das:/RelValMinBias_14TeV/CMSSW_11_3_0_pre3-'
+                      '113X_mcRun4_realistic_v3_2026D76noPU-v1/GEN-SIM'
         pileupConfig = '--pileup AVE_200_BX_25ns'
 
     # Run cmsdriver.py to create workflows
@@ -68,29 +72,31 @@ def step2(options):
     '-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads %d '
     '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s %s %s --era %s '
     '--eventcontent FEVTDEBUGHLT --no_exec --conditions auto:%s --filein file:step1.root '
-    '--fileout file:step2.root'%(nThreads, options.geometry, pileupInput, pileupConfig, options.era, options.conditions))
+    '--fileout file:step2.root'%(nThreads, options.geometry, pileupInput,
+                                 pileupConfig, options.era, options.conditions))
     script = 'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py'
     if options.pileup:
         script = 'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py'
 
     # Get filenames from previous step
-    fetchData(options, energies, particles, etas, phis, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
+    fetchData(options, energies, particles, etas, phis, ranges)
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:
         for E in energies:
             for eta in etas:
                 for phi in phis:
-                    # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
-                    # and create printout message.
-                    outTag = tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
+                    # Append particle, energy, eta and phi tags. Phi tag is skipped
+                    # if full range is used and create printout message.
+                    outTag = tagBuilder(options, p, E, eta, phi, ranges)
 
                     os.chdir(CWD)
                     os.system('cp %s myGeneration/%s/'%(script,outTag))
                     os.chdir('myGeneration/%s'%outTag)
 
                     # Create CRAB configuration file
-                    writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW, USER, script)
+                    writeCRABConfig(options, outTag, nThreads, memory,
+                                    maxRuntime, filein, CMSSW, USER, script)
 
                     if options.no_exec:
                         os.system('crab submit -c crabConfig_%s_step2.py'%outTag)

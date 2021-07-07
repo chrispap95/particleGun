@@ -110,7 +110,7 @@ def makeTag(x):
 
 # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
 # and create printout message.
-def tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi):
+def tagBuilder(options, p, E, eta, phi, ranges):
     outTag = ''
     printOut = '%s%s'%(col.bold, col.yellow)
     if options.closeBy:
@@ -121,21 +121,21 @@ def tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, ma
     outTag = '%sSingle%s'%(outTag,particleTag)
     printOut = '%sCreating configuration for %s with '%(printOut,particleTag)
     if E == 'notSet':
-        outTag = '%s_E%sto%s'%(outTag,makeTag(minEn),makeTag(maxEn))
-        printOut = '%sE in (%s,%s) GeV, '%(printOut,makeTag(minEn),makeTag(maxEn))
+        outTag = '%s_E%sto%s'%(outTag,makeTag(ranges[0]),makeTag(ranges[1]))
+        printOut = '%sE in (%s,%s) GeV, '%(printOut,makeTag(ranges[0]),makeTag(ranges[1]))
     else:
         outTag = '%s_E%s'%(outTag,makeTag(E))
         printOut = '%sE=%s GeV, '%(printOut,makeTag(E))
     if eta == 'notSet':
-        outTag = '%sEta%sto%s'%(outTag,makeTag(minEta),makeTag(maxEta))
-        printOut = '%seta in (%s,%s), '%(printOut,makeTag(minEta),makeTag(maxEta))
+        outTag = '%sEta%sto%s'%(outTag,makeTag(ranges[2]),makeTag(ranges[3]))
+        printOut = '%seta in (%s,%s), '%(printOut,makeTag(ranges[2]),makeTag(ranges[3]))
     else:
         outTag = '%sEta%s'%(outTag,makeTag(eta))
         printOut = '%seta=%s, '%(printOut,makeTag(eta))
     if phi == 'notSet':
         if options.minPhi is not None or options.maxPhi is not None:
-            outTag = '%sPhi%sto%s'%(outTag,makeTag(minPhi),makeTag(maxPhi))
-        printOut = '%sand phi in (%s,%s)%s'%(printOut,makeTag(minPhi),makeTag(maxPhi),col.endc)
+            outTag = '%sPhi%sto%s'%(outTag,makeTag(ranges[4]),makeTag(ranges[5]))
+        printOut = '%sand phi in (%s,%s)%s'%(printOut,makeTag(ranges[4]),makeTag(ranges[5]),col.endc)
     else:
         outTag = '%sPhi%s'%(outTag,makeTag(phi))
         printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
@@ -143,14 +143,14 @@ def tagBuilder(options, p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, ma
     return outTag
 
 # Set the particle gun ranges when using discrete values
-def setRanges(p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi):
+def setRanges(E, eta, phi, ranges):
     if E != 'notSet':
-        minEn, maxEn = E-0.01, E+0.01
+        ranges[0], ranges[1] = E-0.01, E+0.01
     if eta != 'notSet':
-        minEta, maxEta = eta-0.01, eta+0.01
+        ranges[2], ranges[3] = eta-0.01, eta+0.01
     if phi != 'notSet':
-        minPhi, maxPhi = phi-0.01, phi+0.01
-    return minEn, maxEn, minEta, maxEta, minPhi, maxPhi
+        ranges[4], ranges[5] = phi-0.01, phi+0.01
+    return ranges
 
 # Write CRAB configuration
 def writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW, USER, script):
