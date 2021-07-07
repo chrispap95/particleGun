@@ -223,6 +223,11 @@ def fetchData(options, energies, particles, etas, phis, ranges):
     inputTag = options.inputTag
     if options.inputTag is None:
         inputTag = options.tag
+    step = 'step1'
+    if options.step == 'step3':
+        step = 'step2'
+    elif options.step == 'ntuples':
+        step = 'step3'
     os.system("sh Tools/createList.sh '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s' "%(options.step,enList,pList,options.geometry,etaList,phiList,
+    "'%s' "%(step,enList,pList,options.geometry,etaList,phiList,
              inputTag,options.closeBy,options.campaign))
