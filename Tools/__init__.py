@@ -17,8 +17,8 @@ def mainParser():
     parser.add_argument('-n', '--njobs', type=int, default='10',
                         help='Number of jobs to run. (Default is 10)')
     parser.add_argument('-u', '--unitsPerJob', type=int, default='10',
-                        help='Events per job for step1 and files processed per job for all other steps. '
-                             '(Default is 10)')
+                        help='Events per job for step1 and files processed per '
+                             'job for all other steps. (Default is 10)')
     parser.add_argument('-E', '--energies', type=float, nargs='*',
                         help='List of energies to shoot.')
     parser.add_argument('-e', '--eta', type=float, nargs='*',
@@ -47,7 +47,10 @@ def mainParser():
     parser.add_argument('-m', '--memory',
                         help='Override max memory setting in MB for CRAB. (Default is set by CRAB)')
     parser.add_argument('-N', '--cpu', type=int,
-                        help='Override number of cores per job. (Default is 1)')
+                        help='Override number of cores per job. '
+                             '(Defaults vary with step and pileup configuration)')
+    parser.add_argument('-T', '--maxRuntime', type=int,
+                        help='Maximum wall clock time for jobs. (Defaults vary with step)')
     parser.add_argument('--no_exec', action='store_false',
                         help='Prepare scripts but do not submit.')
     parser.add_argument('--closeBy', action='store_true',
@@ -150,7 +153,8 @@ def setRanges(p, E, eta, phi, minEn, maxEn, minEta, maxEta, minPhi, maxPhi):
     return minEn, maxEn, minEta, maxEta, minPhi, maxPhi
 
 # Write CRAB configuration
-def writeCRABConfig(file1, options, outTag, nThreads, filein, CMSSW, USER):
+def writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW, USER, script):
+    file1 = open('crabConfig_%s_%s.py'%(outTag,options.step),'w')
     requestName = "'%s_%s_upgrade2026_%s"%(outTag,CMSSW,options.geometry)
     if options.campaign is not None:
         requestName = "%s_%s"%(requestName,options.campaign)
@@ -164,27 +168,31 @@ def writeCRABConfig(file1, options, outTag, nThreads, filein, CMSSW, USER):
     file1.write('config = config()\n')
     file1.write("config.General.requestName = %s"%(requestName))
     file1.write("config.General.workArea = 'crab_projects'\n")
-    file1.write("config.General.transferOutputs = True\n")
-    file1.write("config.General.transferLogs = True\n\n")
-    file1.write("config.JobType.pluginName = 'Analysis'\n")
-    file1.write("config.JobType.psetName = ")
-    if options.pileup:
-        file1.write("'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py'\n")
-    else:
-        file1.write("'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py'\n")
-    if options.memory is None:
-        file1.write("config.JobType.maxMemoryMB = 5000\n")
-    else:
-        file1.write("config.JobType.maxMemoryMB = %s\n"%options.memory)
-    file1.write("config.JobType.numCores = %s\n"%nThreads)
-    file1.write("config.JobType.maxJobRuntimeMin = 60\n\n")
-    file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
-    file1.write("config.Data.inputDBS = 'phys03'\n")
-    file1.write("config.Data.splitting = 'FileBased'\n")
+    file1.write("config.General.transferOutputs = True\n\n")
+    file1.write("config.JobType.psetName = '%s'\n"%(script))
+    file1.write("config.JobType.maxMemoryMB = %d\n"%memory)
+    file1.write("config.JobType.numCores = %d\n"%nThreads)
+    file1.write("config.JobType.maxJobRuntimeMin = %d\n\n"%maxRuntime)
     file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
-    file1.write("config.Data.totalUnits = %d\n"%options.njobs)
     file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,USER))
-    file1.write("config.Data.publication = True\n")
     file1.write("config.Data.outputDatasetTag = %s"%(outputDatasetTag))
     file1.write("config.Site.storageSite = '%s'\n"%options.site)
-    file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
+    file1.write("config.Site.blacklist = ['T2_US_Caltech']\n\n")
+    file1.write("# Step-specific parameters\n")
+    if options.step == 'step1':
+        file1.write("config.General.transferLogs = False\n")
+        file1.write("config.JobType.pluginName = 'PrivateMC'\n")
+        file1.write("config.Data.splitting = 'EventBased'\n")
+        file1.write("NJOBS = %d\n"%options.njobs)
+        file1.write("config.Data.totalUnits = config.Data.unitsPerJob * NJOBS\n")
+    else:
+        file1.write("config.General.transferLogs = True\n")
+        file1.write("config.JobType.pluginName = 'Analysis'\n")
+        file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
+        file1.write("config.Data.inputDBS = 'phys03'\n")
+        file1.write("config.Data.splitting = 'FileBased'\n")
+        file1.write("config.Data.totalUnits = %d\n"%options.njobs)
+    if options.step == 'ntuples':
+        file1.write("config.Data.publication = False\n\n")
+    else:
+        file1.write("config.Data.publication = True\n\n")

@@ -1,5 +1,5 @@
 import os, sys, math
-from Tools import mainParser, particleNumbers, col, makeTag, tagBuilder
+from Tools import mainParser, particleNumbers, col, makeTag, tagBuilder, writeCRABConfig
 
 def ntuples(options):
     # Getting environment info
@@ -45,6 +45,17 @@ def ntuples(options):
         'This might not be compatible with your configuration.'%(col.magenta,col.endc))
         particles = [22]
 
+    # Get memory, maxTime and numCores configuration
+    maxRuntime = 50
+    if options.maxRuntime is not None:
+        maxRuntime = options.maxRuntime
+    memory = 2000
+    if options.memory is not None:
+        memory = options.memory
+    nThreads = 1
+    if options.cpu is not None:
+        nThreads = options.cpu
+
     # Get filenames from previous step
     eTag = ''
     for E in energies:
@@ -88,48 +99,7 @@ def ntuples(options):
                     os.chdir('myGeneration/%s'%outTag)
 
                     # Create CRAB configuration file
-                    file1 = open('crabConfig_%s_ntuples.py'%outTag,'w')
-                    file1.write('# Script automatically generated using ntuples.py\n\n')
-
-                    file1.write('from CRABClient.UserUtilities ')
-                    file1.write('import config\n')
-                    file1.write('config = config()\n')
-                    file1.write("config.General.requestName = ")
-                    if options.campaign is None:
-                        if options.tag is None:
-                            file1.write("'%s_%s_upgrade2026_%s_ntuples'\n"%(outTag,CMSSW,options.geometry))
-                        else:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,CMSSW,options.geometry,options.tag))
-                    else:
-                        if options.tag is None:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n"%(outTag,CMSSW,options.geometry,options.campaign))
-                        else:
-                            file1.write("'%s_%s_upgrade2026_%s_%s_%s_ntuples'\n"%(outTag,CMSSW,options.geometry,options.campaign,options.tag))
-                    file1.write("config.General.workArea = 'crab_projects'\n")
-                    file1.write("config.General.transferOutputs = True\n")
-                    file1.write("config.General.transferLogs = True\n\n")
-
-                    file1.write("config.JobType.pluginName = 'Analysis'\n")
-                    file1.write("config.JobType.psetName = ")
-                    file1.write("'ntuplesConfig.py'\n")
-                    file1.write("config.JobType.maxJobRuntimeMin = 50\n\n")
-
-                    file1.write("config.Data.inputDataset = '%s'\n"%((filein.readline())[:-1]))
-                    file1.write("config.Data.inputDBS = 'phys03'\n")
-                    file1.write("config.Data.splitting = 'FileBased'\n")
-                    file1.write("config.Data.unitsPerJob = %d\n"%options.unitsPerJob)
-                    file1.write("config.Data.totalUnits = %d\n"%options.njobs)
-                    file1.write("config.Data.outLFNDirBase = '%s%s/'\n"%(options.dest,USER))
-                    file1.write("config.Data.publication = False\n")
-                    file1.write("config.Data.outputDatasetTag = ")
-                    if options.campaign is None:
-                        file1.write("'%s_%s_upgrade2026_%s_ntuples'\n\n"%(outTag,CMSSW,options.geometry))
-                    else:
-                        file1.write("'%s_%s_upgrade2026_%s_%s_ntuples'\n\n"%(outTag,CMSSW,options.geometry,options.campaign))
-
-                    file1.write("config.Site.storageSite = '%s'\n"%options.site)
-                    file1.write("config.Site.blacklist = ['T2_US_Caltech']\n")
-                    file1.close()
+                    writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW, USER, script)
 
                     if options.no_exec:
                         os.system('crab submit -c crabConfig_%s_ntuples.py'%outTag)
