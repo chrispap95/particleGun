@@ -58,7 +58,7 @@ def ntuples(options):
         nThreads = options.cpu
 
     # Get filenames from previous step
-    fetchData(options, energies, particles, etas, phis)
+    fetchData(options, energies, particles, etas, phis, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:

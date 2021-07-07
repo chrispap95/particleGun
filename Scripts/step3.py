@@ -78,7 +78,7 @@ def step3(options):
         script = 'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py'
 
     # Get filenames from previous step
-    fetchData(options, energies, particles, etas, phis)
+    fetchData(options, energies, particles, etas, phis, minEn, maxEn, minEta, maxEta, minPhi, maxPhi)
     filein = open('myGeneration/list.txt','r')
 
     for p in particles:

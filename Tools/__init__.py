@@ -197,7 +197,7 @@ def writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW
     else:
         file1.write("config.Data.publication = True\n\n")
 
-def fetchData(options, energies, particles, etas, phis):
+def fetchData(options, energies, particles, etas, phis, minEn, maxEn, minEta, maxEta, minPhi, maxPhi):
     enList = ''
     for E in energies:
         if E == 'notSet':
