@@ -198,36 +198,77 @@ def writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW
         file1.write("config.Data.publication = True\n\n")
 
 def fetchData(options, energies, particles, etas, phis, ranges):
-    enList = ''
-    for E in energies:
-        if E == 'notSet':
-            enList = '%sto%s'%(ranges[0],ranges[1])
-        else:
-            enList = '%s %s'%(enList,E)
-    pList = ''
+    # Initialize the command
+    command = 'python checkStatus.py'
+
+    # Attach step option
+    if options.step == 'step2':
+        command = '%s -s step1'%(command)
+    elif options.step == 'step3':
+        command = '%s -s step2'%(command)
+    elif options.step == 'ntuples':
+        command = '%s -s step3'%(command)
+    else:
+        raise ValueError('Unknown step:%s'%options.step)
+
+    # Attach particle option
+    pList = ' -p'
     for p in particles:
         pList = '%s %d'%(pList,p)
-    etaList = ''
+    command = '%s%s'%(command, pList)
+
+    # Attach energy options
+    enList = ' -E'
+    for E in energies:
+        if E == 'notSet':
+            enList = ''
+        else:
+            enList = '%s %f'%(enList,E)
+    command = '%s%s'%(command, enList)
+    if options.minEn is not None:
+        command = '%s --minEn %f'%(command,ranges[0])
+    if options.maxEn is not None:
+        command = '%s --maxEn %f'%(command,ranges[1])
+
+    # Attach eta options
+    etaList = ' -e'
     for eta in etas:
         if eta == 'notSet':
-            etaList = '%sto%s'%(ranges[2],ranges[3])
+            etaList = ''
         else:
-            etaList = '%s %s'%(etaList,eta)
-    phiList = ''
+            etaList = '%s %f'%(etaList,eta)
+    command = '%s%s'%(command, etaList)
+    if options.minEta is not None:
+        command = '%s --minEta %f'%(command,ranges[2])
+    if options.maxEta is not None:
+        command = '%s --maxEta %f'%(command,ranges[3])
+
+    # Attach phi options
+    phiList = ' -P'
     for phi in phis:
         if phi == 'notSet':
-            if options.minPhi is not None or options.maxPhi is not None:
-                phiList = '%sto%s'%(ranges[4],ranges[5])
+            phiList = ''
         else:
-            phiList = '%s %s'%(phiList,phi)
-    inputTag = options.inputTag
-    if options.inputTag is None:
-        inputTag = options.tag
-    step = 'step1'
-    if options.step == 'step3':
-        step = 'step2'
-    elif options.step == 'ntuples':
-        step = 'step3'
-    os.system("sh Tools/createList.sh '%s' '%s' '%s' '%s' '%s' '%s' '%s' '%s' "
-    "'%s' "%(step,enList,pList,options.geometry,etaList,phiList,
-             inputTag,options.closeBy,options.campaign))
+            phiList = '%s %f'%(phiList,phi)
+    command = '%s%s'%(command, phiList)
+    if options.minPhi is not None:
+        command = '%s --minPhi %f'%(command,ranges[4])
+    if options.maxPhi is not None:
+        command = '%s --maxPhi %f'%(command,ranges[5])
+
+    # Attach tag option
+    if options.inputTag is not None:
+        command = '%s -t %s'%(command,options.inputTag)
+    elif options.tag is not None:
+        command = '%s -t %s'%(command,options.tag)
+
+    # Attach campaign option
+    if options.campaign is not None:
+        command = '%s -c %s'%(command,options.campaign)
+
+    # Attach closeBy option
+    if options.closeBy:
+        command = '%s --closeBy'%(command)
+
+    print("Executing: %s"%(command))
+    os.system("sh Tools/createList.sh '%s'"%(command))
