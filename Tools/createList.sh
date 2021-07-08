@@ -7,7 +7,7 @@ echo -n -e "\033[93mFetching\033[0m"
 echo " data from previous step. Hold tight! "
 cd ${CMSSW_BASE}/src/particleGun
 
-eval $1
+eval $1 | grep "Output dataset:" | awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt
 
 if [ ! -s myGeneration/list.txt ]
 then

@@ -270,7 +270,4 @@ def fetchData(options, energies, particles, etas, phis, ranges):
     if options.closeBy is not None:
         command = '%s --closeBy'%(command)
 
-    # Attach final part
-    command = "%s | grep \"Output dataset:\" | awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt"%command
-
     os.system("sh Tools/createList.sh '%s'"%(command))
