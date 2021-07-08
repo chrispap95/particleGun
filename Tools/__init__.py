@@ -223,12 +223,12 @@ def fetchData(options, energies, particles, etas, phis, ranges):
         if E == 'notSet':
             enList = ''
         else:
-            enList = '%s %s'%(enList,E)
+            enList = '%s %f'%(enList,E)
     command = '%s%s'%(command, enList)
     if options.minEn is not None:
-        command = '%s --minEn %s'%(command,ranges[0])
+        command = '%s --minEn %f'%(command,ranges[0])
     if options.maxEn is not None:
-        command = '%s --maxEn %s'%(command,ranges[1])
+        command = '%s --maxEn %f'%(command,ranges[1])
 
     # Attach eta options
     etaList = ' -e'
@@ -236,25 +236,25 @@ def fetchData(options, energies, particles, etas, phis, ranges):
         if eta == 'notSet':
             etaList = ''
         else:
-            etaList = '%s %s'%(etaList,eta)
+            etaList = '%s %f'%(etaList,eta)
     command = '%s%s'%(command, etaList)
     if options.minEta is not None:
-        command = '%s --minEta %s'%(command,ranges[2])
+        command = '%s --minEta %f'%(command,ranges[2])
     if options.maxEta is not None:
-        command = '%s --maxEta %s'%(command,ranges[3])
+        command = '%s --maxEta %f'%(command,ranges[3])
 
     # Attach phi options
-    phiList = ' -e'
+    phiList = ' -P'
     for phi in phis:
         if phi == 'notSet':
             phiList = ''
         else:
-            phiList = '%s %s'%(phiList,phi)
+            phiList = '%s %f'%(phiList,phi)
     command = '%s%s'%(command, phiList)
     if options.minPhi is not None:
-        command = '%s --minPhi %s'%(command,ranges[4])
+        command = '%s --minPhi %f'%(command,ranges[4])
     if options.maxPhi is not None:
-        command = '%s --maxPhi %s'%(command,ranges[5])
+        command = '%s --maxPhi %f'%(command,ranges[5])
 
     # Attach tag option
     if options.inputTag is not None:
