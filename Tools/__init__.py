@@ -271,6 +271,6 @@ def fetchData(options, energies, particles, etas, phis, ranges):
         command = '%s --closeBy'%(command)
 
     # Attach final part
-    command = "%s | grep \"Output dataset:\" | awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt"
+    command = "%s | grep \"Output dataset:\" | awk '{print substr($NF,0,length($NF))}' > myGeneration/list.txt"%command
 
     os.system("sh Tools/createList.sh '%s'"%(command))
