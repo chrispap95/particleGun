@@ -270,4 +270,5 @@ def fetchData(options, energies, particles, etas, phis, ranges):
     if options.closeBy is not None:
         command = '%s --closeBy'%(command)
 
+    print("Executing: %s"%(command))
     os.system("sh Tools/createList.sh '%s'"%(command))
