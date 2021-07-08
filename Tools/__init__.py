@@ -267,7 +267,7 @@ def fetchData(options, energies, particles, etas, phis, ranges):
         command = '%s -c %s'%(command,options.campaign)
 
     # Attach closeBy option
-    if options.closeBy is not None:
+    if options.closeBy:
         command = '%s --closeBy'%(command)
 
     print("Executing: %s"%(command))
