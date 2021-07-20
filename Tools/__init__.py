@@ -182,6 +182,7 @@ def writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW
     if options.step == 'step1':
         file1.write("config.General.transferLogs = False\n")
         file1.write("config.JobType.pluginName = 'PrivateMC'\n")
+        file1.write("config.Data.outputPrimaryDataset = '%s'\n"%outTag)
         file1.write("config.Data.splitting = 'EventBased'\n")
         file1.write("NJOBS = %d\n"%options.njobs)
         file1.write("config.Data.totalUnits = config.Data.unitsPerJob * NJOBS\n")
