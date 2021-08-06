@@ -200,7 +200,7 @@ def writeCRABConfig(options, outTag, nThreads, memory, maxRuntime, filein, CMSSW
 
 def fetchData(options, energies, particles, etas, phis, ranges):
     # Initialize the command
-    command = 'python checkStatus.py'
+    command = 'python submit.py'
 
     # Attach step option
     if options.step == 'step2':
