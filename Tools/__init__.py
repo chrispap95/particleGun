@@ -128,7 +128,7 @@ def tagBuilder(options, p, E, eta, phi, ranges):
     particleTag = particleTags[p]
     if options.nParticles == 1:
         outTag = '%sSingle%s'%(outTag,particleTag)
-    else if options.nParticles == 2:
+    elif options.nParticles == 2:
         outTag = '%Double%s'%(outTag,particleTag)
     else:
         outTag = '%sMulti%s'%(outTag,particleTag)
