@@ -152,7 +152,7 @@ def tagBuilder(options, p, E, eta, phi, ranges):
     else:
         outTag = '%sPhi%s'%(outTag,makeTag(phi))
         printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
-    if options.delta != None
+    if options.delta != None:
         outTag = '%sDelta'%(outTag,makeTag(options.delta))
     if options.pointing == False:
         outTag = '%Parallel'%(outTag)
