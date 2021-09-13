@@ -50,6 +50,11 @@ def step1(options):
         'Using Gamma as default. This might not be compatible with your configuration.')
         particles = [22]
 
+    # Delta value
+    delta = options.delta
+    if delta is None:
+        delta = 10.0
+
     # Get memory, maxTime and numCores configuration
     maxRuntime = 600
     if options.maxRuntime is not None:
@@ -92,11 +97,11 @@ def step1(options):
                         file0.write("\t\tRMin = cms.double(%f),\n"%(rmin))
                         file0.write("\t\tZMax = cms.double(%f),\n"%(zmax))
                         file0.write("\t\tZMin = cms.double(%f),\n"%(zmin))
-                        file0.write("\t\tDelta = cms.double(10),\n")
-                        file0.write("\t\tPointing = cms.bool(True),\n")
-                        file0.write("\t\tOverlapping = cms.bool(False),\n")
+                        file0.write("\t\tDelta = cms.double(%f),\n"%(delta))
+                        file0.write("\t\tPointing = cms.bool(%s),\n"%(options.pointing))
+                        file0.write("\t\tOverlapping = cms.bool(%s),\n"%(options.overlapping))
                         file0.write("\t\tRandomShoot = cms.bool(False),\n")
-                        file0.write("\t\tNParticles = cms.int32(1),\n")
+                        file0.write("\t\tNParticles = cms.int32(%d),\n"%(options.nParticles))
                         file0.write("\t\tMaxEta = cms.double(%f),\n"%(ranges[3]))
                         file0.write("\t\tMinEta = cms.double(%f),\n"%(ranges[2]))
                         file0.write("\t\tMaxPhi = cms.double(%.11f),\n"%(ranges[5]))

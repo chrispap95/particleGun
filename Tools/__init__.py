@@ -14,9 +14,9 @@ def mainParser():
                         help='Step to be used.')
     parser.add_argument('-g', '--geometry', default='D76',
                         help='Detector geometry for tagging. (Default is D76)')
-    parser.add_argument('-n', '--njobs', type=int, default='10',
+    parser.add_argument('-n', '--njobs', type=int, default=10,
                         help='Number of jobs to run. (Default is 10)')
-    parser.add_argument('-u', '--unitsPerJob', type=int, default='10',
+    parser.add_argument('-u', '--unitsPerJob', type=int, default=10,
                         help='Events per job for step1 and files processed per '
                              'job for all other steps. (Default is 10)')
     parser.add_argument('-E', '--energies', type=float, nargs='*',
@@ -73,6 +73,14 @@ def mainParser():
     parser.add_argument('--minPhi', type=float,
                         help='Minimum of phi range in case of continuous phi distribution. '
                              '(Default is pi)')
+    parser.add_argument('--nParticles', type=int, default=1,
+                        help='Number of particles per event. (Default is 1)')
+    parser.add_argument('--delta', type=float,
+                        help='Arc distance between two vertices. (Default is 10 cm)')
+    parser.add_argument('--overlapping', default=False,
+                        help='If True, particles are shot within delta window. (Default is False)')
+    parser.add_argument('--pointing', default=True,
+                        help='If True, particles are shot from (0,0,0). (Default is True)')
 
     options = parser.parse_args()
 
@@ -118,8 +126,13 @@ def tagBuilder(options, p, E, eta, phi, ranges):
         printOut = 'Using CloseBy gun.\n'
     particleTags = particleNumbers()
     particleTag = particleTags[p]
-    outTag = '%sSingle%s'%(outTag,particleTag)
-    printOut = '%sCreating configuration for %s with '%(printOut,particleTag)
+    if options.nParticles == 1:
+        outTag = '%sSingle%s'%(outTag,particleTag)
+    else if options.nParticles == 2:
+        outTag = '%Double%s'%(outTag,particleTag)
+    else:
+        outTag = '%sMulti%s'%(outTag,particleTag)
+    printOut = '%sCreating configuration for %d %s with '%(printOut,options.nParticles,particleTag)
     if E == 'notSet':
         outTag = '%s_E%sto%s'%(outTag,makeTag(ranges[0]),makeTag(ranges[1]))
         printOut = '%sE in (%s,%s) GeV, '%(printOut,makeTag(ranges[0]),makeTag(ranges[1]))
@@ -139,6 +152,12 @@ def tagBuilder(options, p, E, eta, phi, ranges):
     else:
         outTag = '%sPhi%s'%(outTag,makeTag(phi))
         printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
+    if options.delta != None
+        outTag = '%sDelta'%(outTag,makeTag(options.delta))
+    if options.pointing == False:
+        outTag = '%Parallel'%(outTag)
+    if options.overlapping == True:
+        outTag = '%Overlapping'%(outTag)
     print(printOut)
     return outTag
 
