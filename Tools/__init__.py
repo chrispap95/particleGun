@@ -129,7 +129,7 @@ def tagBuilder(options, p, E, eta, phi, ranges):
     if options.nParticles == 1:
         outTag = '%sSingle%s'%(outTag,particleTag)
     elif options.nParticles == 2:
-        outTag = '%Double%s'%(outTag,particleTag)
+        outTag = '%sDouble%s'%(outTag,particleTag)
     else:
         outTag = '%sMulti%s'%(outTag,particleTag)
     printOut = '%sCreating configuration for %d %s with '%(printOut,options.nParticles,particleTag)
@@ -155,9 +155,9 @@ def tagBuilder(options, p, E, eta, phi, ranges):
     if options.delta != None:
         outTag = '%sDelta'%(outTag,makeTag(options.delta))
     if options.pointing == False:
-        outTag = '%Parallel'%(outTag)
+        outTag = '%sParallel'%(outTag)
     if options.overlapping == True:
-        outTag = '%Overlapping'%(outTag)
+        outTag = '%sOverlapping'%(outTag)
     print(printOut)
     return outTag
 
