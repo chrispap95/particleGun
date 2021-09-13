@@ -153,7 +153,7 @@ def tagBuilder(options, p, E, eta, phi, ranges):
         outTag = '%sPhi%s'%(outTag,makeTag(phi))
         printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
     if options.delta != None:
-        outTag = '%sDelta'%(outTag,makeTag(options.delta))
+        outTag = '%sDelta%s'%(outTag,makeTag(options.delta))
     if options.pointing == False:
         outTag = '%sParallel'%(outTag)
     if options.overlapping == True:
