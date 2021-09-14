@@ -97,7 +97,7 @@ def step3(options):
                     for delta in deltas:
                         # Append particle, energy, eta and phi tags. Phi tag is skipped
                         # if full range is used and create printout message.
-                        outTag = tagBuilder(options, p, E, eta, phi, ranges)
+                        outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
 
                         os.chdir(CWD)
                         os.system('cp %s myGeneration/%s/'%(script,outTag))
