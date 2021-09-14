@@ -290,5 +290,13 @@ def fetchData(options, energies, particles, etas, phis, ranges):
     if options.closeBy:
         command = '%s --closeBy'%(command)
 
+    # Attach closeBy-related options
+    if options.delta is not None:
+        command = '%s --delta %f'%(command,options.delta)
+    if options.overlapping:
+        command = '%s --overlapping'%(command)
+    if options.pointing is not True:
+        command = '%s --pointing'%(command)
+
     print("Executing: %s"%(command))
     os.system("sh Tools/createList.sh '%s'"%(command))

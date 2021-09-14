@@ -67,6 +67,12 @@ if __name__ == '__main__':
                         listCommand  = '%s| grep %s '%(listCommand,options.campaign)
                     if options.tag is not None:
                         listCommand  = '%s| grep %s '%(listCommand,options.tag)
+                    if options.delta is not None:
+                        listCommand  = '%s| grep Delta%s '%(listCommand,makeTag(options.delta))
+                    if options.overlapping:
+                        listCommand  = '%s| grep Overlapping '%(listCommand)
+                    if options.pointing is False:
+                        listCommand  = '%s| grep Parallel '%(listCommand)
                     listCommand = '%s> submissions.txt'%(listCommand)
                     os.system(listCommand)
 
