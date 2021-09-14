@@ -293,8 +293,13 @@ def fetchData(options, energies, particles, etas, phis, ranges):
     # Attach closeBy-related options
     if options.nParticles is not None:
         command = '%s --nParticles %d'%(command,options.nParticles)
+
     if options.delta is not None:
-        command = '%s --delta %f'%(command,options.delta)
+        deltaList = ' --delta'
+        for delta in options.delta:
+            deltaList = '%s %f'%(deltaList,delta)
+        command = '%s%s'%(command, deltaList)
+
     if options.overlapping:
         command = '%s --overlapping'%(command)
     if options.pointing is not True:
