@@ -74,7 +74,7 @@ if __name__ == '__main__':
                         if options.tag is not None:
                             listCommand  = '%s| grep %s '%(listCommand,options.tag)
                         if options.delta is not None:
-                            listCommand  = '%s| grep Delta%s '%(listCommand,makeTag(options.delta))
+                            listCommand  = '%s| grep Delta%s '%(listCommand,makeTag(delta))
                         if options.overlapping:
                             listCommand  = '%s| grep Overlapping '%(listCommand)
                         if options.pointing is False:
