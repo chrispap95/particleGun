@@ -47,6 +47,11 @@ if __name__ == '__main__':
         'Using Gamma as default. This might not be compatible with your configuration.')
         particles = [22]
 
+    # List of delta values
+    deltas = options.delta
+    if deltas is None or len(deltas) == 0:
+        deltas = [10.0]
+
     # Pack the ranges into an array
     ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
 
@@ -54,31 +59,32 @@ if __name__ == '__main__':
         for E in energies:
             for eta in etas:
                 for phi in phis:
-                    # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
-                    # and create printout message.
-                    outTag = tagBuilder(options, p, E, eta, phi, ranges)
-                    print('%sCampaign: %s%s%s\t%sTag: %s%s%s'%(col.bold,col.magenta,options.campaign,col.endc,
-                                                               col.bold,col.magenta,options.tag,col.endc))
-                    os.chdir(CWD)
-                    os.chdir('myGeneration/%s/crab_projects/'%outTag)
+                    for delta in deltas:
+                        # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
+                        # and create printout message.
+                        outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
+                        print('%sCampaign: %s%s%s\t%sTag: %s%s%s'%(col.bold,col.magenta,options.campaign,col.endc,
+                                                                   col.bold,col.magenta,options.tag,col.endc))
+                        os.chdir(CWD)
+                        os.chdir('myGeneration/%s/crab_projects/'%outTag)
 
-                    listCommand = 'ls | grep %s | grep %s'%(options.step,options.geometry)
-                    if options.campaign is not None:
-                        listCommand  = '%s| grep %s '%(listCommand,options.campaign)
-                    if options.tag is not None:
-                        listCommand  = '%s| grep %s '%(listCommand,options.tag)
-                    if options.delta is not None:
-                        listCommand  = '%s| grep Delta%s '%(listCommand,makeTag(options.delta))
-                    if options.overlapping:
-                        listCommand  = '%s| grep Overlapping '%(listCommand)
-                    if options.pointing is False:
-                        listCommand  = '%s| grep Parallel '%(listCommand)
-                    listCommand = '%s> submissions.txt'%(listCommand)
-                    os.system(listCommand)
+                        listCommand = 'ls | grep %s | grep %s'%(options.step,options.geometry)
+                        if options.campaign is not None:
+                            listCommand  = '%s| grep %s '%(listCommand,options.campaign)
+                        if options.tag is not None:
+                            listCommand  = '%s| grep %s '%(listCommand,options.tag)
+                        if options.delta is not None:
+                            listCommand  = '%s| grep Delta%s '%(listCommand,makeTag(options.delta))
+                        if options.overlapping:
+                            listCommand  = '%s| grep Overlapping '%(listCommand)
+                        if options.pointing is False:
+                            listCommand  = '%s| grep Parallel '%(listCommand)
+                        listCommand = '%s> submissions.txt'%(listCommand)
+                        os.system(listCommand)
 
-                    fSubmissions = open('submissions.txt','r')
-                    for submission in fSubmissions:
-                        os.system('crab status -d %s > log.txt'%(submission))
-                        os.system('tail -n +9 log.txt | head -n -8')
-                        os.system('rm log.txt')
-                    os.system('rm submissions.txt')
+                        fSubmissions = open('submissions.txt','r')
+                        for submission in fSubmissions:
+                            os.system('crab status -d %s > log.txt'%(submission))
+                            os.system('tail -n +9 log.txt | head -n -8')
+                            os.system('rm log.txt')
+                        os.system('rm submissions.txt')

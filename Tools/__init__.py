@@ -75,7 +75,7 @@ def mainParser():
                              '(Default is pi)')
     parser.add_argument('--nParticles', type=int, default=1,
                         help='Number of particles per event. (Default is 1)')
-    parser.add_argument('--delta', type=float,
+    parser.add_argument('--delta', type=float, nargs='*',
                         help='Arc distance between two vertices. (Default is 10 cm)')
     parser.add_argument('--overlapping', default=False,
                         help='If True, particles are shot within delta window. (Default is False)')
@@ -118,7 +118,7 @@ def makeTag(x):
 
 # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
 # and create printout message.
-def tagBuilder(options, p, E, eta, phi, ranges):
+def tagBuilder(options, p, E, eta, phi, ranges, delta):
     outTag = ''
     printOut = '%s%s'%(col.bold, col.yellow)
     if options.closeBy:
@@ -152,8 +152,8 @@ def tagBuilder(options, p, E, eta, phi, ranges):
     else:
         outTag = '%sPhi%s'%(outTag,makeTag(phi))
         printOut = '%sand phi=%s%s'%(printOut,makeTag(phi),col.endc)
-    if options.delta != None:
-        outTag = '%sDelta%s'%(outTag,makeTag(options.delta))
+    if delta != None:
+        outTag = '%sDelta%s'%(outTag,makeTag(delta))
     if options.pointing == False:
         outTag = '%sParallel'%(outTag)
     if options.overlapping == True:
