@@ -28,7 +28,7 @@ FORK=chrispap95
 BRANCH=topic_chrispap
 INIT=0
 #check arguments
-while getopts "c:f:b:s:i:h" opt; do
+while getopts ":c:f:b:s:i:h:" opt; do
 	case "$opt" in
 	c) WHICH_CMSSW=$OPTARG
 	;;
