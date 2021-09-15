@@ -17,6 +17,7 @@ usage() {
 	$ECHO "-f [fork]     \tclone from specified fork (default = chrispap95)"
 	$ECHO "-b [branch]   \tclone specified branch (default = master)"
 	$ECHO "-s            \tuse protocol to clone (default = ${ACCESS}, alternative = ssh)"
+	$ECHO "-i            \texecute git cms-init at setup"
 	$ECHO "-h            \tprint this message and exit"
 	exit $1
 }
@@ -25,6 +26,7 @@ CUR_DIR=`pwd`
 WHICH_CMSSW=""
 FORK=chrispap95
 BRANCH=topic_chrispap
+INIT=0
 #check arguments
 while getopts "c:f:b:s:h" opt; do
 	case "$opt" in
@@ -35,6 +37,8 @@ while getopts "c:f:b:s:h" opt; do
 	b) BRANCH=$OPTARG
 	;;
 	s) ACCESS=$OPTARG
+	;;
+	i) INIT=1
 	;;
 	h) usage 0
 	;;
@@ -127,7 +131,9 @@ if [ -n "$WHICH_CMSSW" ]; then
 	# reinitialize environment
 	eval `scramv1 runtime -sh`
 	cd src
-	#git cms-init $ACCESS_CMSSW
+	if [[ "$INIT" == "1" ]]; then
+		git cms-init
+	fi
 
 	# CMSSW_10_X_Y needs the HGCalAnalysis ntuplizer
 	# CMSSW_11_2_0_pre3 and below work with reco-ntuples ntuplizer
