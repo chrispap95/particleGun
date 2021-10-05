@@ -33,6 +33,8 @@ def mainParser():
                         help='Tag of input dataset.')
     parser.add_argument('-c', '--campaign',
                         help='Adds a tag to outputDatasetTag.')
+    parser.add_argument('--inputCampaign',
+                        help='Searches for a previous step with that tag in outputDatasetTag.')
     parser.add_argument('-S', '--site', default='T3_US_FNALLPC',
                         help='Changes the output site. (Default is T3_US_FNALLPC)')
     parser.add_argument('-d', '--dest', default='/store/user/',
@@ -285,7 +287,9 @@ def fetchData(options, energies, particles, etas, phis, ranges):
         command = '%s -t %s'%(command,options.tag)
 
     # Attach campaign option
-    if options.campaign is not None:
+    if options.inputCampaign is not None:
+        command = '%s -c %s'%(command,options.inputCampaign)
+    elif options.campaign is not None:
         command = '%s -c %s'%(command,options.campaign)
 
     # Attach closeBy option
