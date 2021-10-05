@@ -68,7 +68,7 @@ def step1(options):
 
     # Add any process modifiers
     if options.proc is not None:
-        proc = options.proc
+        proc = '--procModifier '+options.proc
 
     for p in particles:
         for E in energies:

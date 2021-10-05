@@ -73,7 +73,7 @@ def step2(options):
     # Add any process modifiers
     proc = ''
     if options.proc is not None:
-        proc = options.proc
+        proc = '--procModifier '+options.proc
 
     # Run cmsdriver.py to create workflows
     print('Creating step2 configuration.')
