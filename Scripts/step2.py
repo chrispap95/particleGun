@@ -70,14 +70,22 @@ def step2(options):
         pileupInput = '--pileup_input das:%s'%(options.pileupInput)
         pileupConfig = '--pileup %s'%(options.pileupConfig)
 
+    # Add any process modifiers
+    proc = ''
+    if options.proc is not None:
+        proc = options.proc
+
     # Run cmsdriver.py to create workflows
     print('Creating step2 configuration.')
-    os.system('cmsDriver.py step2 --mc '
-    '-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads %d '
-    '--datatier GEN-SIM-DIGI-RAW -n 100 --geometry Extended2026%s %s %s --era %s '
-    '--eventcontent FEVTDEBUGHLT --no_exec --conditions auto:%s --filein file:step1.root '
-    '--fileout file:step2.root'%(nThreads, options.geometry, pileupInput,
-                                 pileupConfig, options.era, options.conditions))
+    os.system('cmsDriver.py step2 --mc --datatier GEN-SIM-DIGI-RAW -n 100 '
+        '-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads %d '
+        '--geometry Extended2026%s %s %s --era %s --eventcontent FEVTDEBUGHLT '
+        '--no_exec --conditions auto:%s --filein file:step1.root --fileout '
+        'file:step2.root %s'%(
+            nThreads, options.geometry, pileupInput, pileupConfig, options.era,
+            options.conditions, proc
+        )
+    )
     script = 'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py'
     if options.pileup:
         script = 'step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py'

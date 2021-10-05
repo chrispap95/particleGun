@@ -75,13 +75,21 @@ def step3(options):
     if options.cpu is not None:
         nThreads = options.cpu
 
+    # Add any process modifiers
+    proc = ''
+    if options.proc is not None:
+        proc = options.proc
+
     # Run cmsdriver.py to create workflows
     print('Creating step3 configuration.')
     os.system('cmsDriver.py step3 --conditions auto:%s -n 100 %s %s --era %s '
-    '--eventcontent FEVTDEBUGHLT --no_exec -s RAW2DIGI,L1Reco,RECO,RECOSIM --mc '
-    '--datatier GEN-SIM-RECO --geometry Extended2026%s --nThreads %d --filein file:step2.root '
-    '--fileout file:step3.root'%(options.conditions, pileupInput, pileupConfig,
-                                 options.era, options.geometry, nThreads))
+        '--eventcontent FEVTDEBUGHLT --no_exec -s RAW2DIGI,L1Reco,RECO,RECOSIM --mc '
+        '--datatier GEN-SIM-RECO --geometry Extended2026%s --nThreads %d --filein '
+        'file:step2.root --fileout file:step3.root %s'%(
+            options.conditions, pileupInput, pileupConfig, options.era,
+            options.geometry, nThreads, proc
+        )
+    )
     script = 'step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py'
     if options.pileup:
         script = 'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py'

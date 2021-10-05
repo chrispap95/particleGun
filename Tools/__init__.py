@@ -81,6 +81,8 @@ def mainParser():
                         help='If True, particles are shot within delta window. (Default is False)')
     parser.add_argument('--pointing', default=True,
                         help='If True, particles are shot from (0,0,0). (Default is True)')
+    parser.add_argument('--proc',
+                        help='Add any process modifiers to the cmsDriver command.')
 
     options = parser.parse_args()
 

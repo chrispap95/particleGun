@@ -66,6 +66,10 @@ def step1(options):
     if options.cpu is not None:
         nThreads = options.cpu
 
+    # Add any process modifiers
+    if options.proc is not None:
+        proc = options.proc
+
     for p in particles:
         for E in energies:
             for eta in etas:
@@ -142,11 +146,16 @@ def step1(options):
                         pythiaTag = '_pythia8'
                         if options.closeBy:
                             pythiaTag = ''
-                        os.system('cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py --mc '
-                        '--conditions auto:%s -n 100 --era %s --eventcontent FEVTDEBUG -s GEN,SIM '
-                        '--datatier GEN-SIM --no_exec --beamspot HLLHC --geometry Extended2026%s '
-                        '--nThreads %d --fileout file:step1.root'%(outTag,pythiaTag,options.conditions,
-                                                                   options.era,options.geometry,nThreads))
+                        proc = ''
+
+                        os.system('cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py '
+                            '--mc --conditions auto:%s -n 100 --era %s --eventcontent FEVTDEBUG '
+                            '-s GEN,SIM --datatier GEN-SIM --no_exec --beamspot HLLHC --geometry '
+                            'Extended2026%s --nThreads %d --fileout file:step1.root %s'%(
+                                outTag, pythiaTag, options.conditions, options.era,
+                                options.geometry, nThreads, proc
+                            )
+                        )
 
                         # Create CRAB configuration file
                         filein = None
