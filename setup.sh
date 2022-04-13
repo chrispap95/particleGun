@@ -95,6 +95,9 @@ if [ -n "$WHICH_CMSSW" ]; then
 	CMSSW_10_6_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
 	;;
+	CMSSW_11_0_*)
+		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
+	;;
 	CMSSW_11_1_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc820
 	;;
@@ -104,11 +107,20 @@ if [ -n "$WHICH_CMSSW" ]; then
 	CMSSW_11_3_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
 	;;
-	CMSSW_11_4_*)
+	CMSSW_12_0_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
 	;;
-	CMSSW_12_*)
+	CMSSW_12_1_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
+	;;
+	CMSSW_12_2_*)
+		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc900
+	;;
+	CMSSW_12_3_*)
+		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc10
+	;;
+	CMSSW_12_4_*)
+		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc10
 	;;
 	*)
 		$ECHO "Unknown architecture for release $WHICH_CMSSW."
