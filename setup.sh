@@ -122,6 +122,9 @@ if [ -n "$WHICH_CMSSW" ]; then
 	CMSSW_12_4_*)
 		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc10
 	;;
+	CMSSW_12_5_*)
+		export SCRAM_ARCH=${SLC_VERSION}_amd64_gcc10
+	;;
 	*)
 		$ECHO "Unknown architecture for release $WHICH_CMSSW."
 		$ECHO "Make sure it is at least CMSSW_10_6_X."
