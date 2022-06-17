@@ -27,7 +27,6 @@ If you want to shoot at a continuous range of energies, eta or phi, then omit th
 
 To see the options available:
 ```
-[chpapage@cmslpc163 particleGun]$ python step1.py --help
 usage: submit.py [options]
 
 Submit and manage multiple particle gun jobs with CRAB3.
@@ -55,6 +54,8 @@ optional arguments:
                         Tag of input dataset.
   -c CAMPAIGN, --campaign CAMPAIGN
                         Adds a tag to outputDatasetTag.
+  --inputCampaign INPUTCAMPAIGN
+                        Searches for a previous step with that tag in outputDatasetTag.
   -S SITE, --site SITE  Changes the output site. (Default is T3_US_FNALLPC)
   -d DEST, --dest DEST  Changes the output destination path. (Default is /store/user/)
   -a PILEUP, --pileup PILEUP
@@ -75,6 +76,14 @@ optional arguments:
   --minEta MINETA       Minimum of eta range in case of continuous eta distribution. (Default is 1.5)
   --maxPhi MAXPHI       Maximum of phi range in case of continuous phi distribution. (Default is -pi)
   --minPhi MINPHI       Minimum of phi range in case of continuous phi distribution. (Default is pi)
+  --nParticles NPARTICLES
+                        Number of particles per event. (Default is 1)
+  --delta [DELTA ...]   Arc distance between two vertices. (Default is 10 cm)
+  --beamspot BEAMSPOT   Beamspot conditions. (Default is HLLHC or HGCALCloseBy depending on the configuration)
+  --overlapping OVERLAPPING
+                        If True, particles are shot within delta window. (Default is False)
+  --pointing POINTING   If True, particles are shot from (0,0,0). (Default is True)
+  --proc PROC           Add any process modifiers to the cmsDriver command.
 ```
 
 To check the submitted jobs issue:
