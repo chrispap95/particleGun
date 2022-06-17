@@ -432,6 +432,9 @@ def fetchData(options, energies, particles, etas, phis, ranges):
     if options.pointing is not True:
         command = "%s --pointing" % (command)
 
+    # Attach geometry option
+    command = "%s -g %s" % (command, options.geometry)
+
     print("Executing: %s" % (command))
     os.system("sh Tools/createList.sh '%s'" % (command))
 
