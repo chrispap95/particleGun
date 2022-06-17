@@ -1,10 +1,14 @@
-import os, sys, math
-from Tools import particleNumbers, col, makeTag, tagBuilder, writeCRABConfig, fetchData
+import math
+import os
+import sys
+
+from Tools import col, fetchData, makeTag, particleNumbers, tagBuilder, writeCRABConfig
+
 
 def step3(options):
     # Getting environment info
-    CMSSW = os.environ['CMSSW_VERSION']
-    USER = os.environ['USER']
+    CMSSW = os.environ["CMSSW_VERSION"]
+    USER = os.environ["USER"]
     CWD = os.getcwd()
 
     # List or range of energies to shoot particles
@@ -15,7 +19,7 @@ def step3(options):
         minEn = options.minEn
     energies = options.energies
     if energies is None or len(energies) == 0:
-        energies = ['notSet']
+        energies = ["notSet"]
 
     # List or range of etas to shoot particles
     minEta, maxEta = 1.5, 3.0
@@ -25,7 +29,7 @@ def step3(options):
         minEta = options.minEta
     etas = options.eta
     if etas is None or len(etas) == 0:
-        etas = ['notSet']
+        etas = ["notSet"]
 
     # List or range of phi to shoot particles
     minPhi, maxPhi = -math.pi, math.pi
@@ -35,14 +39,17 @@ def step3(options):
         minPhi = options.minPhi
     phis = options.phi
     if phis is None or len(phis) == 0:
-        phis = ['notSet']
+        phis = ["notSet"]
 
     # List of particles to generate in pdg codes
     particleTags = particleNumbers()
     particles = options.particles
     if particles is None or len(particles) == 0:
-        print('%sWarning%s: Particles not specified. Using Gamma as default. '
-        'This might not be compatible with your configuration.'%(col.magenta,col.endc))
+        print(
+            "%sWarning%s: Particles not specified. Using Gamma as default. "
+            "This might not be compatible with your configuration."
+            % (col.magenta, col.endc)
+        )
         particles = [22]
 
     # List of delta values
@@ -65,38 +72,45 @@ def step3(options):
         nThreads = options.cpu
 
     # Pileup configuration
-    pileupInput = ''
-    pileupConfig = ''
+    pileupInput = ""
+    pileupConfig = ""
     if options.pileup:
-        pileupInput = '--pileup_input das:%s'%(options.pileupInput)
-        pileupConfig = '--pileup %s'%(options.pileupConfig)
-        nThreads = '8'
+        pileupInput = "--pileup_input das:%s" % (options.pileupInput)
+        pileupConfig = "--pileup %s" % (options.pileupConfig)
+        nThreads = "8"
 
     if options.cpu is not None:
         nThreads = options.cpu
 
     # Add any process modifiers
-    proc = ''
+    proc = ""
     if options.proc is not None:
-        proc = '--procModifier '+options.proc
+        proc = "--procModifier " + options.proc
 
     # Run cmsdriver.py to create workflows
-    print('Creating step3 configuration.')
-    os.system('cmsDriver.py step3 --conditions auto:%s -n 100 %s %s --era %s '
-        '--eventcontent FEVTDEBUGHLT --no_exec -s RAW2DIGI,L1Reco,RECO,RECOSIM --mc '
-        '--datatier GEN-SIM-RECO --geometry Extended2026%s --nThreads %d --filein '
-        'file:step2.root --fileout file:step3.root %s'%(
-            options.conditions, pileupInput, pileupConfig, options.era,
-            options.geometry, nThreads, proc
+    print("Creating step3 configuration.")
+    os.system(
+        "cmsDriver.py step3 --conditions auto:%s -n 100 %s %s --era %s "
+        "--eventcontent FEVTDEBUGHLT --no_exec -s RAW2DIGI,L1Reco,RECO,RECOSIM --mc "
+        "--datatier GEN-SIM-RECO --geometry Extended2026%s --nThreads %d --filein "
+        "file:step2.root --fileout file:step3.root %s"
+        % (
+            options.conditions,
+            pileupInput,
+            pileupConfig,
+            options.era,
+            options.geometry,
+            nThreads,
+            proc,
         )
     )
-    script = 'step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py'
+    script = "step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py"
     if options.pileup:
-        script = 'step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py'
+        script = "step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py"
 
     # Get filenames from previous step
     fetchData(options, energies, particles, etas, phis, ranges)
-    filein = open('myGeneration/list.txt','r')
+    filein = open("myGeneration/list.txt", "r")
 
     for p in particles:
         for E in energies:
@@ -108,15 +122,24 @@ def step3(options):
                         outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
 
                         os.chdir(CWD)
-                        os.system('cp %s myGeneration/%s/'%(script,outTag))
-                        os.chdir('myGeneration/%s'%outTag)
+                        os.system("cp %s myGeneration/%s/" % (script, outTag))
+                        os.chdir("myGeneration/%s" % outTag)
 
                         # Create CRAB configuration file
-                        writeCRABConfig(options, outTag, nThreads, memory,
-                                        maxRuntime, filein, CMSSW, USER, script)
+                        writeCRABConfig(
+                            options,
+                            outTag,
+                            nThreads,
+                            memory,
+                            maxRuntime,
+                            filein,
+                            CMSSW,
+                            USER,
+                            script,
+                        )
 
                         if options.no_exec:
-                            os.system('crab submit -c crabConfig_%s_step3.py'%outTag)
+                            os.system("crab submit -c crabConfig_%s_step3.py" % outTag)
 
     os.chdir(CWD)
-    os.system('rm %s'%script)
+    os.system("rm %s" % script)

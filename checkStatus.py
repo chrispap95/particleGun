@@ -1,11 +1,14 @@
-import os, sys, math
-from Tools import mainParser, particleNumbers, col, makeTag, tagBuilder
+import math
+import os
+import sys
+
+from Tools import col, mainParser, makeTag, particleNumbers, tagBuilder
 
 sys.path.append(os.path.abspath(os.path.curdir))
 
 options = mainParser()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Getting environment info
     CWD = os.getcwd()
 
@@ -17,7 +20,7 @@ if __name__ == '__main__':
         minEn = options.minEn
     energies = options.energies
     if energies is None or len(energies) == 0:
-        energies = ['notSet']
+        energies = ["notSet"]
 
     # List or range of etas to shoot particles
     minEta, maxEta = 1.5, 3.0
@@ -27,7 +30,7 @@ if __name__ == '__main__':
         minEta = options.minEta
     etas = options.eta
     if etas is None or len(etas) == 0:
-        etas = ['notSet']
+        etas = ["notSet"]
 
     # List or range of phi to shoot particles
     minPhi, maxPhi = -math.pi, math.pi
@@ -37,14 +40,16 @@ if __name__ == '__main__':
         minPhi = options.minPhi
     phis = options.phi
     if phis is None or len(phis) == 0:
-        phis = ['notSet']
+        phis = ["notSet"]
 
     # List of particles to generate in pdg codes
     particleTags = particleNumbers()
     particles = options.particles
     if particles is None or len(particles) == 0:
-        print(col.magenta+'Warning: '+col.endc+'Particles not specified. '
-        'Using Gamma as default. This might not be compatible with your configuration.')
+        print(
+            col.magenta + "Warning: " + col.endc + "Particles not specified. "
+            "Using Gamma as default. This might not be compatible with your configuration."
+        )
         particles = [22]
 
     # List of delta values
@@ -63,28 +68,48 @@ if __name__ == '__main__':
                         # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
                         # and create printout message.
                         outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
-                        print('%sCampaign: %s%s%s\t%sTag: %s%s%s'%(col.bold,col.magenta,options.campaign,col.endc,
-                                                                   col.bold,col.magenta,options.tag,col.endc))
+                        print(
+                            "%sCampaign: %s%s%s\t%sTag: %s%s%s"
+                            % (
+                                col.bold,
+                                col.magenta,
+                                options.campaign,
+                                col.endc,
+                                col.bold,
+                                col.magenta,
+                                options.tag,
+                                col.endc,
+                            )
+                        )
                         os.chdir(CWD)
-                        os.chdir('myGeneration/%s/crab_projects/'%outTag)
+                        os.chdir("myGeneration/%s/crab_projects/" % outTag)
 
-                        listCommand = 'ls | grep %s | grep %s'%(options.step,options.geometry)
+                        listCommand = "ls | grep %s | grep %s" % (
+                            options.step,
+                            options.geometry,
+                        )
                         if options.campaign is not None:
-                            listCommand  = '%s| grep %s '%(listCommand,options.campaign)
+                            listCommand = "%s| grep %s " % (
+                                listCommand,
+                                options.campaign,
+                            )
                         if options.tag is not None:
-                            listCommand  = '%s| grep %s '%(listCommand,options.tag)
+                            listCommand = "%s| grep %s " % (listCommand, options.tag)
                         if options.delta is not None:
-                            listCommand  = '%s| grep Delta%s '%(listCommand,makeTag(delta))
+                            listCommand = "%s| grep Delta%s " % (
+                                listCommand,
+                                makeTag(delta),
+                            )
                         if options.overlapping:
-                            listCommand  = '%s| grep Overlapping '%(listCommand)
+                            listCommand = "%s| grep Overlapping " % (listCommand)
                         if options.pointing is False:
-                            listCommand  = '%s| grep Parallel '%(listCommand)
-                        listCommand = '%s> submissions.txt'%(listCommand)
+                            listCommand = "%s| grep Parallel " % (listCommand)
+                        listCommand = "%s> submissions.txt" % (listCommand)
                         os.system(listCommand)
 
-                        fSubmissions = open('submissions.txt','r')
+                        fSubmissions = open("submissions.txt", "r")
                         for submission in fSubmissions:
-                            os.system('crab status -d %s > log.txt'%(submission))
-                            os.system('tail -n +9 log.txt | head -n -8')
-                            os.system('rm log.txt')
-                        os.system('rm submissions.txt')
+                            os.system("crab status -d %s > log.txt" % (submission))
+                            os.system("tail -n +9 log.txt | head -n -8")
+                            os.system("rm log.txt")
+                        os.system("rm submissions.txt")
