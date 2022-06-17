@@ -317,7 +317,7 @@ def fetchData(options, energies, particles, etas, phis, ranges):
 def extractCMSSWversion(cmssw):
     # Check for nightly build version
     if cmssw.find('_X_') > -1:
-        print("Warning: using a nightly CMSSW build! Version comparisons might yield incorrect results!")
+        print("%sWarning%s: using a nightly CMSSW build! Version comparisons might yield incorrect results!")
         cmssw = cmssw[:cmssw.find('_X_')]
         cmssw = cmssw + '_0_0'
     # Convert to X_Y_Z_A format. Prereleases get a minus sign
