@@ -313,3 +313,52 @@ def fetchData(options, energies, particles, etas, phis, ranges):
 
     print("Executing: %s"%(command))
     os.system("sh Tools/createList.sh '%s'"%(command))
+
+def extractCMSSWversion(cmssw):
+    # Check for nightly build version
+    if cmssw.find('_X_') > -1:
+        print("Warning: using a nightly CMSSW build! Version comparisons might yield incorrect results!")
+        cmssw = cmssw[:cmssw.find('_X_')]
+        cmssw = cmssw + '_0_0'
+    # Convert to X_Y_Z_A format. Prereleases get a minus sign
+    if cmssw.find('pre') == -1 and cmssw.find('patch') == -1:
+        cmssw = cmssw + '_0'
+    cmssw = cmssw.strip('CMSSW_').replace('pre','-').replace('patch','')
+    # Extract the numbers
+    version = []
+    while cmssw != '':
+        i = cmssw.find('_')
+        if i > -1:
+            version.append(int(cmssw[0:i]))
+            cmssw = cmssw[i+1:]
+        else:
+            version.append(int(cmssw))
+            cmssw = ''
+    return version
+
+def compareCMSSWversions(cmssw1, cmssw2):
+    '''
+    Input: (cmssw1, cmssw2) -> CMSSW versions in CMSSW_X_Y_Z(...) format.
+    Returns:
+        *  1 if cmssw1  > cmssw2
+        *  0 if cmssw1 == cmssw2
+        * -1 if cmssw1  < cmssw2
+    '''
+    # Extract version numbers
+    cmssw1 = extractCMSSWversion(cmssw1)
+    cmssw2 = extractCMSSWversion(cmssw2)
+    # Make sure the comparison is valid for two prereleases
+    if len(cmssw1) == 4 and len(cmssw2) == 4 and cmssw1[3] < 0 and cmssw2[3] < 0:
+        cmssw1[3] = abs(cmssw1[3])
+        cmssw2[3] = abs(cmssw2[3])
+    # Comparison loop
+    result = 0
+    i = 0
+    maxI = min(len(cmssw1),len(cmssw2))
+    while not result and i < maxI:
+        if cmssw1[i] > cmssw2[i]:
+            result = 1
+        elif cmssw1[i] < cmssw2[i]:
+            result = -1
+        i += 1
+    return result
