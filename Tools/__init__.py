@@ -170,6 +170,10 @@ def mainParser():
         help="Arc distance between two vertices. (Default is 10 cm)",
     )
     parser.add_argument(
+        "--beamspot",
+        help="Beamspot conditions. (Default is HLLHC or HGCALCloseBy depending on the configuration)",
+    )
+    parser.add_argument(
         "--overlapping",
         default=False,
         help="If True, particles are shot within delta window. (Default is False)",
