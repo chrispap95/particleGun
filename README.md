@@ -1,5 +1,5 @@
 # particleGun ![Python application](https://github.com/chrispap95/particleGun/workflows/Python%20application/badge.svg) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-Scripts for easy and multiple MC samples generation.
+Massive parallel MC sample generation submission handling for particle gun cases (designed for HGCAL workflows). This package will automate loops over multiple energies, η, φ, particle types, etc. Continuous ranges can be used as well for some of the input parameters. 
 
 ## Instructions
 To clone the code just do
