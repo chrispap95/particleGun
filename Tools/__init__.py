@@ -363,17 +363,14 @@ def fetchData(options, energy, particle, eta, phi, ranges, delta, CMSSW, user):
         raise ValueError("Unknown step:%s" % options.step)
 
     # dasgoclient command
-    command = (
-        'dasgoclient -query="dataset dataset=/%s/%s-%s-*/USER instance=prod/phys03"'
-        % (
-            primary,
-            user,
-            output,
-        )
+    query = "dataset dataset=/%s/%s-%s-*/USER instance=prod/phys03" % (
+        primary,
+        user,
+        output,
     )
 
-    print("Executing: %s" % (command))
-    result = subprocess.run(command, stdout=subprocess.PIPE)
+    print('Executing: dasgoclient -query="%s' % (query))
+    result = subprocess.run(["dasgoclient", "-query", query], stdout=subprocess.PIPE)
     return result.stdout
 
 
