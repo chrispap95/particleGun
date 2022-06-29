@@ -371,7 +371,7 @@ def fetchData(options, energy, particle, eta, phi, ranges, delta, CMSSW, user):
 
     print('Executing: dasgoclient -query="%s' % (query))
     result = subprocess.run(["dasgoclient", "-query", query], stdout=subprocess.PIPE)
-    return result.stdout.decode("utf-8")
+    return result.stdout.decode("utf-8")[:-1]
 
 
 def extractCMSSWversion(cmssw):
