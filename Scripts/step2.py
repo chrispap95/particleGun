@@ -116,6 +116,7 @@ def step2(options):
                             eta,
                             phi,
                             ranges,
+                            delta,
                             CMSSW,
                             USER,
                         )

@@ -343,9 +343,9 @@ def writeCRABConfig(
         file1.write("config.Data.publication = True\n\n")
 
 
-def fetchData(options, energies, particles, etas, phis, ranges, CMSSW, user):
+def fetchData(options, energy, particle, eta, phi, ranges, delta, CMSSW, user):
     # Primary dataset
-    primary = tagBuilder(options, p, E, eta, phi, ranges, delta)
+    primary = tagBuilder(options, particle, energy, eta, phi, ranges, delta)
 
     # output dataset
     output = "%s_%s_upgrade2026_%s" % (primary, CMSSW, options.geometry)
