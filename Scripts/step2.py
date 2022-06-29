@@ -111,10 +111,10 @@ def step2(options):
                         # Get filenames from previous step
                         filein = fetchData(
                             options,
-                            energies,
-                            particles,
-                            etas,
-                            phis,
+                            E,
+                            p,
+                            eta,
+                            phi,
                             ranges,
                             CMSSW,
                             USER,
