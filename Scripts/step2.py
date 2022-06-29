@@ -85,7 +85,7 @@ def step2(options):
     print("Creating step2 configuration.")
     os.system(
         "cmsDriver.py step2 --mc --datatier GEN-SIM-DIGI-RAW -n 100 "
-        "-s DIGI:@pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads %d --geometry "
+        "-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads %d --geometry "
         "Extended2026%s %s %s --era %s --eventcontent FEVTDEBUGHLT "
         "--no_exec --conditions auto:%s --filein file:step1.root --fileout "
         "file:step2.root %s"
