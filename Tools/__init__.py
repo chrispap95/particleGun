@@ -364,7 +364,7 @@ def fetchData(options, energy, particle, eta, phi, ranges, delta, CMSSW, user):
 
     # dasgoclient command
     command = (
-        """dasgoclient -query="dataset dataset=/%s/%s-%s-*/USER instance=prod/phys03" """
+        'dasgoclient -query="dataset dataset=/%s/%s-%s-*/USER instance=prod/phys03"'
         % (
             primary,
             user,
