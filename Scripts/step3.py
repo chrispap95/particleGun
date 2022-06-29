@@ -108,15 +108,24 @@ def step3(options):
     if options.pileup:
         script = "step3_RAW2DIGI_L1Reco_RECO_RECOSIM_PU.py"
 
-    # Get filenames from previous step
-    fetchData(options, energies, particles, etas, phis, ranges)
-    filein = open("myGeneration/list.txt", "r")
-
     for p in particles:
         for E in energies:
             for eta in etas:
                 for phi in phis:
                     for delta in deltas:
+                        # Get filenames from previous step
+                        filein = fetchData(
+                            options,
+                            E,
+                            p,
+                            eta,
+                            phi,
+                            ranges,
+                            delta,
+                            CMSSW,
+                            USER,
+                        )
+
                         # Append particle, energy, eta and phi tags. Phi tag is skipped
                         # if full range is used and create printout message.
                         outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
