@@ -110,7 +110,14 @@ def step2(options):
                     for delta in deltas:
                         # Get filenames from previous step
                         filein = fetchData(
-                            options, energies, particles, etas, phis, ranges
+                            options,
+                            energies,
+                            particles,
+                            etas,
+                            phis,
+                            ranges,
+                            CMSSW,
+                            USER,
                         )
 
                         # Append particle, energy, eta and phi tags. Phi tag is skipped
