@@ -94,7 +94,9 @@ if __name__ == "__main__":
                                 options.campaign,
                             )
                         if options.tag is not None:
-                            listCommand = "{}| grep {} ".format(listCommand, options.tag)
+                            listCommand = "{}| grep {} ".format(
+                                listCommand, options.tag
+                            )
                         if options.delta is not None:
                             listCommand = "{}| grep Delta{} ".format(
                                 listCommand,

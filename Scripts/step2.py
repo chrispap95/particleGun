@@ -125,7 +125,7 @@ def step2(options):
                         outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
 
                         os.chdir(CWD)
-                        os.system("cp {} myGeneration/{}/".format(script, outTag))
+                        os.system(f"cp {script} myGeneration/{outTag}/")
                         os.chdir("myGeneration/%s" % outTag)
 
                         # Create CRAB configuration file
