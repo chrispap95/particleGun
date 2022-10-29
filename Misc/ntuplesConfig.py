@@ -1,5 +1,4 @@
 import FWCore.ParameterSet.Config as cms
-from Configuration.StandardSequences.Eras import eras
 
 process = cms.Process("Demo")
 process.load("Configuration.StandardSequences.Services_cff")
@@ -17,7 +16,7 @@ except Exception:  # ConfigFileReadError in case config does not exist
 from Configuration.AlCa.GlobalTag import GlobalTag
 
 process.GlobalTag = GlobalTag(process.GlobalTag, "auto:phase2_realistic_T21", "")
-from FastSimulation.Event.ParticleFilter_cfi import *
+from FastSimulation.Event.ParticleFilter_cfi import *  # noqa
 
 process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(10))
 
