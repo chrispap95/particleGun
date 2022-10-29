@@ -22,7 +22,6 @@ usage() {
 	exit "$1"
 }
 
-CUR_DIR=$(pwd)
 WHICH_CMSSW=""
 FORK=chrispap95
 BRANCH=topic_chrispap
@@ -132,9 +131,8 @@ if [ -n "$WHICH_CMSSW" ]; then
 	;;
 	esac
 	scramv1 project CMSSW "$WHICH_CMSSW"
-	cd $WHICH_CMSSW
-	CUR_DIR=$(pwd)
-	eval $(scramv1 runtime -sh)
+	cd "$WHICH_CMSSW"
+	eval "$(scramv1 runtime -sh)"
 	$ECHO "setup $CMSSW_VERSION"
 fi
 
@@ -144,7 +142,7 @@ fi
 
 if [ -n "$WHICH_CMSSW" ]; then
 	# reinitialize environment
-	eval $(scramv1 runtime -sh)
+	eval "$(scramv1 runtime -sh)"
 	cd src
 	if [[ "$INIT" == "1" ]]; then
 		git cms-init
@@ -155,15 +153,15 @@ if [ -n "$WHICH_CMSSW" ]; then
 	# CMSSW_11_2_0_pre4 and above work with a patched reco-ntuples ntuplizer
 	# See https://github.com/cms-sw/cmssw/pull/31013 for more details
 	if [[ "$WHICH_CMSSW" == *"CMSSW_11_"[0-1]* || "$WHICH_CMSSW" == *"CMSSW_11_2_0_pre"[123]  ]]; then
-		git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b topic_chrispap_old
+		git clone ${ACCESS_GITHUB}"${FORK}"/reco-ntuples RecoNtuples -b topic_chrispap_old
 		git clone ${ACCESS_GITHUB}chrispap95/particleGun
 		mkdir particleGun/myGeneration
 	elif [[ "$WHICH_CMSSW" == *"CMSSW_11_"[2-9]* || "$WHICH_CMSSW" == *"CMSSW_12_"* ]]; then
-		git clone ${ACCESS_GITHUB}${FORK}/reco-ntuples RecoNtuples -b $BRANCH
+		git clone ${ACCESS_GITHUB}"${FORK}"/reco-ntuples RecoNtuples -b $BRANCH
 		git clone ${ACCESS_GITHUB}chrispap95/particleGun
 		mkdir particleGun/myGeneration
 	elif [[ "$WHICH_CMSSW" == *"CMSSW_10_6"* ]]; then
-		git clone ${ACCESS_GITHUB}${FORK}/HGCalAnalysis HGCalAnalysis -b rechitDetID
+		git clone ${ACCESS_GITHUB}"${FORK}"/HGCalAnalysis HGCalAnalysis -b rechitDetID
 		git clone ${ACCESS_GITHUB}chrispap95/particleGun -b CMSSW_10_6_3_patch1-2026D41
 		mkdir particleGun/myGeneration
 	else
