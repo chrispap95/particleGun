@@ -84,19 +84,19 @@ if __name__ == "__main__":
                         os.chdir(CWD)
                         os.chdir("myGeneration/%s/crab_projects/" % outTag)
 
-                        listCommand = "ls | grep %s | grep %s" % (
+                        listCommand = "ls | grep {} | grep {}".format(
                             options.step,
                             options.geometry,
                         )
                         if options.campaign is not None:
-                            listCommand = "%s| grep %s " % (
+                            listCommand = "{}| grep {} ".format(
                                 listCommand,
                                 options.campaign,
                             )
                         if options.tag is not None:
-                            listCommand = "%s| grep %s " % (listCommand, options.tag)
+                            listCommand = "{}| grep {} ".format(listCommand, options.tag)
                         if options.delta is not None:
-                            listCommand = "%s| grep Delta%s " % (
+                            listCommand = "{}| grep Delta{} ".format(
                                 listCommand,
                                 makeTag(delta),
                             )
@@ -107,7 +107,7 @@ if __name__ == "__main__":
                         listCommand = "%s> submissions.txt" % (listCommand)
                         os.system(listCommand)
 
-                        fSubmissions = open("submissions.txt", "r")
+                        fSubmissions = open("submissions.txt")
                         for submission in fSubmissions:
                             os.system("crab kill -d %s" % (submission))
                         os.system("rm submissions.txt")

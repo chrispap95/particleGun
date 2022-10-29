@@ -2,7 +2,8 @@ import math
 import os
 import sys
 
-from Tools import col, fetchData, makeTag, particleNumbers, tagBuilder, writeCRABConfig
+from Tools import (col, fetchData, makeTag, particleNumbers, tagBuilder,
+                   writeCRABConfig)
 
 
 def step3(options):
@@ -131,7 +132,7 @@ def step3(options):
                         outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
 
                         os.chdir(CWD)
-                        os.system("cp %s myGeneration/%s/" % (script, outTag))
+                        os.system("cp {} myGeneration/{}/".format(script, outTag))
                         os.chdir("myGeneration/%s" % outTag)
 
                         # Create CRAB configuration file
