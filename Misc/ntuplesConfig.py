@@ -16,7 +16,7 @@ except Exception:  # ConfigFileReadError in case config does not exist
 from Configuration.AlCa.GlobalTag import GlobalTag
 
 process.GlobalTag = GlobalTag(process.GlobalTag, "auto:phase2_realistic_T21", "")
-from FastSimulation.Event.ParticleFilter_cfi import *  # noqa
+from FastSimulation.Event.ParticleFilter_cfi import *  # nopycln: import
 
 process.maxEvents = cms.untracked.PSet(input=cms.untracked.int32(10))
 
