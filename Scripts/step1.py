@@ -1,8 +1,7 @@
 import math
 import os
-import sys
 
-from Tools import (col, compareCMSSWversions, makeTag, particleNumbers,
+from Tools import (col, compareCMSSWversions, particleNumbers,
                    setRanges, tagBuilder, writeCRABConfig)
 
 

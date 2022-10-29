@@ -1,9 +1,7 @@
 import math
 import os
-import sys
 
-from Tools import (col, fetchData, mainParser, makeTag, particleNumbers,
-                   tagBuilder, writeCRABConfig)
+from Tools import col, fetchData, particleNumbers, tagBuilder, writeCRABConfig
 
 
 def ntuples(options):

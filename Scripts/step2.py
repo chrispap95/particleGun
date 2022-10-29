@@ -1,8 +1,7 @@
 import math
 import os
-import sys
 
-from Tools import col, fetchData, makeTag, tagBuilder, writeCRABConfig
+from Tools import col, fetchData, tagBuilder, writeCRABConfig
 
 
 def step2(options):

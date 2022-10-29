@@ -1,8 +1,7 @@
 import math
 import os
-import sys
 
-from Tools import (col, fetchData, makeTag, particleNumbers, tagBuilder,
+from Tools import (col, fetchData, particleNumbers, tagBuilder,
                    writeCRABConfig)
 
 

@@ -2,7 +2,7 @@
 
 # Created based on template from Kevin Pedro's script for SVJ analysis
 
-case `uname` in
+case $(uname) in
 	Linux) ECHO="echo -e" ;;
 	*) ECHO="echo" ;;
 esac
@@ -19,10 +19,10 @@ usage() {
 	$ECHO "-s            \tuse protocol to clone (default = ${ACCESS}, alternative = ssh)"
 	$ECHO "-i            \texecute git cms-init at setup"
 	$ECHO "-h            \tprint this message and exit"
-	exit $1
+	exit "$1"
 }
 
-CUR_DIR=`pwd`
+CUR_DIR=$(pwd)
 WHICH_CMSSW=""
 FORK=chrispap95
 BRANCH=topic_chrispap
@@ -40,7 +40,7 @@ while getopts ":c:f:b:s:i:h:" opt; do
 	;;
 	i) INIT=1
 	;;
-	h) usage 0
+	h | *) usage 0
 	;;
 	esac
 done
@@ -60,15 +60,15 @@ else
 fi
 
 # OS check
-if [[ `uname -r` == *"el6"* ]]; then
+if [[ $(uname -r) == *"el6"* ]]; then
 	SLC_VERSION="slc6"
 	$ECHO "Unsupported architecture $SLC_VERSION. Please switch to slc7."
 	exit 1
-elif [[ `uname -r` == *"el7"* ]]; then
+elif [[ $(uname -r) == *"el7"* ]]; then
 	SLC_VERSION="slc7"
 	$ECHO "Detected $SLC_VERSION architecture."
 elif [[ -f "/etc/redhat-release" ]]; then
-	VERSION_TMP=`awk -F'[ .]' '{print $4}' "/etc/redhat-release"`
+	VERSION_TMP=$(awk -F'[ .]' '{print $4}' "/etc/redhat-release")
 	POSSIBLE_VERSIONS=( 6 7 )
 	if [[ "${POSSIBLE_VERSIONS[@]} " =~ " ${VERSION_TMP}" ]]; then
 		SLC_VERSION="slc${VERSION_TMP}"
@@ -131,10 +131,10 @@ if [ -n "$WHICH_CMSSW" ]; then
 		exit 1
 	;;
 	esac
-	scramv1 project CMSSW $WHICH_CMSSW
+	scramv1 project CMSSW "$WHICH_CMSSW"
 	cd $WHICH_CMSSW
-	CUR_DIR=`pwd`
-	eval `scramv1 runtime -sh`
+	CUR_DIR=$(pwd)
+	eval $(scramv1 runtime -sh)
 	$ECHO "setup $CMSSW_VERSION"
 fi
 
@@ -144,7 +144,7 @@ fi
 
 if [ -n "$WHICH_CMSSW" ]; then
 	# reinitialize environment
-	eval `scramv1 runtime -sh`
+	eval $(scramv1 runtime -sh)
 	cd src
 	if [[ "$INIT" == "1" ]]; then
 		git cms-init
