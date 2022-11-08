@@ -72,8 +72,8 @@ def step2(options):
     pileupInput = ""
     pileupConfig = ""
     if options.pileup:
-        pileupInput = "--pileup_input das:%s" % (options.pileupInput)
-        pileupConfig = "--pileup %s" % (options.pileupConfig)
+        pileupInput = f"--pileup_input das:{options.pileupInput}"
+        pileupConfig = f"--pileup {options.pileupConfig}"
 
     # Add any process modifiers
     proc = ""
@@ -83,20 +83,11 @@ def step2(options):
     # Run cmsdriver.py to create workflows
     print("Creating step2 configuration.")
     os.system(
-        "cmsDriver.py step2 --mc --datatier GEN-SIM-DIGI-RAW -n 100 "
-        "-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads %d --geometry "
-        "Extended2026%s %s %s --era %s --eventcontent FEVTDEBUGHLT "
-        "--no_exec --conditions auto:%s --filein file:step1.root --fileout "
-        "file:step2.root %s"
-        % (
-            nThreads,
-            options.geometry,
-            pileupInput,
-            pileupConfig,
-            options.era,
-            options.conditions,
-            proc,
-        )
+        f"cmsDriver.py step2 --mc --datatier GEN-SIM-DIGI-RAW -n 100 "
+        f"-s DIGI:pdigi_valid,L1TrackTrigger,L1,DIGI2RAW,HLT:@fake2 --nThreads {nThreads} --geometry "
+        f"Extended2026{options.geometry} {pileupInput} {pileupConfig} --era {options.era} --eventcontent FEVTDEBUGHLT "
+        f"--no_exec --conditions auto:{options.conditions} --filein file:step1.root --fileout "
+        f"file:step2.root {proc}"
     )
     script = "step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT.py"
     if options.pileup:
@@ -126,7 +117,7 @@ def step2(options):
 
                         os.chdir(CWD)
                         os.system(f"cp {script} myGeneration/{outTag}/")
-                        os.chdir("myGeneration/%s" % outTag)
+                        os.chdir(f"myGeneration/{outTag}")
 
                         # Create CRAB configuration file
                         writeCRABConfig(
@@ -142,7 +133,7 @@ def step2(options):
                         )
 
                         if options.no_exec:
-                            os.system("crab submit -c crabConfig_%s_step2.py" % outTag)
+                            os.system(f"crab submit -c crabConfig_{outTag}_step2.py")
 
     os.chdir(CWD)
-    os.system("rm %s" % script)
+    os.system(f"rm {script}")

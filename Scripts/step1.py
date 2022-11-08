@@ -16,7 +16,7 @@ def step1(options):
     CMSSW = os.environ["CMSSW_VERSION"]
     CMSSW_BASE = os.environ["CMSSW_BASE"]
     USER = os.environ["USER"]
-    GEN_DIR = "%s/src/Configuration/GenProduction/python/" % CMSSW_BASE
+    GEN_DIR = f"{CMSSW_BASE}/src/Configuration/GenProduction/python/"
     CWD = os.getcwd()
 
     # List or range of energies to shoot particles
@@ -104,7 +104,7 @@ def step1(options):
 
                         # Create working directory
                         os.chdir(CWD)
-                        os.system("mkdir -pv myGeneration/%s" % outTag)
+                        os.system(f"mkdir -pv myGeneration/{outTag}")
 
                         # Create generator configurations
                         if options.closeBy:
@@ -122,41 +122,39 @@ def step1(options):
                                 "generator = cms.EDProducer('CloseByParticleGunProducer',\n"
                             )
                             file0.write("\tPGunParameters = cms.PSet(\n")
-                            file0.write("\t\tPartID = cms.vint32(%d),\n" % p)
+                            file0.write(f"\t\tPartID = cms.vint32({p}),\n")
                             if compareCMSSWversions(CMSSW, "CMSSW_12_3_0_pre5"):
                                 file0.write("\t\tControlledByEta = cms.bool(False),\n")
                             if compareCMSSWversions(CMSSW, "CMSSW_12_3_0_pre2"):
                                 file0.write("\t\tMaxEnSpread = cms.bool(False),\n")
-                            file0.write("\t\tEnMax = cms.double(%f),\n" % (ranges[1]))
-                            file0.write("\t\tEnMin = cms.double(%f),\n" % (ranges[0]))
-                            file0.write("\t\tRMax = cms.double(%f),\n" % (rmax))
-                            file0.write("\t\tRMin = cms.double(%f),\n" % (rmin))
-                            file0.write("\t\tZMax = cms.double(%f),\n" % (ZMAX))
-                            file0.write("\t\tZMin = cms.double(%f),\n" % (ZMIN))
-                            file0.write("\t\tDelta = cms.double(%f),\n" % (delta))
+                            file0.write(f"\t\tEnMax = cms.double({ranges[1]}),\n")
+                            file0.write(f"\t\tEnMin = cms.double({ranges[0]}),\n")
+                            file0.write(f"\t\tRMax = cms.double({rmax}),\n")
+                            file0.write(f"\t\tRMin = cms.double({rmin}),\n")
+                            file0.write(f"\t\tZMax = cms.double({ZMAX}),\n")
+                            file0.write(f"\t\tZMin = cms.double({ZMIN}),\n")
+                            file0.write(f"\t\tDelta = cms.double({delta}),\n")
                             file0.write(
-                                "\t\tPointing = cms.bool(%s),\n" % (options.pointing)
+                                f"\t\tPointing = cms.bool({options.pointing}),\n"
                             )
                             file0.write(
-                                "\t\tOverlapping = cms.bool(%s),\n"
-                                % (options.overlapping)
+                                f"\t\tOverlapping = cms.bool({options.overlapping}),\n"
                             )
                             file0.write("\t\tRandomShoot = cms.bool(False),\n")
                             file0.write(
-                                "\t\tNParticles = cms.int32(%d),\n"
-                                % (options.nParticles)
+                                f"\t\tNParticles = cms.int32(options.nParticles),\n"
                             )
-                            file0.write("\t\tMaxEta = cms.double(%f),\n" % (ranges[3]))
-                            file0.write("\t\tMinEta = cms.double(%f),\n" % (ranges[2]))
+                            file0.write(f"\t\tMaxEta = cms.double({ranges[3]}),\n")
+                            file0.write(f"\t\tMinEta = cms.double({ranges[2]}),\n")
                             file0.write(
-                                "\t\tMaxPhi = cms.double(%.11f),\n" % (ranges[5])
+                                f"\t\tMaxPhi = cms.double({ranges[5]}),\n"
                             )
                             file0.write(
-                                "\t\tMinPhi = cms.double(%.11f)\n" % (ranges[4])
+                                f"\t\tMinPhi = cms.double({ranges[4]})\n"
                             )
                             file0.write("\t),\n")
                             file0.write("\tVerbosity = cms.untracked.int32(0),\n")
-                            file0.write("\tpsethack = cms.string('%s'),\n" % outTag)
+                            file0.write(f"\tpsethack = cms.string('{outTag}'),\n")
                             file0.write("\tAddAntiParticle = cms.bool(False),\n")
                             file0.write("\tfirstRun = cms.untracked.uint32(1),\n")
                             file0.write(")\n")
@@ -169,18 +167,18 @@ def step1(options):
                             file0.write("import FWCore.ParameterSet.Config as cms\n\n")
                             file0.write("generator = cms.EDFilter('Pythia8EGun',\n")
                             file0.write("\tPGunParameters = cms.PSet(\n")
-                            file0.write("\t\tMaxE = cms.double(%f),\n" % (ranges[1]))
-                            file0.write("\t\tMinE = cms.double(%f),\n" % (ranges[0]))
-                            file0.write("\t\tParticleID = cms.vint32(%d),\n" % p)
+                            file0.write(f"\t\tMaxE = cms.double(ranges[1]}),\n")
+                            file0.write(f"\t\tMinE = cms.double({ranges[0]}),\n")
+                            file0.write(f"\t\tParticleID = cms.vint32({p}),\n")
                             file0.write("\t\tAddAntiParticle = cms.bool(False),\n")
-                            file0.write("\t\tMaxEta = cms.double(%f),\n" % (ranges[3]))
-                            file0.write("\t\tMinEta = cms.double(%f),\n" % (ranges[2]))
-                            file0.write("\t\tMaxPhi = cms.double(%f),\n" % (ranges[5]))
-                            file0.write("\t\tMinPhi = cms.double(%f)\n" % (ranges[4]))
+                            file0.write(f"\t\tMaxEta = cms.double({ranges[3]}),\n")
+                            file0.write(f"\t\tMinEta = cms.double({ranges[2]}),\n")
+                            file0.write(f"\t\tMaxPhi = cms.double({ranges[5]}),\n")
+                            file0.write(f"\t\tMinPhi = cms.double({ranges[4]})\n")
                             file0.write("\t),\n")
                             file0.write("\tVerbosity = cms.untracked.int32(0), ")
                             file0.write("## set to 1 (or greater)  for printouts\n")
-                            file0.write("\tpsethack = cms.string('%s'),\n" % outTag)
+                            file0.write(f"\tpsethack = cms.string('{outTag}'),\n")
                             file0.write("\tfirstRun = cms.untracked.uint32(1),\n")
                             file0.write("\tPythiaParameters = cms.PSet(parameterSets ")
                             file0.write("= cms.vstring())\n\t)\n")
@@ -194,20 +192,10 @@ def step1(options):
                         proc = ""
 
                         os.system(
-                            "cmsDriver.py Configuration/GenProduction/python/%s%s_cfi.py "
-                            "--mc --conditions auto:%s -n 100 --era %s --eventcontent FEVTDEBUG "
-                            "-s GEN,SIM --datatier GEN-SIM --no_exec --beamspot %s --geometry "
-                            "Extended2026%s --nThreads %d --fileout file:step1.root %s"
-                            % (
-                                outTag,
-                                pythiaTag,
-                                options.conditions,
-                                options.era,
-                                beamspot,
-                                options.geometry,
-                                nThreads,
-                                proc,
-                            )
+                            f"cmsDriver.py Configuration/GenProduction/python/{outTag}{pythiaTag}_cfi.py "
+                            f"--mc --conditions auto:{options.conditions} -n 100 --era {options.era} --eventcontent FEVTDEBUG "
+                            f"-s GEN,SIM --datatier GEN-SIM --no_exec --beamspot {beamspot} --geometry "
+                            f"Extended2026{options.geometry} --nThreads {nThreads} --fileout file:step1.root {proc}"
                         )
 
                         # Create CRAB configuration file
@@ -226,4 +214,4 @@ def step1(options):
                         )
 
                         if options.no_exec:
-                            os.system("crab submit -c crabConfig_%s_step1.py" % outTag)
+                            os.system(f"crab submit -c crabConfig_{outTag}_step1.py")

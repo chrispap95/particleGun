@@ -69,49 +69,28 @@ if __name__ == "__main__":
                         # and create printout message.
                         outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
                         print(
-                            "%sCampaign: %s%s%s\t%sTag: %s%s%s"
-                            % (
-                                col.bold,
-                                col.magenta,
-                                options.campaign,
-                                col.endc,
-                                col.bold,
-                                col.magenta,
-                                options.tag,
-                                col.endc,
-                            )
+                            f"{col.bold}Campaign: {col.magenta}{options.campaign}{col.endc}\t{col.bold}Tag: {col.magenta}{options.tag}{col.endc}"
                         )
                         os.chdir(CWD)
-                        os.chdir("myGeneration/%s/crab_projects/" % outTag)
+                        os.chdir("myGeneration/{outTag}/crab_projects/")
 
-                        listCommand = "ls | grep {} | grep {}".format(
-                            options.step,
-                            options.geometry,
-                        )
+                        listCommand = f"ls | grep {options.step} | grep {options.geometry}"
                         if options.campaign is not None:
-                            listCommand = "{}| grep {} ".format(
-                                listCommand,
-                                options.campaign,
-                            )
+                            listCommand = f"{listCommand}| grep {options.campaign} "
                         if options.tag is not None:
-                            listCommand = "{}| grep {} ".format(
-                                listCommand, options.tag
-                            )
+                            listCommand = f"{listCommand}| grep {options.tag} "
                         if options.delta is not None:
-                            listCommand = "{}| grep Delta{} ".format(
-                                listCommand,
-                                makeTag(delta),
-                            )
+                            listCommand = f"{listCommand}| grep Delta{makeTag(delta)} "
                         if options.overlapping:
-                            listCommand = "%s| grep Overlapping " % (listCommand)
+                            listCommand = f"{listCommand}| grep Overlapping "
                         if options.pointing is False:
-                            listCommand = "%s| grep Parallel " % (listCommand)
-                        listCommand = "%s> submissions.txt" % (listCommand)
+                            listCommand = f"{listCommand}| grep Parallel "
+                        listCommand = f"{listCommand}> submissions.txt"
                         os.system(listCommand)
 
                         fSubmissions = open("submissions.txt")
                         for submission in fSubmissions:
-                            os.system("crab status -d %s > log.txt" % (submission))
+                            os.system(f"crab status -d {submission} > log.txt")
                             os.system("tail -n +9 log.txt | head -n -8")
                             os.system("rm log.txt")
                         os.system("rm submissions.txt")

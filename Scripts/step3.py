@@ -45,9 +45,8 @@ def step3(options):
     particles = options.particles
     if particles is None or len(particles) == 0:
         print(
-            "%sWarning%s: Particles not specified. Using Gamma as default. "
+            f"{col.magenta}Warning{col.endc}: Particles not specified. Using Gamma as default. "
             "This might not be compatible with your configuration."
-            % (col.magenta, col.endc)
         )
         particles = [22]
 
@@ -74,8 +73,8 @@ def step3(options):
     pileupInput = ""
     pileupConfig = ""
     if options.pileup:
-        pileupInput = "--pileup_input das:%s" % (options.pileupInput)
-        pileupConfig = "--pileup %s" % (options.pileupConfig)
+        pileupInput = f"--pileup_input das:{options.pileupInput}"
+        pileupConfig = f"--pileup {options.pileupConfig}"
         nThreads = "8"
 
     if options.cpu is not None:
@@ -89,19 +88,11 @@ def step3(options):
     # Run cmsdriver.py to create workflows
     print("Creating step3 configuration.")
     os.system(
-        "cmsDriver.py step3 --conditions auto:%s -n 100 %s %s --era %s "
-        "--eventcontent FEVTDEBUGHLT --no_exec -s RAW2DIGI,L1Reco,RECO,RECOSIM --mc "
-        "--datatier GEN-SIM-RECO --geometry Extended2026%s --nThreads %d --filein "
-        "file:step2.root --fileout file:step3.root %s"
-        % (
-            options.conditions,
-            pileupInput,
-            pileupConfig,
-            options.era,
-            options.geometry,
-            nThreads,
-            proc,
-        )
+        f"cmsDriver.py step3 --conditions auto:{options.conditions} "
+        f"-n 100 {pileupInput} {pileupConfig} --era {options.era} "
+        f"--eventcontent FEVTDEBUGHLT --no_exec -s RAW2DIGI,L1Reco,RECO,RECOSIM "
+        f"--mc --datatier GEN-SIM-RECO --geometry Extended2026{options.geometry} "
+        f"--nThreads {nThreads} --filein file:step2.root --fileout file:step3.root {proc}"
     )
     script = "step3_RAW2DIGI_L1Reco_RECO_RECOSIM.py"
     if options.pileup:
@@ -131,7 +122,7 @@ def step3(options):
 
                         os.chdir(CWD)
                         os.system(f"cp {script} myGeneration/{outTag}/")
-                        os.chdir("myGeneration/%s" % outTag)
+                        os.chdir(f"myGeneration/{outTag}")
 
                         # Create CRAB configuration file
                         writeCRABConfig(
@@ -147,7 +138,7 @@ def step3(options):
                         )
 
                         if options.no_exec:
-                            os.system("crab submit -c crabConfig_%s_step3.py" % outTag)
+                            os.system(f"crab submit -c crabConfig_{outTag}_step3.py")
 
     os.chdir(CWD)
-    os.system("rm %s" % script)
+    os.system(f"rm {script}")

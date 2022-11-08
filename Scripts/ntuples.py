@@ -45,9 +45,8 @@ def ntuples(options):
     particles = options.particles
     if particles is None or len(particles) == 0:
         print(
-            "%sWarning%s: Particles not specified. Using Gamma as default. "
+            f"{col.magenta}Warning{col.endc}: Particles not specified. Using Gamma as default. "
             "This might not be compatible with your configuration."
-            % (col.magenta, col.endc)
         )
         particles = [22]
 
@@ -95,8 +94,8 @@ def ntuples(options):
                         outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
 
                         os.chdir(CWD)
-                        os.system("cp Misc/ntuplesConfig.py myGeneration/%s/" % outTag)
-                        os.chdir("myGeneration/%s" % outTag)
+                        os.system(f"cp Misc/ntuplesConfig.py myGeneration/{outTag}/")
+                        os.chdir(f"myGeneration/{outTag}")
 
                         # Create CRAB configuration file
                         writeCRABConfig(
@@ -113,7 +112,7 @@ def ntuples(options):
 
                         if options.no_exec:
                             os.system(
-                                "crab submit -c crabConfig_%s_ntuples.py" % outTag
+                                f"crab submit -c crabConfig_{outTag}_ntuples.py"
                             )
 
     os.chdir(CWD)

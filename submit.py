@@ -18,4 +18,4 @@ if __name__ == "__main__":
     elif options.step == "ntuples":
         ntuples.ntuples(options)
     else:
-        raise ValueError("Unknown step '%s'" % options.step)
+        raise ValueError(f"Unknown step '{options.step}'")
