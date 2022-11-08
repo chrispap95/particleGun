@@ -2,7 +2,7 @@ import itertools
 import math
 import os
 
-from Tools import col, fetchData, tagBuilder, writeCRABConfig
+from Tools import col, fetchData, tagBuilder, writeCRABConfig, enSetup, etaSetup, phiSetup
 
 
 def step3(options):
@@ -12,34 +12,13 @@ def step3(options):
     CWD = os.getcwd()
 
     # List or range of energies to shoot particles
-    minEn, maxEn = 0, 650
-    if options.maxEn is not None:
-        maxEn = options.maxEn
-    if options.minEn is not None:
-        minEn = options.minEn
-    energies = options.energies
-    if energies is None or len(energies) == 0:
-        energies = ["notSet"]
+    energies, minEn, maxEn = enSetup(options)
 
     # List or range of etas to shoot particles
-    minEta, maxEta = 1.5, 3.0
-    if options.maxEta is not None:
-        maxEta = options.maxEta
-    if options.minEta is not None:
-        minEta = options.minEta
-    etas = options.eta
-    if etas is None or len(etas) == 0:
-        etas = ["notSet"]
+    etas, minEta, maxEta = etaSetup(options)
 
     # List or range of phi to shoot particles
-    minPhi, maxPhi = -math.pi, math.pi
-    if options.maxPhi is not None:
-        maxPhi = options.maxPhi
-    if options.minPhi is not None:
-        minPhi = options.minPhi
-    phis = options.phi
-    if phis is None or len(phis) == 0:
-        phis = ["notSet"]
+    phis, minPhi, maxPhi = phiSetup(options)
 
     # List of particles to generate in pdg codes
     particles = options.particles
