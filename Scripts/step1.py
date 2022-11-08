@@ -50,7 +50,9 @@ def step1(options):
         deltas = [10.0]
 
     # Get memory, maxTime and numCores configuration
-    maxRuntime, memory, nThreads = jobSetup(options, maxRuntime=600, memory=2000, nThreads=1)
+    maxRuntime, memory, nThreads = jobSetup(
+        options, maxRuntime=600, memory=2000, nThreads=1
+    )
 
     # Set beamspot
     beamspot = options.beamspot

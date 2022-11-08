@@ -46,7 +46,9 @@ def step3(options):
     ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
 
     # Get memory, maxTime and numCores configuration
-    maxRuntime, memory, nThreads = jobSetup(options, maxRuntime=50, memory=5000, nThreads=4)
+    maxRuntime, memory, nThreads = jobSetup(
+        options, maxRuntime=50, memory=5000, nThreads=4
+    )
 
     # Pileup configuration
     pileupInput = ""

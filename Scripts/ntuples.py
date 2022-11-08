@@ -46,7 +46,9 @@ def ntuples(options):
     ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
 
     # Get memory, maxTime and numCores configuration
-    maxRuntime, memory, nThreads = jobSetup(options, maxRuntime=50, memory=2000, nThreads=1)
+    maxRuntime, memory, nThreads = jobSetup(
+        options, maxRuntime=50, memory=2000, nThreads=1
+    )
 
     script = "ntuplesConfig.py"
 
