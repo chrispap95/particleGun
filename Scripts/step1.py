@@ -54,7 +54,6 @@ def step1(options):
     ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
 
     # List of particles to generate in pdg codes
-    particleTags = particleNumbers()
     particles = options.particles
     if particles is None or len(particles) == 0:
         print(
@@ -132,7 +131,7 @@ def step1(options):
             file0.write(f"\t\tPointing = cms.bool({options.pointing}),\n")
             file0.write(f"\t\tOverlapping = cms.bool({options.overlapping}),\n")
             file0.write("\t\tRandomShoot = cms.bool(False),\n")
-            file0.write(f"\t\tNParticles = cms.int32(options.nParticles),\n")
+            file0.write(f"\t\tNParticles = cms.int32({options.nParticles}),\n")
             file0.write(f"\t\tMaxEta = cms.double({ranges[3]}),\n")
             file0.write(f"\t\tMinEta = cms.double({ranges[2]}),\n")
             file0.write(f"\t\tMaxPhi = cms.double({ranges[5]}),\n")

@@ -49,7 +49,6 @@ if __name__ == "__main__":
         deltas = [10.0]
 
     # List of particles to generate in pdg codes
-    particleTags = particleNumbers()
     particles = options.particles
     if particles is None or len(particles) == 0:
         print(
@@ -93,6 +92,6 @@ if __name__ == "__main__":
             if options.memory is not None:
                 maxMemory = f" --maxmemory {options.memory}"
             os.system(
-                "crab resubmit --siteblacklist=T2_US_Caltech -d {submission}{maxMemory}"
+                f"crab resubmit --siteblacklist=T2_US_Caltech -d {submission}{maxMemory}"
             )
         os.system("rm submissions.txt")

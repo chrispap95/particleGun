@@ -42,7 +42,6 @@ def ntuples(options):
         phis = ["notSet"]
 
     # List of particles to generate in pdg codes
-    particleTags = particleNumbers()
     particles = options.particles
     if particles is None or len(particles) == 0:
         print(

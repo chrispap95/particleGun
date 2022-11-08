@@ -44,7 +44,6 @@ if __name__ == "__main__":
         phis = ["notSet"]
 
     # List of particles to generate in pdg codes
-    particleTags = particleNumbers()
     particles = options.particles
     if particles is None or len(particles) == 0:
         print(
@@ -89,5 +88,5 @@ if __name__ == "__main__":
 
         fSubmissions = open("submissions.txt")
         for submission in fSubmissions:
-            os.system("crab kill -d {submission}")
+            os.system(f"crab kill -d {submission}")
         os.system("rm submissions.txt")
