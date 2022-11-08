@@ -92,11 +92,9 @@ def step1(options):
     if options.proc is not None:
         proc = "--procModifier " + options.proc
 
-    for p in particles:
-        for E in energies:
-            for eta in etas:
-                for phi in phis:
-                    for delta in deltas:
+    iterator = itertools.product(particles, energies, etas, phis, deltas)
+
+    for p, E, eta, phi, delta in iterator:
                         # Append particle, energy, eta and phi tags. Phi tag is skipped
                         # if full range is used and create printout message.
                         outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)

@@ -93,11 +93,9 @@ def step2(options):
     if options.pileup:
         script = "step2_DIGI_L1TrackTrigger_L1_DIGI2RAW_HLT_PU.py"
 
-    for p in particles:
-        for E in energies:
-            for eta in etas:
-                for phi in phis:
-                    for delta in deltas:
+    iterator = itertools.product(particles, energies, etas, phis, deltas)
+
+    for p, E, eta, phi, delta in iterator:
                         # Get filenames from previous step
                         filein = fetchData(
                             options,
