@@ -167,7 +167,7 @@ def step1(options):
                             file0.write("import FWCore.ParameterSet.Config as cms\n\n")
                             file0.write("generator = cms.EDFilter('Pythia8EGun',\n")
                             file0.write("\tPGunParameters = cms.PSet(\n")
-                            file0.write(f"\t\tMaxE = cms.double(ranges[1]}),\n")
+                            file0.write(f"\t\tMaxE = cms.double({ranges[1]}),\n")
                             file0.write(f"\t\tMinE = cms.double({ranges[0]}),\n")
                             file0.write(f"\t\tParticleID = cms.vint32({p}),\n")
                             file0.write("\t\tAddAntiParticle = cms.bool(False),\n")
