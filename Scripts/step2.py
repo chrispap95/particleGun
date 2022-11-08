@@ -96,42 +96,42 @@ def step2(options):
     iterator = itertools.product(particles, energies, etas, phis, deltas)
 
     for p, E, eta, phi, delta in iterator:
-                        # Get filenames from previous step
-                        filein = fetchData(
-                            options,
-                            E,
-                            p,
-                            eta,
-                            phi,
-                            ranges,
-                            delta,
-                            CMSSW,
-                            USER,
-                        )
+        # Get filenames from previous step
+        filein = fetchData(
+            options,
+            E,
+            p,
+            eta,
+            phi,
+            ranges,
+            delta,
+            CMSSW,
+            USER,
+        )
 
-                        # Append particle, energy, eta and phi tags. Phi tag is skipped
-                        # if full range is used and create printout message.
-                        outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
+        # Append particle, energy, eta and phi tags. Phi tag is skipped
+        # if full range is used and create printout message.
+        outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
 
-                        os.chdir(CWD)
-                        os.system(f"cp {script} myGeneration/{outTag}/")
-                        os.chdir(f"myGeneration/{outTag}")
+        os.chdir(CWD)
+        os.system(f"cp {script} myGeneration/{outTag}/")
+        os.chdir(f"myGeneration/{outTag}")
 
-                        # Create CRAB configuration file
-                        writeCRABConfig(
-                            options,
-                            outTag,
-                            nThreads,
-                            memory,
-                            maxRuntime,
-                            filein,
-                            CMSSW,
-                            USER,
-                            script,
-                        )
+        # Create CRAB configuration file
+        writeCRABConfig(
+            options,
+            outTag,
+            nThreads,
+            memory,
+            maxRuntime,
+            filein,
+            CMSSW,
+            USER,
+            script,
+        )
 
-                        if options.no_exec:
-                            os.system(f"crab submit -c crabConfig_{outTag}_step2.py")
+        if options.no_exec:
+            os.system(f"crab submit -c crabConfig_{outTag}_step2.py")
 
     os.chdir(CWD)
     os.system(f"rm {script}")

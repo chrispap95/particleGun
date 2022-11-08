@@ -63,32 +63,30 @@ if __name__ == "__main__":
     iterator = itertools.product(particles, energies, etas, phis, deltas)
 
     for p, E, eta, phi, delta in iterator:
-                        # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
-                        # and create printout message.
-                        outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
-                        print(
-                            f"{col.bold}Campaign: {col.magenta}{options.campaign}{col.endc}\t{col.bold}Tag: {col.magenta}{options.tag}{col.endc}"
-                        )
-                        os.chdir(CWD)
-                        os.chdir(f"myGeneration/{outTag}/crab_projects/")
+        # Append particle, energy, eta and phi tags. Phi tag is skipped if full range is used
+        # and create printout message.
+        outTag = tagBuilder(options, p, E, eta, phi, ranges, delta)
+        print(
+            f"{col.bold}Campaign: {col.magenta}{options.campaign}{col.endc}\t{col.bold}Tag: {col.magenta}{options.tag}{col.endc}"
+        )
+        os.chdir(CWD)
+        os.chdir(f"myGeneration/{outTag}/crab_projects/")
 
-                        listCommand = (
-                            f"ls | grep {options.step} | grep {options.geometry}"
-                        )
-                        if options.campaign is not None:
-                            listCommand = f"{listCommand}| grep {options.campaign} "
-                        if options.tag is not None:
-                            listCommand = f"{listCommand}| grep {options.tag} "
-                        if options.delta is not None:
-                            listCommand = f"{listCommand}| grep Delta{makeTag(delta)} "
-                        if options.overlapping:
-                            listCommand = f"{listCommand}| grep Overlapping "
-                        if options.pointing is False:
-                            listCommand = f"{listCommand}| grep Parallel "
-                        listCommand = f"{listCommand}> submissions.txt"
-                        os.system(listCommand)
+        listCommand = f"ls | grep {options.step} | grep {options.geometry}"
+        if options.campaign is not None:
+            listCommand = f"{listCommand}| grep {options.campaign} "
+        if options.tag is not None:
+            listCommand = f"{listCommand}| grep {options.tag} "
+        if options.delta is not None:
+            listCommand = f"{listCommand}| grep Delta{makeTag(delta)} "
+        if options.overlapping:
+            listCommand = f"{listCommand}| grep Overlapping "
+        if options.pointing is False:
+            listCommand = f"{listCommand}| grep Parallel "
+        listCommand = f"{listCommand}> submissions.txt"
+        os.system(listCommand)
 
-                        fSubmissions = open("submissions.txt")
-                        for submission in fSubmissions:
-                            os.system("crab kill -d {submission}")
-                        os.system("rm submissions.txt")
+        fSubmissions = open("submissions.txt")
+        for submission in fSubmissions:
+            os.system("crab kill -d {submission}")
+        os.system("rm submissions.txt")
