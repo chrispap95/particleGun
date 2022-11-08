@@ -1,5 +1,4 @@
 import itertools
-import math
 import os
 import sys
 
@@ -48,7 +47,7 @@ def checkStatus(options):
             f"{col.bold}Campaign: {col.magenta}{options.campaign}{col.endc}\t{col.bold}Tag: {col.magenta}{options.tag}{col.endc}"
         )
         os.chdir(CWD)
-        os.chdir("myGeneration/{outTag}/crab_projects/")
+        os.chdir(f"myGeneration/{outTag}/crab_projects/")
 
         listCommand = f"ls | grep {options.step} | grep {options.geometry}"
         if options.campaign is not None:
