@@ -6,9 +6,8 @@ from Tools import mainParser
 
 sys.path.append(os.path.abspath(os.path.curdir))
 
-options = mainParser()
 
-if __name__ == "__main__":
+def submit(options):
     if options.step == "step1":
         step1.step1(options)
     elif options.step == "step2":
@@ -18,4 +17,9 @@ if __name__ == "__main__":
     elif options.step == "ntuples":
         ntuples.ntuples(options)
     else:
-        raise ValueError("Unknown step '%s'" % options.step)
+        raise ValueError(f"Unknown step '{options.step}'")
+
+
+if __name__ == "__main__":
+    options = mainParser()
+    submit(options)
