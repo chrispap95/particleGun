@@ -146,12 +146,8 @@ def step1(options):
                             )
                             file0.write(f"\t\tMaxEta = cms.double({ranges[3]}),\n")
                             file0.write(f"\t\tMinEta = cms.double({ranges[2]}),\n")
-                            file0.write(
-                                f"\t\tMaxPhi = cms.double({ranges[5]}),\n"
-                            )
-                            file0.write(
-                                f"\t\tMinPhi = cms.double({ranges[4]})\n"
-                            )
+                            file0.write(f"\t\tMaxPhi = cms.double({ranges[5]}),\n")
+                            file0.write(f"\t\tMinPhi = cms.double({ranges[4]})\n")
                             file0.write("\t),\n")
                             file0.write("\tVerbosity = cms.untracked.int32(0),\n")
                             file0.write(f"\tpsethack = cms.string('{outTag}'),\n")
