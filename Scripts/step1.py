@@ -5,7 +5,6 @@ import os
 from Tools import (
     col,
     compareCMSSWversions,
-    particleNumbers,
     setRanges,
     tagBuilder,
     writeCRABConfig,

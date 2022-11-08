@@ -3,7 +3,7 @@ import math
 import os
 import sys
 
-from Tools import col, mainParser, makeTag, particleNumbers, tagBuilder
+from Tools import col, mainParser, makeTag, tagBuilder
 
 sys.path.append(os.path.abspath(os.path.curdir))
 

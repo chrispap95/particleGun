@@ -2,7 +2,7 @@ import itertools
 import math
 import os
 
-from Tools import col, fetchData, particleNumbers, tagBuilder, writeCRABConfig
+from Tools import col, fetchData, tagBuilder, writeCRABConfig
 
 
 def step3(options):
