@@ -6,6 +6,7 @@ from Tools import (
     enSetup,
     etaSetup,
     fetchData,
+    jobSetup,
     phiSetup,
     tagBuilder,
     writeCRABConfig,
@@ -45,15 +46,7 @@ def step2(options):
     ranges = [minEn, maxEn, minEta, maxEta, minPhi, maxPhi]
 
     # Get memory, maxTime and numCores configuration
-    maxRuntime = 60
-    if options.maxRuntime is not None:
-        maxRuntime = options.maxRuntime
-    memory = 5000
-    if options.memory is not None:
-        memory = options.memory
-    nThreads = 4
-    if options.cpu is not None:
-        nThreads = options.cpu
+    maxRuntime, memory, nThreads = jobSetup(options, maxRuntime=60, memory=5000, nThreads=4)
 
     # Pileup configuration
     pileupInput = ""

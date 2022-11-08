@@ -7,6 +7,7 @@ from Tools import (
     compareCMSSWversions,
     enSetup,
     etaSetup,
+    jobSetup,
     phiSetup,
     setRanges,
     tagBuilder,
@@ -49,15 +50,7 @@ def step1(options):
         deltas = [10.0]
 
     # Get memory, maxTime and numCores configuration
-    maxRuntime = 600
-    if options.maxRuntime is not None:
-        maxRuntime = options.maxRuntime
-    memory = 2000
-    if options.memory is not None:
-        memory = options.memory
-    nThreads = 1
-    if options.cpu is not None:
-        nThreads = options.cpu
+    maxRuntime, memory, nThreads = jobSetup(options, maxRuntime=600, memory=2000, nThreads=1)
 
     # Set beamspot
     beamspot = options.beamspot

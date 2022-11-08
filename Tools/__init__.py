@@ -445,3 +445,12 @@ def phiSetup(options):
     if phis is None or len(phis) == 0:
         phis = ["notSet"]
     return phis, minPhi, maxPhi
+
+def jobSetup(options, maxRuntime=600, memory=2000, nThreads=1):
+    if options.maxRuntime is not None:
+        maxRuntime = options.maxRuntime
+    if options.memory is not None:
+        memory = options.memory
+    if options.cpu is not None:
+        nThreads = options.cpu
+    return maxRuntime, memory, nThreads
