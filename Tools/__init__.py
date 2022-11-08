@@ -6,7 +6,6 @@
 #
 
 import argparse
-import os
 import re
 import subprocess
 
@@ -258,11 +257,11 @@ def tagBuilder(options, p, E, eta, phi, ranges, delta):
     else:
         outTag = f"{outTag}Phi{makeTag(phi)}"
         printOut = f"{printOut}and phi={makeTag(phi)}{col.endc}"
-    if delta != None:
+    if delta is not None:
         outTag = f"{outTag}Delta{makeTag(delta)}"
-    if options.pointing == False:
+    if options.pointing is False:
         outTag = f"{outTag}Parallel"
-    if options.overlapping == True:
+    if options.overlapping is True:
         outTag = f"{outTag}Overlapping"
     print(printOut)
     return outTag
@@ -369,7 +368,7 @@ def extractCMSSWversion(cmssw):
     # Convert to X_Y_Z_A format. Prereleases get a minus sign
     if cmssw.find("pre") == -1 and cmssw.find("patch") == -1:
         cmssw = cmssw + "_0"
-    cmssw = cmssw.strip("CMSSW_").replace("pre", "-").replace("patch", "")
+    cmssw = cmssw.replace("CMSSW_", "").replace("pre", "-").replace("patch", "")
     # Extract the numbers
     version = []
     while cmssw != "":
