@@ -2,7 +2,15 @@ import itertools
 import math
 import os
 
-from Tools import col, fetchData, tagBuilder, writeCRABConfig, enSetup, etaSetup, phiSetup
+from Tools import (
+    col,
+    enSetup,
+    etaSetup,
+    fetchData,
+    phiSetup,
+    tagBuilder,
+    writeCRABConfig,
+)
 
 
 def step2(options):

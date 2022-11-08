@@ -409,6 +409,7 @@ def compareCMSSWversions(cmssw1, cmssw2):
         i += 1
     return result
 
+
 def enSetup(options):
     minEn, maxEn = 0, 650
     if options.maxEn is not None:
@@ -420,6 +421,7 @@ def enSetup(options):
         energies = ["notSet"]
     return energies, minEn, maxEn
 
+
 def etaSetup(options):
     minEta, maxEta = 1.5, 3.0
     if options.maxEta is not None:
@@ -430,6 +432,7 @@ def etaSetup(options):
     if etas is None or len(etas) == 0:
         etas = ["notSet"]
     return etas, minEta, maxEta
+
 
 def phiSetup(options):
     minPhi, maxPhi = -math.pi, math.pi

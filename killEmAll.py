@@ -3,9 +3,10 @@ import math
 import os
 import sys
 
-from Tools import col, mainParser, makeTag, tagBuilder, enSetup, etaSetup, phiSetup
+from Tools import col, enSetup, etaSetup, mainParser, makeTag, phiSetup, tagBuilder
 
 sys.path.append(os.path.abspath(os.path.curdir))
+
 
 def killEmAll(options):
     # Getting environment info
@@ -67,6 +68,7 @@ def killEmAll(options):
         for submission in fSubmissions:
             os.system(f"crab kill -d {submission}")
         os.system("rm submissions.txt")
+
 
 if __name__ == "__main__":
     options = mainParser()

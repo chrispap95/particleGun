@@ -3,9 +3,10 @@ import math
 import os
 import sys
 
-from Tools import col, mainParser, makeTag, tagBuilder, enSetup, etaSetup, phiSetup
+from Tools import col, enSetup, etaSetup, mainParser, makeTag, phiSetup, tagBuilder
 
 sys.path.append(os.path.abspath(os.path.curdir))
+
 
 def checkStatus(options):
     # Getting environment info
@@ -69,6 +70,7 @@ def checkStatus(options):
             os.system("tail -n +9 log.txt | head -n -8")
             os.system("rm log.txt")
         os.system("rm submissions.txt")
+
 
 if __name__ == "__main__":
     options = mainParser()

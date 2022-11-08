@@ -2,7 +2,16 @@ import itertools
 import math
 import os
 
-from Tools import col, compareCMSSWversions, setRanges, tagBuilder, writeCRABConfig, enSetup, etaSetup, phiSetup
+from Tools import (
+    col,
+    compareCMSSWversions,
+    enSetup,
+    etaSetup,
+    phiSetup,
+    setRanges,
+    tagBuilder,
+    writeCRABConfig,
+)
 
 
 def step1(options):
