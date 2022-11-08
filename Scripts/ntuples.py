@@ -111,9 +111,7 @@ def ntuples(options):
                         )
 
                         if options.no_exec:
-                            os.system(
-                                f"crab submit -c crabConfig_{outTag}_ntuples.py"
-                            )
+                            os.system(f"crab submit -c crabConfig_{outTag}_ntuples.py")
 
     os.chdir(CWD)
     os.system("rm myGeneration/list.txt")

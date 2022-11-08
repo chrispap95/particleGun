@@ -74,7 +74,9 @@ if __name__ == "__main__":
                         os.chdir(CWD)
                         os.chdir("myGeneration/{outTag}/crab_projects/")
 
-                        listCommand = f"ls | grep {options.step} | grep {options.geometry}"
+                        listCommand = (
+                            f"ls | grep {options.step} | grep {options.geometry}"
+                        )
                         if options.campaign is not None:
                             listCommand = f"{listCommand}| grep {options.campaign} "
                         if options.tag is not None:

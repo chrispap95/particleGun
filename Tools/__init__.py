@@ -236,7 +236,9 @@ def tagBuilder(options, p, E, eta, phi, ranges, delta):
         outTag = f"{outTag}Double{particleTag}"
     else:
         outTag = f"{outTag}Multi{particleTag}"
-    printOut = f"{printOut}Creating configuration for {options.nParticles} {particleTag} with "
+    printOut = (
+        f"{printOut}Creating configuration for {options.nParticles} {particleTag} with "
+    )
     if E == "notSet":
         outTag = f"{outTag}_E{makeTag(ranges[0])}to{makeTag(ranges[1])}"
         printOut = f"{printOut}E in ({makeTag(ranges[0])},{makeTag(ranges[1])}) GeV, "
@@ -357,7 +359,10 @@ def extractCMSSWversion(cmssw):
     # Check for nightly build version
     if cmssw.find("_X_") > -1:
         print(
-            col.magenta + "Warning: " + col.endc + "using a nightly CMSSW build! Version comparisons might yield incorrect results!"
+            col.magenta
+            + "Warning: "
+            + col.endc
+            + "using a nightly CMSSW build! Version comparisons might yield incorrect results!"
         )
         cmssw = cmssw[: cmssw.find("_X_")]
         cmssw = cmssw + "_0_0"
